@@ -1,4 +1,5 @@
-OPP_2013---Projekt
-==================
+Potrebna konfiguracija Wamp-a
 
-Sustav za praćenje znanstvenih eksperimenata
+Slijedite upute u ovom linku:
+http://phpcollection.com/mod-rewrite-windows-wamp-xampp/
+
