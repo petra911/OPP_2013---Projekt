@@ -36,7 +36,7 @@ class DefaultDispatcher implements Dispatcher {
         }
 
         $this->matched = null;
-
+        
         foreach(Route::get() as $route) {
             if (!$route->match($request)) { continue; }
             $this->matched = $route;

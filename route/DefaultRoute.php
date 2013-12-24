@@ -12,7 +12,7 @@ class DefaultRoute extends Route {
     private $params = array();
 
     public function __construct($route, array $defaults = array(), array $regex = array()) {
-        $basePath = "/opp/";
+        $basePath = "/OPP/";
         $this->route = $basePath . $route;
         $this->defaults = $defaults;
         $this->regex = $regex;
@@ -29,6 +29,7 @@ class DefaultRoute extends Route {
      */
     public function match($url) {
         $parts = $this->regex;
+
         $regex = "@^" . preg_replace_callback("/<[a-z0-9_ %!čćžšđ]+>/iu", function ($match) use ($parts) {
                     $name = substr($match[0], 1, strlen($match[0]) - 2);;
                     return "(?P" . $match[0] . (isset($parts[$name]) ? $parts[$name] : ".+?") . ")";
