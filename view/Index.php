@@ -11,6 +11,7 @@ class Index extends AbstractView {
     private $polje;
     
     protected function outputHTML() {
+//        session_destroy();
 ?>
     <br/>
     <br/>
@@ -26,6 +27,21 @@ class Index extends AbstractView {
                                                                     "controller" => "register",
                                                                     "action" => "display"
                                                                     )); ?>">Sign Up</a></p>
+            <?php if(isset($_SESSION['vrsta']) && $_SESSION['vrsta'] == 'O') {
+                echo "<p><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" => "ovlastenaOsobaCtl",
+                    "action" => "displayRegistrations"
+                )) . "\">Validacija novih korisnika</a></p>";
+            }
+            
+            // ako nisi ovlastena osoba
+            if(!isset($_SESSION['vrsta']) || (isset($_SESSION['vrsta']) && $_SESSION['vrsta'] != 'O')) {
+                echo "<p><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" => "pretrazivanje",
+                    "action" => "displayPretrazivanjeRadova"
+                )) . "\">Pretraživanje znanstvenih radova</a></p>";
+            }
+            ?>
         </div>
         <div class="span10" style="background-color:#A3FFE0;">
         <!--Tijelo-->
