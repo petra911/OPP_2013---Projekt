@@ -84,18 +84,6 @@ CREATE TABLE IF NOT EXISTS `ide` (
   UNIQUE KEY `skraceniNaziv` (`skraceniNaziv`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Tablična struktura za tablicu `ima`
---
-
-CREATE TABLE IF NOT EXISTS `ima` (
-  `idZapisa` int(11) NOT NULL,
-  `idEksperimenta` int(11) NOT NULL,
-  PRIMARY KEY (`idZapisa`,`idEksperimenta`),
-  KEY `idEksperimenta` (`idEksperimenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -187,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `obiljezen` (
 CREATE TABLE IF NOT EXISTS `ocjena` (
   `idOcjene` int(11) NOT NULL AUTO_INCREMENT,
   `oznaka` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `ocjena` decimal(2,1) DEFAULT NULL,
+  `ocjena` decimal(3,1) DEFAULT NULL,
   PRIMARY KEY (`idOcjene`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -198,12 +186,14 @@ CREATE TABLE IF NOT EXISTS `ocjena` (
 --
 
 CREATE TABLE IF NOT EXISTS `ocjenjuje` (
+  `id` int(11) NOT NULL,
   `idKorisnika` int(11) NOT NULL,
   `idOcjene` int(11) NOT NULL,
   `idEksperimenta` int(11) NOT NULL,
-  PRIMARY KEY (`idKorisnika`,`idEksperimenta`),
+  PRIMARY KEY (`id`),
   KEY `idOcjene` (`idOcjene`),
-  KEY `idEksperimenta` (`idEksperimenta`)
+  KEY `idEksperimenta` (`idEksperimenta`),
+  KEY `idKorisnika` (`idKorisnika`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -273,6 +263,9 @@ CREATE TABLE IF NOT EXISTS `platforma` (
 
 CREATE TABLE IF NOT EXISTS `portfelj` (
   `idZapisa` int(11) NOT NULL AUTO_INCREMENT,
+  `idKorisnika` int(11) DEFAULT NULL,
+  `idEksperimenta` int(11) DEFAULT NULL,
+  `idRada` int(11) DEFAULT NULL,  
   PRIMARY KEY (`idZapisa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -291,16 +284,6 @@ CREATE TABLE IF NOT EXISTS `poruke` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci AUTO_INCREMENT=1 ;
 -- --------------------------------------------------------
 
---
--- Tablična struktura za tablicu `posjeduje`
---
-
-CREATE TABLE IF NOT EXISTS `posjeduje` (
-  `idKorisnika` int(11) NOT NULL,
-  `idZapisa` int(11) NOT NULL,
-  PRIMARY KEY (`idKorisnika`,`idZapisa`),
-  KEY `idZapisa` (`idZapisa`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -342,18 +325,6 @@ CREATE TABLE IF NOT EXISTS `rezultat` (
   PRIMARY KEY (`idRezultata`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Tablična struktura za tablicu `sadrzi`
---
-
-CREATE TABLE IF NOT EXISTS `sadrzi` (
-  `idRada` int(11) NOT NULL,
-  `idZapisa` int(11) NOT NULL,
-  PRIMARY KEY (`idRada`,`idZapisa`),
-  KEY `idZapisa` (`idZapisa`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -447,9 +418,9 @@ CREATE TABLE IF NOT EXISTS `znanstvenicasopis` (
 CREATE TABLE IF NOT EXISTS `znanstvenieksperiment` (
   `idEksperimenta` int(11) NOT NULL AUTO_INCREMENT,
   `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `vrijemePocetka` date DEFAULT NULL,
-  `vrijemeZavrsetka` date DEFAULT NULL,
-  `vidljivost` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `vrijemePocetka` datetime DEFAULT NULL,
+  `vrijemeZavrsetka` datetime DEFAULT NULL,
+  `vidljivost` varchar(1) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,			-- 'J' ili 'K'
   PRIMARY KEY (`idEksperimenta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -492,12 +463,6 @@ CREATE TABLE IF NOT EXISTS `znanstveniskup` (
 -- Ograničenja za izbačene tablice
 --
 
---
--- Ograničenja za tablicu `ima`
---
-ALTER TABLE `ima`
-  ADD CONSTRAINT `ima_ibfk_1` FOREIGN KEY (`idZapisa`) REFERENCES `portfelj` (`idZapisa`),
-  ADD CONSTRAINT `ima_ibfk_2` FOREIGN KEY (`idEksperimenta`) REFERENCES `znanstvenieksperiment` (`idEksperimenta`);
 
 --
 -- Ograničenja za tablicu `jeautor`
@@ -563,12 +528,6 @@ ALTER TABLE `pripadaju`
   ADD CONSTRAINT `pripadaju_ibfk_1` FOREIGN KEY (`idEksperimenta`) REFERENCES `znanstvenieksperiment` (`idEksperimenta`),
   ADD CONSTRAINT `pripadaju_ibfk_2` FOREIGN KEY (`idParametra`) REFERENCES `parametar` (`idParametra`);
 
---
--- Ograničenja za tablicu `sadrzi`
---
-ALTER TABLE `sadrzi`
-  ADD CONSTRAINT `sadrzi_ibfk_1` FOREIGN KEY (`idRada`) REFERENCES `znanstvenirad` (`idRada`),
-  ADD CONSTRAINT `sadrzi_ibfk_2` FOREIGN KEY (`idZapisa`) REFERENCES `portfelj` (`idZapisa`);
 
 --
 -- Ograničenja za tablicu `sadrzi_plat_sklop`

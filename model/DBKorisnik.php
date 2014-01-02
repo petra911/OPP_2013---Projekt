@@ -172,4 +172,13 @@ class DBKorisnik extends AbstractDBModel {
         $this->delete();
         return true;
     }
+    
+    public function userExists($id) {
+        try {
+            $this->load($id);
+            return true;
+        }  catch (\opp\model\NotFoundException $e) {
+            return false;
+        }
+    }
 }

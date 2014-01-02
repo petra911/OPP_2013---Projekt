@@ -5,6 +5,7 @@ use opp\view\AbstractView;
 
 class Portfelj extends AbstractView {
     private $errorMessage;
+    private $zapisi;
     
     protected function outputHTML() {
 ?>
@@ -41,7 +42,24 @@ class Portfelj extends AbstractView {
                 "errorMessage" => $this->errorMessage
             )); ?>
             <hr/>
-            
+            <?php if(count($this->zapisi)) {
+                echo "<p class=\"text-left\"><ol>";
+                foreach($this->zapisi as $v) {
+                    if($v['idRada'] != null) {
+                        echo "<li>" . $v['nazivRada'] . "&nbsp;&nbsp;&nbsp;<a href=\"" . \route\Route::get('d3')->generate(array(
+                            "controller" => "korisnik",
+                            "action" => "brisiRad"
+                        )) ."?id=" . $v["idRada"] . "\">Briši</a></li>";
+                    } else {
+                        echo "<li>" . $v['nazivEksperimenta'] . "&nbsp;&nbsp;&nbsp;<a href=\"" . \route\Route::get('d3')->generate(array(
+                            "controller" => "korisnik",
+                            "action" => "brisiEksperiment"
+                        )) ."?id=" . $v["idEksperimenta"] ."\">Briši</a></li>";
+                    }
+                }
+                echo "</ol></p>";
+            }    
+            ?>
         </div>
         </div>
     </div>
@@ -50,6 +68,11 @@ class Portfelj extends AbstractView {
     
     public function setErrorMessage($errorMessage) {
         $this->errorMessage = $errorMessage;
+        return $this;
+    }
+    
+    public function setZapisi($zapisi) {
+        $this->zapisi = $zapisi;
         return $this;
     }
     
