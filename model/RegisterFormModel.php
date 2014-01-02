@@ -79,7 +79,7 @@ class RegisterFormModel implements Model {
      * @return {boolean}					true ako je podatak zbilja ispravno napisan username
      */
     private function validateUsername($data) {
-            $pattern = '/^[a-zA-Z0-9_-]{3,16}$/';
+            $pattern = '/^[a-zA-Z0-9_\-]{3,16}$/';
             return $this->test_pattern($pattern, $data);
     }
     

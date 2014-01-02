@@ -31,7 +31,7 @@ USE `opp`;
 CREATE TABLE IF NOT EXISTS `akcijasustava` (
   `idAkcije` int(11) NOT NULL AUTO_INCREMENT,
   `idKorisnika` int(11) NOT NULL,
-  `vrijeme` date DEFAULT NULL,
+  `vrijeme` datetime DEFAULT NULL,
   `opisAkcije` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
   PRIMARY KEY (`idAkcije`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -122,6 +122,15 @@ CREATE TABLE IF NOT EXISTS `kljucnerijeci` (
   PRIMARY KEY (`idTaga`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+
+CREATE TABLE IF NOT EXISTS `konfiguracija` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `iznos` decimal(9,2) NOT NULL,
+  `dan` varchar(4) COLLATE utf8_croatian_ci DEFAULT NULL,
+  `datum` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci AUTO_INCREMENT=1 ;
+
 -- --------------------------------------------------------
 
 --
@@ -139,6 +148,7 @@ CREATE TABLE IF NOT EXISTS `korisnik` (
   `vrsta` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
   `validnost` tinyint(1) DEFAULT NULL,
   `uplata` decimal(9,2) DEFAULT NULL,
+  `rokUplate` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`idKorisnika`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -266,6 +276,19 @@ CREATE TABLE IF NOT EXISTS `portfelj` (
   PRIMARY KEY (`idZapisa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `poruke`
+--
+
+CREATE TABLE IF NOT EXISTS `poruke` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idPrimatelja` int(11) NOT NULL,
+  `idPosiljatelja` int(11) NOT NULL,
+  `tekst` varchar(500) COLLATE utf8_croatian_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci AUTO_INCREMENT=1 ;
 -- --------------------------------------------------------
 
 --

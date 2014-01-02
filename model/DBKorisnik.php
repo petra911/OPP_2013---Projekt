@@ -21,10 +21,10 @@ class DBKorisnik extends AbstractDBModel {
     }
     
     public function getColumns() {
-        return array('ime', 'prezime', 'mail', 'datumRod', 'username', 'password', 'vrsta', 'validnost', 'uplata');
+        return array('ime', 'prezime', 'mail', 'datumRod', 'username', 'password', 'vrsta', 'validnost', 'uplata', 'rokUplate');
     }
     
-    private function kriptPass($pass) {
+    public function kriptPass($pass) {
         return sha1($pass);
     }
     
@@ -117,5 +117,59 @@ class DBKorisnik extends AbstractDBModel {
         return $this->select()->where(array(
             'validnost' => 0
         ))->fetchAll();
+    }
+    
+    public function loadConfiguration($uplata, $stara = null) {
+        $pov = $this->select()->where(array(
+            'uplata' => NULL
+        ))->fetchAll();
+
+        
+        if(count($pov)) {
+        foreach($pov as $p) {
+            $p->uplata = $uplata;
+            $p->save();
+        }
+        }
+        
+        if($stara != null) {
+            $pov = $this->select()->fetchAll();
+            
+            if(count($pov)) {
+                foreach($pov as $p) {
+                    if($p->uplata == $stara) {
+                        $p->uplata = $uplata;
+                        $p->save();
+                    }
+                }
+        }
+        }
+    }
+    public function deaktivirajNeplatise() {
+        $pov = $this->select()->fetchAll();
+        if(count($pov)) {
+            foreach($pov as $v) {
+                if($v->vrsta == 'K' && $v->rokUplate == NULL) {
+                    $v->validnost = 0;
+                    $v->save();
+                }
+            }
+        }
+    }
+    
+    public function dohvatiRegistriraneKorisnike() {
+        return $this->select()->where(array(
+            "vrsta" => 'K'
+        ))->fetchAll();
+    }
+    
+    public function brisiKorisnika($primaryKey) {
+        try {
+            $this->load($primaryKey);
+        }  catch (\opp\model\NotFoundException $e) {
+            return false;
+        }
+        $this->delete();
+        return true;
     }
 }

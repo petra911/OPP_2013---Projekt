@@ -19,19 +19,43 @@ class Index extends AbstractView {
         <div class="row-fluid">
         <div class="span2" style="background-color:#CCFFFF;">
         <!--Lijeva rubrika-->
-            <p><a href="<?php echo \route\Route::get('d2')->generate(array(
+        <?php if(\model\DBKorisnik::isLoggedIn()) echo
+            "<p><a href=\"" . \route\Route::get('d3')->generate(array(
+                                                                        "controller" => "korisnik",
+                                                                        "action" => "logout"
+                                                                    )) . "\">Odjavi se</a></p>"
+                ; else echo
+            "<p><a href=\"" . \route\Route::get('d2')->generate(array(
                                                                         "controller" => "login",
                                                                         "action" => "display"
-                                                                    )); ?>">Sign In</a></p>
-            <p><a href="<?php echo \route\Route::get('d2')->generate(array(
+                                                                    )) . "\">Sign In</a></p>
+            <p><a href=\"" . \route\Route::get('d2')->generate(array(
                                                                     "controller" => "register",
                                                                     "action" => "display"
-                                                                    )); ?>">Sign Up</a></p>
+                                                                    )) . "\">Sign Up</a></p>"
+                        ;?>
+        <hr/>
             <?php if(isset($_SESSION['vrsta']) && $_SESSION['vrsta'] == 'O') {
                 echo "<p><a href=\"" . \route\Route::get('d3')->generate(array(
                     "controller" => "ovlastenaOsobaCtl",
                     "action" => "displayRegistrations"
-                )) . "\">Validacija novih korisnika</a></p>";
+                )) . "\">Validacija Novih Korisnika</a></p>";
+                 echo "<p><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" => "ovlastenaOsobaCtl",
+                    "action" => "displayUcitavanjeKonfiguracije"
+                )) . "\">Učitavanje Konfiguracije</a></p>";
+                 echo "<p><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" => "ovlastenaOsobaCtl",
+                    "action" => "displayActions"
+                )) . "\">Akcije Korisnika</a></p>";
+                 echo "<p><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" => "ovlastenaOsobaCtl",
+                    "action" => "displayZahtjeviZaPromjenom"
+                )) . "\">Zahtjevi Za Promjenom Modela Plaćanja</a></p>";
+                 echo "<p><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" => "ovlastenaOsobaCtl",
+                    "action" => "displayPregledKorisnika"
+                )) . "\">Pregled Korisnika</a></p>";
             }
             
             // ako nisi ovlastena osoba

@@ -49,7 +49,13 @@ class Login implements Controller {
             // preusmjeri ga na naslovnicu s odgovarajućom porukom
             // prvo provjeri je li validiran
             if($korisnik->testValidnost()) {
-                preusmjeri(\route\Route::get('d1')->generate());
+                if($korisnik->vrsta == 'K') {
+                    preusmjeri(\route\Route::get('d2')->generate(array(
+                        "controller" => "korisnik"
+                    )));
+                } else {
+                    preusmjeri(\route\Route::get('d1')->generate());
+                }
             } else {
                 session_destroy();
                 preusmjeri(\route\Route::get('d2')->generate(array(
