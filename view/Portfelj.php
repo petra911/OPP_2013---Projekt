@@ -24,7 +24,10 @@ class Portfelj extends AbstractView {
                     "controller" => "pretrazivanje",
                     "action" => "displayPretrazivanjeRadova"
                 )) . "\">Pretraživanje znanstvenih radova</a></p>";?>
-            
+            <p><a href="<?php echo \route\Route::get('d3')->generate(array(
+                                                                    "controller" => "korisnik",
+                                                                    "action" => "displayPredlaganjeNovogRada"
+                                                                    )); ?>">Predloži Dodavanje Novog Rada</a></p>
             <p><a href="<?php echo \route\Route::get('d3')->generate(array(
                                                                     "controller" => "korisnik",
                                                                     "action" => "displayPromjenaModela"

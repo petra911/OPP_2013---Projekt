@@ -43,6 +43,18 @@ class Korisnik implements Controller {
             case 9:
                 $this->errorMessage = "Uspješno brisanje iz portfelja!";
                 break;
+            case 10:
+                $this->errorMessage = "Morate odabrati pdf file ili postaviti link na znanstveni rad!";
+                break;
+            case 11:
+                $this->errorMessage = "Morate unijeti ili poruku ekspertnoj osobi ili odabrati časopis/rad!";
+                break;
+            case 12:
+                $this->errorMessage = "Prijedlog uspješno poslan!";
+                break;
+            case 13:
+                $this->errorMessage = "Dopušteno slanje samo pdf datoteka!";
+                break;
             default:
                 break;
         }
@@ -84,6 +96,196 @@ class Korisnik implements Controller {
             )),
             "title" => "Portfelj"
         ));
+    }
+    
+    public function displayPredlaganjeNovogRada() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'K') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $error=null;
+        
+        $s = new \model\DBZnanstveniSkup();
+        $skupovi = $s->select()->fetchAll();
+        
+        $c = new \model\DBZnanstveniCasopis();
+        $casopisi = $c->select()->fetchAll();
+        
+        echo new \view\Main(array(
+            "body" => new \view\PredlaganjeNovogRada(array(
+                "errorMessage" => $error,
+                "skupovi" => $skupovi,
+                "casopisi" => $casopisi
+            )),
+            "title" => "Predlaganje Novog Znanstvenog Rada"
+        ));
+    }
+    
+    public function prijedlogRada() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'K') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        if((post("skup") === false && post("casopis") === false && post("tekst") === false)){
+            preusmjeri(\route\Route::get('d2')->generate(array(
+                "controller" => "korisnik"
+            )) . "?msg=11");
+        }
+        
+        if(post("url") === false && files('tmp_name', "datoteka") === false) {
+            preusmjeri(\route\Route::get('d2')->generate(array(
+                "controller" => "korisnik"
+            )) . "?msg=10");
+        }
+        
+        $prijedlog = new \model\DBPrijedlozi();
+        
+        //provjeri je li pdf
+        if(files("tmp_name", "datoteka") !== false) {
+            if(function_exists('finfo_file')) {
+                $finfo = \finfo_open(FILEINFO_MIME_TYPE);
+                $mime = finfo_file($finfo, files("tmp_name", "datoteka"));
+            } else {
+                $mime = \mime_content_type(files("tmp_name", "datoteka"));
+            }
+            if($mime != 'application/pdf') {
+                preusmjeri(\route\Route::get('d2')->generate(array(
+                    "controller" => "korisnik"
+                )) . "?msg=13");
+            }
+            //$prijedlog->lokacija = ;
+            // snimam ga nakon ovoga u formatu idPrijedloga.pdf
+        } else {
+            $prijedlog->lokacija = post("url", null);
+        }
+
+        // spremi prijedlog
+        $prijedlog->idKorisnika = $_SESSION['auth'];
+        $prijedlog->naslov = post("naslov", null);
+        $prijedlog->sazetak = post("sazetak", null);
+        $prijedlog->autori = post("autori", null);
+        $prijedlog->kljucneRijeci = post("tag", null);
+        
+        $prijedlog->idSkupa = post("skup", null);
+        $prijedlog->idCasopisa = post("casopis", null);
+        $prijedlog->tekst = post("tekst", null);
+        
+        $prijedlog->save();
+        
+         if(files("tmp_name", "datoteka") !== false) {
+             $destination = "./pdf/" . $prijedlog->getPrimaryKey() . ".pdf";
+             if(false === move_uploaded_file(files("tmp_name", "datoteka"), $destination)) {
+                 preusmjeri(\route\Route::get('d2')->generate(array(
+                    "controller" => "korisnik"
+                )) . "?msg=13");
+             }
+             $prijedlog->lokacija = $destination;
+             $prijedlog->save();
+         }
+        
+        preusmjeri(\route\Route::get('d2')->generate(array(
+            "controller" => "korisnik"
+        )) . "?msg=12");
+    }
+
+
+    public function displayPredlaganjeKorekcije() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'K') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        if(get("id") === false) {
+            if(get("v") == 'E') {
+                preusmjeri(\route\Route::get('d2')->generate(array(
+                    "controller" => "korisnik"
+                )) . "?msg=3");
+            } else if(get("v") == 'R') {
+                preusmjeri(\route\Route::get('d2')->generate(array(
+                    "controller" => "korisnik"
+                )) . "?msg=7");
+            } else {
+                preusmjeri(\route\Route::get('d2')->generate(array(
+                    "controller" => "korisnik"
+                )) . "?msg=6");
+            }
+        } else {
+            if(get("v") === FALSE) {
+                preusmjeri(\route\Route::get('d2')->generate(array(
+                    "controller" => "korisnik"
+                )) . "?msg=6");
+            }
+            
+            $id = null;
+            $vrsta = null;
+            $error = null;
+            
+            if(get("v") == 'R') {
+                try {
+                    $rad = new \model\DBZnanstveniRad();
+                    $rad->load(get("id"));
+                    $id = get("id");
+                    $vrsta = 'R';
+                } catch (opp\model\NotFoundException $e) {
+                    preusmjeri(\route\Route::get('d2')->generate(array(
+                        "controller" => "korisnik"
+                    )) . "?msg=7");
+                }
+            } else if(get("v") == 'E') {
+                try {
+                    $rad = new \model\DBZnanstveniEksperiment();
+                    $rad->load(get("id"));
+                    $id = get("id");
+                    $vrsta = 'E';
+                } catch (opp\model\NotFoundException $e) {
+                    preusmjeri(\route\Route::get('d2')->generate(array(
+                        "controller" => "korisnik"
+                    )) . "?msg=3");
+                }
+            } else {
+                preusmjeri(\route\Route::get('d2')->generate(array(
+                    "controller" => "korisnik"
+                )) . "?msg=6");
+            }
+            
+            echo new \view\Main(array(
+                "body" => new \view\PredlaganjeKorekcije(array(
+                    "errorMessage" => $error,
+                    "id" => $id,
+                    "v" => $vrsta
+                )),
+                "title" => "Predlaganje Korekcije"
+            ));
+        }
+    }
+    
+    public function predloziKorekciju() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'K') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        if(post(tekst) === false) {
+            preusmjeri(\route\Route::get('d2')->generate(array(
+                "controller" => "korisnik",
+            )) . "?msg=2");
+        } else {
+            $prijedlog = new \model\DBPrijedlozi();
+            $prijedlog->idKorisnika = $_SESSION['auth'];
+            $prijedlog->tekst = post("tekst");
+            if(post("v") == 'E') {
+                $prijedlog->idEksperimenta = post("id");
+            } else {
+                $prijedlog->idRada = post("id");
+            }
+            $prijedlog->save();
+            
+            preusmjeri(\route\Route::get("d2")->generate(array(
+                "controller" => "korisnik"
+            )) . "?msg=1");
+        }
     }
     
     public function ocijeni() {

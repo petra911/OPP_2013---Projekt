@@ -284,7 +284,27 @@ CREATE TABLE IF NOT EXISTS `poruke` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci AUTO_INCREMENT=1 ;
 -- --------------------------------------------------------
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `prijedlozi`
+--
+
+CREATE TABLE IF NOT EXISTS `prijedlozi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idKorisnika` int(11) NOT NULL,
+  `idEksperimenta` int(11) DEFAULT NULL,
+  `idRada` int(11) DEFAULT NULL,
+  `tekst` varchar(500) COLLATE utf8_croatian_ci DEFAULT NULL,
+  `naslov` varchar(100) COLLATE utf8_croatian_ci DEFAULT NULL,
+  `sazetak` varchar(100) COLLATE utf8_croatian_ci DEFAULT NULL,
+  `lokacija` varchar(100) COLLATE utf8_croatian_ci DEFAULT NULL,
+  `autori` varchar(500) COLLATE utf8_croatian_ci DEFAULT NULL,
+  `kljucneRijeci` varchar(500) COLLATE utf8_croatian_ci DEFAULT NULL,
+  `idSkupa` int(11) DEFAULT NULL,
+  `idCasopisa` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci AUTO_INCREMENT=6 ;
 -- --------------------------------------------------------
 
 --
