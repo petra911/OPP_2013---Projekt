@@ -17,7 +17,7 @@ class PretrazivanjeRadova extends AbstractView {
             <input type="text" name="autor" />
         </p>
         <p>
-            Unesite riječi iz naslova:
+            Unesite naslov:
             <input type="text" name="naslov" />
         </p>
         <p>
