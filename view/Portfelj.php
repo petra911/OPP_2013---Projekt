@@ -34,6 +34,14 @@ class Portfelj extends AbstractView {
                                                                     )); ?>">Promjena Modela Plaćanja</a></p>
             <p><a href="<?php echo \route\Route::get('d3')->generate(array(
                                                                     "controller" => "korisnik",
+                                                                    "action" => "displayDodavanjeAlataIde"
+                                                                    )); ?>">Dodavanje Alata i Razvojnih Okruženja</a></p>
+            <p><a href="<?php echo \route\Route::get('d3')->generate(array(
+                                                                    "controller" => "korisnik",
+                                                                    "action" => "displayDodavanjeVlastitogEksperimenta"
+                                                                    )); ?>">Dodavanje Vlastitog Eksperimenta</a></p>
+            <p><a href="<?php echo \route\Route::get('d3')->generate(array(
+                                                                    "controller" => "korisnik",
                                                                     "action" => "displayPoruke"
                                                                     )); ?>">Inbox</a></p>
             

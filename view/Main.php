@@ -37,6 +37,12 @@ class Main extends AbstractView {
                 <link href="assets/css/bootstrap.css" rel="stylesheet">
                 <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
                 <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+                <link href="./assets/css/bootstrap.css" rel="stylesheet">
+                <link href="./assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
+                <link href="./assets/css/bootstrap-responsive.css" rel="stylesheet">
+                <link href="../assets/css/bootstrap.css" rel="stylesheet">
+                <link href="../assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
+                <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
                 <?php if (null !== $this->script) {
                     echo $this->script;
                 }

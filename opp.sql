@@ -147,11 +147,13 @@ CREATE TABLE IF NOT EXISTS `korisnik` (
 --
 
 CREATE TABLE IF NOT EXISTS `koristi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idPlatforme` int(11) NOT NULL,
   `idEksperimenta` int(11) NOT NULL,
-  PRIMARY KEY (`idPlatforme`,`idEksperimenta`),
-  KEY `idEksperimenta` (`idEksperimenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `idEksperimenta` (`idEksperimenta`),
+  KEY `idPlatforme` (`idPlatforme`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -203,11 +205,13 @@ CREATE TABLE IF NOT EXISTS `ocjenjuje` (
 --
 
 CREATE TABLE IF NOT EXISTS `ostvaren` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idAlata` int(11) NOT NULL,
   `idEksperimenta` int(11) NOT NULL,
-  PRIMARY KEY (`idAlata`,`idEksperimenta`),
-  KEY `idEksperimenta` (`idEksperimenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `idEksperimenta` (`idEksperimenta`),
+  KEY `idAlata` (`idAlata`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -216,12 +220,27 @@ CREATE TABLE IF NOT EXISTS `ostvaren` (
 --
 
 CREATE TABLE IF NOT EXISTS `ostvario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idEksperimenta` int(11) NOT NULL,
   `idRezultata` int(11) NOT NULL,
-  PRIMARY KEY (`idEksperimenta`,`idRezultata`),
-  KEY `idRezultata` (`idRezultata`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `idRezultata` (`idRezultata`),
+  KEY `idEksperimenta` (`idEksperimenta`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `autoreksperimenta`
+--
+
+CREATE TABLE IF NOT EXISTS `autoreksperimenta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idAutora` int(11) NOT NULL,
+  `idEksperimenta` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci AUTO_INCREMENT=1 ;
 -- --------------------------------------------------------
 
 --
@@ -325,11 +344,13 @@ CREATE TABLE IF NOT EXISTS `pripada` (
 --
 
 CREATE TABLE IF NOT EXISTS `pripadaju` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idEksperimenta` int(11) NOT NULL,
   `idParametra` int(11) NOT NULL,
-  PRIMARY KEY (`idEksperimenta`,`idParametra`),
-  KEY `idParametra` (`idParametra`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `idParametra` (`idParametra`),
+  KEY `idEksperimenta` (`idEksperimenta`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT = 1;
 
 -- --------------------------------------------------------
 
@@ -392,11 +413,13 @@ CREATE TABLE IF NOT EXISTS `sklopovlje` (
 --
 
 CREATE TABLE IF NOT EXISTS `uraden` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idIDE` int(11) NOT NULL,
   `idEksperimenta` int(11) NOT NULL,
-  PRIMARY KEY (`idIDE`,`idEksperimenta`),
-  KEY `idEksperimenta` (`idEksperimenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  KEY `idEksperimenta` (`idEksperimenta`),
+  KEY `idIDE` (`idIDE`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
