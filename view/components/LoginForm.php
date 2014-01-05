@@ -11,17 +11,18 @@ class LoginForm extends AbstractView {
                                                             "controller" => "login",
                                                             "action" => "login"
                                                         ));?>" method="POST">
-        <p>
-            Korisničko ime:
-            <input type="text" name="userName" />
-        </p>
-        <p>
-            Password:
-            <input type="password" name="pass" />
-        </p>
-        <p>
-            <input type="submit" value="Prijavi me!" />
-        </p>
+		<div class="form-group">
+            <label for="korisničkoIme">Korisničko ime</label>
+            <input type="text" class="form-control" id="korisničkoIme" name="userName" placeholder="Upišite korisničko ime" />
+		</div>
+		<br>
+		<div class="form-group">
+            <label for="šifra">Šifra</label>
+            <input type="password" class="form-control" id="šifra" name="pass" placeholder="Upišite šifru" />
+		</div>
+		<br>
+		<input type="submit" class="btn btn-default" value="Prijavi me!" />
+		<br><br>
     </form>
 <?php
     }

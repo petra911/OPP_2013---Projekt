@@ -14,13 +14,14 @@ class Register extends AbstractView {
     
     protected function outputHTML() {
 ?>
+	<hr>
     <?php echo new RegisterForm(); ?>
     <?php echo new components\ErrorMessage(array(
         "errorMessage" => $this->errorMessage
     )); ?>
-    <p>
-        <a href="<?php echo \route\Route::get('d1')->generate();?>">Vrati se na Naslovnicu</a>
-    </p>
+    
+    <a href="<?php echo \route\Route::get('d1')->generate();?>"><img src="./assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" class="img-circle" height="42" width="42" /></a>
+    
 <?php
     }
     

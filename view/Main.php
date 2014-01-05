@@ -37,25 +37,30 @@ class Main extends AbstractView {
                 <link href="assets/css/bootstrap.css" rel="stylesheet">
                 <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
                 <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-                <link href="./assets/css/bootstrap.css" rel="stylesheet">
-                <link href="./assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
-                <link href="./assets/css/bootstrap-responsive.css" rel="stylesheet">
-                <link href="../assets/css/bootstrap.css" rel="stylesheet">
-                <link href="../assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
-                <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
+				<link href="assets/css/bootstrap.css" rel="stylesheet">
+                <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
+                <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+				<link href="assets/css/bootstrap.css" rel="stylesheet">
+                <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
+                <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+                <link href="assets/css/style.css" rel="stylesheet">
                 <?php if (null !== $this->script) {
                     echo $this->script;
                 }
                 ?>
             </head>
 
-            <body style="background-color:#B8FFDB;">
-                <div class="span12 pagination-centered">
-                    <h1><?php echo $this->title; ?></h1>
-
+            <body>
+                <div class="container-narrow">
+					<div class="masthead">
+						<h1 class="muted"><?php echo $this->title; ?></h1>
+					</div>
                     <?php echo $this->body; ?>
 
-
+				<hr>
+				<div class="footer">
+					<p>&copy; The7NoobZ</p>
+				</div>
                 </div>
             </body>
         </html>
