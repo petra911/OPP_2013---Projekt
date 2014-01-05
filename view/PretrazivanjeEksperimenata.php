@@ -28,19 +28,19 @@ class PretrazivanjeEksperimenata extends AbstractView {
             Unesite naziv parametra:
             <input type="text" name="parametar" />
         </p>
-		<p>
+	<p>
             Unesite iznos rezultata:
             <input type="text" name="iznosrez" />
         </p>
-		<p>
+	<p>
             Unesite naziv mjerne jedinice rezultata:
             <input type="text" name="jedinicarez" />
         </p>		
-		<p>
+	<p>
             Unesite vrijeme početka:
             <input type="date" name="vrijeme_pocetka" />
         </p>
-		<p>
+	<p>
             Unesite vrijeme završetka:
             <input type="date" name="vrijeme_zavrsetka" />
         </p>
