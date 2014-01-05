@@ -92,10 +92,12 @@ CREATE TABLE IF NOT EXISTS `ide` (
 --
 
 CREATE TABLE IF NOT EXISTS `jeautor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idRada` int(11) NOT NULL,
   `idAutora` int(11) NOT NULL,
-  PRIMARY KEY (`idRada`,`idAutora`),
-  KEY `idAutora` (`idAutora`)
+  PRIMARY KEY (`id`),
+  KEY `idAutora` (`idAutora`),
+  KEY `idRada` (`idRada`),  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -162,10 +164,12 @@ CREATE TABLE IF NOT EXISTS `koristi` (
 --
 
 CREATE TABLE IF NOT EXISTS `obiljezen` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idTaga` int(11) NOT NULL,
   `idRada` int(11) NOT NULL,
-  PRIMARY KEY (`idTaga`,`idRada`),
-  KEY `idRada` (`idRada`)
+  PRIMARY KEY (`id`),
+  KEY `idRada` (`idRada`),
+  KEY `idTaga` (`idTaga`),  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
