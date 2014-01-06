@@ -49,10 +49,12 @@ class Main extends AbstractView {
             </head>
 
             <body>
-                <div class="container-narrow">
-					<div class="masthead">
-						<h1 class="muted"><?php echo $this->title; ?></h1>
+				<div class = "navbar navbar-inverse navbar-static-top">					
+					<div class="container">
+						<span class="navbar-brand"><?php echo $this->title; ?></span>
 					</div>
+				</div>
+				<div class = "container-narrow">
                     <?php echo $this->body; ?>
 
 				<hr>
