@@ -131,7 +131,7 @@ class Korisnik implements Controller {
                 $error = "Neodgovarajući format rezultata!";
                 break;
             case 6:
-                $error = "Neodgovarajući format datotek!";
+                $error = "Neodgovarajući format datoteke!";
                 break;
             default:
                 break;
@@ -185,23 +185,26 @@ class Korisnik implements Controller {
             $platforms = array();
             $start = null;
             $end = null;
-            $naziv = null;
+            $naslov = null;
             
-            $handle = fopen(files("tmp_name", "datoteka"), "r");
-            $naziv = fgets($handle);
-            if($naziv === false) {
+            $handle = fopen(files("tmp_name", "datoteka"), "rt");
+            $naslov = fgets($handle);
+            $naslov = substr($naslov, 0, strlen($naslov) - 1);
+            if($naslov === false) {
                 preusmjeri(\route\Route::get('d3')->generate(array(
                     "controller" => "korisnik",
                     "action" => "displayDodavanjeVlastitogEksperimenta"
                 )) . "?msg=6");
             }
+            
             while(($niz = fgets($handle)) !== FALSE) {
+                $niz = substr($niz, 0, strlen($niz) - 1);
                 $i = strpos($niz, " ");
                 $identifikator = substr($niz, 0, $i);
                 
-                switch ($param) {
+                switch ($identifikator) {
                     case "Author":
-                        $pattern = '/^Author [A-ZČĆŽŠĐ][a-zčćžšđ]{1,} ([A-ZČĆŽŠĐ\. ){0,1}[A-ZČĆŽŠĐ][a-zčćžšđ]{1,}$/u';
+                        $pattern = '/^(Author) [A-ZČĆŽŠĐ][a-zčćžšđ]+ ([A-ZČĆŽŠĐ]\. ){0,1}[A-ZČĆŽŠĐ][a-zčćžšđ]+$/u';
                         if($this->test_pattern($pattern, $niz) === false) {
                             preusmjeri(\route\Route::get('d3')->generate(array(
                                 "controller" => "korisnik",
@@ -221,7 +224,7 @@ class Korisnik implements Controller {
                         $a = $a + 1;
                         break;
                     case "Start":
-                        $pattern = '/^(0[0-9]|[1-2][0-9]|3[01])\.(0[0-9]|1[0-2])\.([0-9]{4})\. ([01][0-9]|2[0-4]):[0-5][0-9]$/';
+                        $pattern = '/^Start (0[0-9]|[1-2][0-9]|3[01])\.(0[0-9]|1[0-2])\.([0-9]{4})\. ([01][0-9]|2[0-4]):[0-5][0-9]$/';
                         if($this->test_pattern($pattern, $niz) === false) {
                             preusmjeri(\route\Route::get('d3')->generate(array(
                                 "controller" => "korisnik",
@@ -231,7 +234,7 @@ class Korisnik implements Controller {
                         $start = date("Y-m-d H:i:s", strtotime($niz));
                         break;
                     case "End":
-                        $pattern = '/^(0[0-9]|[1-2][0-9]|3[01])\.(0[0-9]|1[0-2])\.([0-9]{4})\. ([01][0-9]|2[0-4]):[0-5][0-9]$/';
+                        $pattern = '/^End (0[0-9]|[1-2][0-9]|3[01])\.(0[0-9]|1[0-2])\.([0-9]{4})\. ([01][0-9]|2[0-4]):[0-5][0-9]$/';
                         if($this->test_pattern($pattern, $niz) === false) {
                             preusmjeri(\route\Route::get('d3')->generate(array(
                                 "controller" => "korisnik",
@@ -298,6 +301,7 @@ class Korisnik implements Controller {
                                 "action" => "displayDodavanjeVlastitogEksperimenta"
                             )) . "?msg=6");
                         }
+                        
                         $parametri[$p]["ispitniSlucaj"] = $ispitniSlucaj;
                         $parametri[$p]["naziv"] = $naziv;
                         $p = $p + 1;
@@ -315,7 +319,7 @@ class Korisnik implements Controller {
                         if($k !== false) {
                             $iznos = substr($niz, $j + 1, $k - $j -1);
                             $mjernaJedinica = substr($niz, $k + 1);
-                            $pat = '/^[A-Za-z]{1,10}*$/u';
+                            $pat = '/^[A-Za-z]{1,10}$/u';
                             if($this->test_pattern($pat, $mjernaJedinica) === false) {
                                 preusmjeri(\route\Route::get('d3')->generate(array(
                                 "controller" => "korisnik",
@@ -356,11 +360,12 @@ class Korisnik implements Controller {
             $autor = new \model\DBAutor();
             $idA = array();
             for($i = 0; $i < $a; $i = $i + 1) {
-                $idA[$i] = $autor->dodajAutora($autori[$i]["ime"], $autori[$a]["prezime"]);
+                $idA[$i] = $autor->dodajAutora($autori[$i]["ime"], $autori[$i]["prezime"]);
             }
             
+            
             $eksperiment = new \model\DBZnanstveniEksperiment();
-            $eksperiment->naziv = $naziv;
+            $eksperiment->naziv = $naslov;
             $eksperiment->vrijemePocetka = $start;
             $eksperiment->vrijemeZavrsetka = $end;
             $eksperiment->vidljivost = "I";
@@ -370,13 +375,13 @@ class Korisnik implements Controller {
             
             // sad zabiljezi autora
             $veza = new \model\DBAutorEksperimenta();
-            for($i = 0; $i < $a; $i = $i + 1) {
+            for($j = 0; $j < $i; $j = $j + 1) {
                 $veza->id = null;
-                $veza->idAutora = $idAutora;
+                $veza->idAutora = $idA[$j];
                 $veza->idEksperimenta = $idEksperimenta;
                 $veza->save();
             }
-            
+                        
             // zabiljezi platformu
             if(count($platforms)) {
                 foreach($platforms as $k => $v) {

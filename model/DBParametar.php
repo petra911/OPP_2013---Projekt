@@ -13,7 +13,7 @@ class DBParametar extends AbstractDBModel {
     }
     
     public function getColumns() {
-        return array('naziv', 'ispitniPrimjer', 'iznos');
+        return array('naziv', 'ispitniPrimjer');
     }
     
     public function dodajParametar($naziv, $ispitniPrimjer) {

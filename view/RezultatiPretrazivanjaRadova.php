@@ -36,7 +36,7 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
 			
                         echo "<td><a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
-                            "action" => "dodajEksperimentUPortfelj"
+                            "action" => "dodajRadUPortfelj"
                             )) . "?id=" . $this->var['id'][$i] . "\"> Dodaj u portfelj </a></td>";
                        
                         echo '</tr>';
