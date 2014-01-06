@@ -21,7 +21,9 @@ class Login extends AbstractView {
         "errorMessage" => $this->errorMessage
     )); ?>
 
-    <a href="<?php echo \route\Route::get('d1')->generate();?>"><img src="./assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" class="img-circle" height="42" width="42" /></a>
+    <a href="<?php echo \route\Route::get('d1')->generate();?>">
+		<img src="./assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+	</a>
 <?php
     }
     

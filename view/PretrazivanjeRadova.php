@@ -36,14 +36,16 @@ class PretrazivanjeRadova extends AbstractView {
             <b>Napomena:</b> Ukoliko zelite pretragu vršiti po više parametara, odvojite ih sa znakom točka-zarez (;)!
         </p>
         <input type="submit" class="btn btn-default" name="submit" value="Traži" />
-		<br><br>
+		<br><br><br>
     </form>
 
     <?php echo new components\ErrorMessage(array(
         "errorMessage" => $this->errorMessage
     )); ?>
 
-	<a href="<?php echo \route\Route::get('d1')->generate();?>"><img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" class="img-circle" height="42" width="42" /></a>
+	<a href="<?php echo \route\Route::get('d1')->generate();?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+	</a>
 <?php
     }
     

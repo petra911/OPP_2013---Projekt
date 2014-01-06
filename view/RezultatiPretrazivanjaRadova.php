@@ -21,7 +21,7 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
          */
 		//echo "gejjj <br>"; print_r($this->var);
                 
-		echo '<table border = "1" width = 80%>';
+		echo '<table class="table">';
 		for ($i = 0; $i < count($this->var['id']); $i++)
 		{
 			echo '<tr>';
