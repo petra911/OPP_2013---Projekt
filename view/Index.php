@@ -37,7 +37,15 @@ class Index extends AbstractView {
         </ul>
 	
 		<ul class="nav nav-pills">
-            <?php if(isset($_SESSION['vrsta']) && $_SESSION['vrsta'] == 'O') {
+                    
+            <?php //ako si registrirani korisnik vidis samo portfelj:
+            if(isset($_SESSION['vrsta']) && $_SESSION['vrsta'] == 'K') {
+                preusmjeri(\route\Route::get('d2')->generate(array(
+                    "controller" => "korisnik"
+                )));
+            }
+            
+            if(isset($_SESSION['vrsta']) && $_SESSION['vrsta'] == 'O') {
                 echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                     "controller" => "ovlastenaOsobaCtl",
                     "action" => "displayRegistrations"
@@ -75,11 +83,16 @@ class Index extends AbstractView {
                     "controller" => "pretrazivanje",
                     "action" => "displayPretrazivanjeEksperimenata"
                 )) . "\">Pretraživanje znanstvenih eksperimenata</a></li>"; 
+                 
+                
+            }
+            
+            // ako si ekspertna osoba Vidis ovo
+            if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'E')) {
                 echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                     "controller" => "ekspertnaOsobaCtl",
                     "action" => "displayDodavanjePlatformi"
                 )) . "\">Dodaj Platformu</a></li>"; 
-                
             }
             
             ?>
