@@ -12,12 +12,12 @@ class LoginForm extends AbstractView {
                                                             "action" => "login"
                                                         ));?>" method="POST">
 		<div class="form-group">
-            <label for="korisničkoIme">Korisničko ime</label>
+            <label for="korisničkoIme"><b>Korisničko ime</b></label>
             <input type="text" class="form-control" id="korisničkoIme" name="userName" placeholder="Upišite korisničko ime" />
 		</div>
 		<br>
 		<div class="form-group">
-            <label for="šifra">Šifra</label>
+            <label for="šifra"><b>Šifra</b></label>
             <input type="password" class="form-control" id="šifra" name="pass" placeholder="Upišite šifru" />
 		</div>
 		<br>

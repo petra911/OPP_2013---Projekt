@@ -63,8 +63,20 @@ class Index extends AbstractView {
                 echo "<p><a href=\"" . \route\Route::get('d3')->generate(array(
                     "controller" => "pretrazivanje",
                     "action" => "displayPretrazivanjeRadova"
-                )) . "\">Pretraživanje znanstvenih radova</a></p>";
+                )) . "\">Pretraživanje znanstvenih radova</a></p>";                
+                
             }
+            
+            // ako si Ekpertna Osoba ili Registrirani korisnik
+            if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K' || $_SESSION['vrsta'] == 'E')){
+                echo "<p><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" => "pretrazivanje",
+                    "action" => "displayPretrazivanjeEksperimenata"
+                )) . "\">Pretraživanje znanstvenih eksperimenata</a></p>";                
+                
+            }
+            
+            
             ?>
         </div>
         <div class="span10" style="background-color:#A3FFE0;">

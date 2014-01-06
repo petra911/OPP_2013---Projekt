@@ -34,12 +34,10 @@ class Main extends AbstractView {
             <head>
                 <title><?php echo $this->title; ?></title>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                <link href="assets/css/bootstrap.css" rel="stylesheet">
-                <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
-                <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-				<link href="assets/css/bootstrap.css" rel="stylesheet">
-                <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
-                <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+                <link href="../assets/css/bootstrap.css" rel="stylesheet">
+                <link href="../assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
+                <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
+                <link href="../assets/css/style.css" rel="stylesheet">
 				<link href="assets/css/bootstrap.css" rel="stylesheet">
                 <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
                 <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">

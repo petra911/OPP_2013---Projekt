@@ -12,49 +12,49 @@ class RegisterForm extends AbstractView {
     "action" => "register"
 ));?>" method="POST">
 			<div class="form-group">
-				<label for="korisničkoIme">Korisničko ime</label>
+				<label for="korisničkoIme"><b>Korisničko ime</b></label>
 				<input type="text" class="form-control" id="korisničkoIme" placeholder="Upišite korisničko ime" name="userName" />
 			</div>
 			
 			<br>
             
 			<div class="form-group">
-				<label for="ime1">Ime</label>
+				<label for="ime1"><b>Ime</label>
 				<input type="text" class="form-control" id="ime1" placeholder="Upišite ime" name="ime" />
 			</div>
             
             <br>			
 			
 			<div class="form-group">
-				<label for="prezime">Prezime</label>
+				<label for="prezime"><b>Prezime</b></label>
 				<input type="text" class="form-control" id="prezime" placeholder="Upišite prezime" name="prez" />
 			</div>
 			
             <br>			
 			
 			<div class="form-group">
-				<label for="datumRod">Datum rođenja</label>
+				<label for="datumRod"><b>Datum rođenja</b></label>
 				<input type="text" class="form-control" id="datumRod" placeholder="Oblik dd-mm-yyyy" name="datum" />
 			</div>
 			
             <br>			
 			
 			<div class="form-group">
-				<label for="email">E-mail</label>
+				<label for="email"><b>E-mail</b></label>
 				<input type="text" class="form-control" id="email" placeholder="Upišite e-mail" name="mail" />
 			</div>
 			
             <br>			
 			
 			<div class="form-group">
-				<label for="šifra">Šifra</label>
+				<label for="šifra"><b>Šifra</b></label>
 				<input type="password" class="form-control" id="šifra" placeholder="Upišite šifru" name="pass" />
 			</div>
             
             <br>			
 			
-            <input type="submit" class="btn btn-default" value="Zabilježi me!" />
-
+            <input type="submit" class="btn btn-default" value="Registriraj me!" />
+			<br><br><br>
     </form>
 <?php
     }

@@ -5,34 +5,47 @@ use opp\view\AbstractView;
 
 class RezultatiPretrazivanjaEksperimenata extends AbstractView {
     
-    protected function outputHTML($data) {
+    private $var;
+    
+    public function setVar($var)
+    {
+        $this->var = $var;
+        return $this;
+    }    
+        
+    protected function outputHTML() {
         /**
          * implementiraj;
          */		 
 		echo '<table border = "1" width = 100%>';
-		for ($i = 0; $i < count($data); $i++)
+		for ($i = 0; $i < count($this->var); $i++)
 		{
 			echo '<tr>';
-			echo "<td>{$var['imeautor'][$i]}</td>";
-			echo "<td>{$var['prezimeautor'][$i]}</td>";
-			echo "<td>{$var['naziv'][$i]}</td>";
-			echo "<td>{$var['pocetak'][$i]}</td>";
-			echo "<td>{$var['zavrsetak'][$i]}</td>";
-			echo "<td>{$var['nazivparam'][$i]}</td>";
-			echo "<td>{$var['iznosrezultata'][$i]}</td>";
-			echo "<td>{$var['jedinicarezultata'][$i]}</td>";			
+			echo "<td>{$this->var['imeautor'][$i]}</td>";
+			echo "<td>{$this->var['prezimeautor'][$i]}</td>";
+			echo "<td>{$this->var['naziv'][$i]}</td>";
+			echo "<td>{$this->var['pocetak'][$i]}</td>";
+			echo "<td>{$this->var['zavrsetak'][$i]}</td>";
+			echo "<td>{$this->var['nazivparam'][$i]}</td>";
+			echo "<td>{$this->var['iznosrezultata'][$i]}</td>";
+			echo "<td>{$this->var['jedinicarezultata'][$i]}</td>";			
 					
-			/* linkovi za dodavanje u portfelj i ocjenjivanje*/
-			echo "<a href="<?php echo \route\Route::get($var['id'][$i])->generate(array(
-                    "controller" => "korisnik",
-                    "action" => "dodajEksperimentUPortfelj"));?>">Dodaj u portfelj</a>";
-			echo "<a href="<?php echo \route\Route::get($var['id'][$i])->generate(array(
-                    "controller" => "korisnik",
-                    "action" => "dodajRadUPortfelj"));?>">Ocijeni</a>";
-			echo '</tr>';
+			/* linkovi za dodavanje u portfelj i ocjenjivanje*/                 
+                        
+			echo "<a href=\"" . \route\Route::get('d3')->generate(array(
+                            "controller" => "korisnik",
+                            "action" => "dodajEksperimentUPortfelj"
+                            )) . "?id=" . $this->var['id'] . "\"> Dodaj u portfelj </a>";
+                    
+              
+                       echo "<a href=\"" . \route\Route::get('d3')->generate(array(
+                            "controller" => "korisnik",
+                            "action" => "ocijeni"
+                            )) . "?id=" . $this->var['id'] . "\"> Ocijeni </a>";
+			
+                        echo '</tr>';
 		}
-		echo '</table>';
-		 
-		 
-    }
+		echo '</table>';		 
+    }    
+    
 }

@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `jeautor` (
   `idAutora` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idAutora` (`idAutora`),
-  KEY `idRada` (`idRada`),  
+  KEY `idRada` (`idRada`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `obiljezen` (
   `idRada` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idRada` (`idRada`),
-  KEY `idTaga` (`idTaga`),  
+  KEY `idTaga` (`idTaga`)  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

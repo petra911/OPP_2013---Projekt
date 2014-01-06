@@ -16,7 +16,7 @@ class DBAutor extends AbstractDBModel {
         return array('ime', 'prezime');
     }
         
-    public function dohvatiAutore($prezime) {
+    public function dohvatiAutorePrezime($prezime) {
         return $this->select()->where(array(
             "prezime" => $prezime
         ))->fetchAll();

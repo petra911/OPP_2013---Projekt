@@ -4,28 +4,47 @@ namespace view;
 use opp\view\AbstractView;
 
 class RezultatiPretrazivanjaRadova extends AbstractView {
-    protected function outputHTML($data) {
+    
+    private $var;
+    
+    public function getVar() {
+        return $this->var;
+    }
+
+    public function setVar($var) {
+        $this->var = $var;
+    }
+        
+    protected function outputHTML() {
         /**
          * implementiraj
          */
-		 
-		echo '<table border = "1" width = 100%>';
-		for ($i = 0; $i < count($data); $i++)
+		//echo "gejjj <br>"; print_r($this->var);
+                
+		echo '<table border = "1" width = 80%>';
+		for ($i = 0; $i < count($this->var['id']); $i++)
 		{
 			echo '<tr>';
-			echo "<td>{$var['imeautor'][$i]}</td>";
-			echo "<td>{$var['prezimeautor'][$i]}</td>";
-			echo "<td>{$var['naslov'][$i]}</td>";
-			echo "<td>{$var['sazetak'][$i]}</td>";
-			echo "<td>{$var['kljucnerijeci'][$i]}</td>";
-			echo "<td>{$var['izvor'][$i]}</td>"; /* podaci o skupu ili časopisu */
+			echo "<td>{$this->var['imeautor'][$i]}</td>";
+			echo "<td>{$this->var['prezimeautor'][$i]}</td>";
+			echo "<td>{$this->var['naslov'][$i]}</td>";
+			echo "<td>{$this->var['sazetak'][$i]}</td>";
+			echo "<td>{$this->var['kljucnerijeci'][$i]}</td>";
+			echo "<td>{$this->var['casopis'][$i]}</td>"; /* podaci o skupu ili časopisu */
+                        echo "<td>{$this->var['skup'][$i]}</td>";
 			/* linkovi za dodavanje u portfelj*/
-			echo "<a href="<?php echo \route\Route::get($var['id'][$i])->generate(array(
-                    "controller" => "korisnik",
-                    "action" => "dodajRadUPortfelj"));?>">Dodaj u portfelj</a>";			
-			echo '</tr>';
+			
+                        echo "<td><a href=\"" . \route\Route::get('d3')->generate(array(
+                            "controller" => "korisnik",
+                            "action" => "dodajEksperimentUPortfelj"
+                            )) . "?id=" . $this->var['id'][$i] . "\"> Dodaj u portfelj </a></td>";
+                       
+                        echo '</tr>';
 		}
-		echo '</table>';
-		 
+		echo '</table>';  
+        
+                
+                
+                
     }
 }

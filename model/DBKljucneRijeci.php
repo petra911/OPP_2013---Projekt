@@ -16,9 +16,17 @@ class DBKljucneRijeci extends AbstractDBModel {
         return array('tag');
     }
 	
-	public function dohvatiKljucneRijeci($idTaga) {
+    public function dohvatiKljucneRijeci($idTaga) {
         return $this->select()->where(array(
             "idTaga" => $idTaga
+        ))->fetchAll();
+    }
+    
+    
+    public function dohvatiKljucneRijeciByTag($tag)
+    {
+        return $this->select()->where(array(
+            "tag" => $tag
         ))->fetchAll();
     }
     
