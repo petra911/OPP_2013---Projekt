@@ -17,7 +17,7 @@ class RezultatiPretrazivanjaEksperimenata extends AbstractView {
         /**
          * implementiraj;
          */		 
-		echo '<table border = "1" width = 100%>';
+		echo '<table class = "table">';
 		for ($i = 0; $i < count($this->var); $i++)
 		{
 			echo '<tr>';
@@ -32,20 +32,26 @@ class RezultatiPretrazivanjaEksperimenata extends AbstractView {
 					
 			/* linkovi za dodavanje u portfelj i ocjenjivanje*/                 
                         
-			echo "<a href=\"" . \route\Route::get('d3')->generate(array(
+			echo "<td> <a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
                             "action" => "dodajEksperimentUPortfelj"
-                            )) . "?id=" . $this->var['id'] . "\"> Dodaj u portfelj </a>";
+                            )) . "?id=" . $this->var['id'] . "\"> Dodaj u portfelj </a></td>";
                     
               
-                       echo "<a href=\"" . \route\Route::get('d3')->generate(array(
+                       echo "<td> <a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
                             "action" => "ocijeni"
-                            )) . "?id=" . $this->var['id'] . "\"> Ocijeni </a>";
+                            )) . "?id=" . $this->var['id'] . "\"> Ocijeni </a></td>";
 			
                         echo '</tr>';
 		}
-		echo '</table>';		 
+		echo '</table>';
+                
+                ?> <a href="<?php echo \route\Route::get('d1')->generate();?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+	</a> <?php
+                
+                
     }    
     
 }

@@ -34,6 +34,7 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
                         echo "<td>{$this->var['skup'][$i]}</td>";
 			/* linkovi za dodavanje u portfelj*/
 			
+                        
                         echo "<td><a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
                             "action" => "dodajRadUPortfelj"
@@ -41,10 +42,17 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
                        
                         echo '</tr>';
 		}
-		echo '</table>';  
-        
+		echo '</table>';   
                 
+                
+                ?> <a href="<?php echo \route\Route::get('d1')->generate();?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+	</a> <?php
                 
                 
     }
 }
+
+                
+
+
