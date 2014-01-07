@@ -14,7 +14,7 @@ class Register extends AbstractView {
     
     protected function outputHTML() {
 ?>
-	<hr>
+
     <?php echo new RegisterForm(); ?>
     <?php echo new components\ErrorMessage(array(
         "errorMessage" => $this->errorMessage
@@ -32,6 +32,7 @@ class Register extends AbstractView {
      * @param string $errorMessage
      * @return \templates\Register
      */
+	
     public function setErrorMessage($errorMessage) {
         $this->errorMessage = $errorMessage;
         return $this;

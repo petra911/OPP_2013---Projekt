@@ -17,21 +17,23 @@ class ZahtjeviZaPromjenom extends AbstractView {
         "errorMessage" => $this->errorMessage
     ));
         if(count($this->zahtjevi)) {
-            echo "<p><ol>";
+            echo '<table class="table table-bordered table-hover">
+			<td><b>Korisnik</b></td><td><b>Poruka</b></td><td><b></b></td>';
             foreach($this->zahtjevi as $v) {
-                echo "<p><li><b>" . $v['posiljatelj'] . "</b><br/>" . $v['tekst'] . "<br/><a href=\"" . \route\Route::get('d3')->generate(array(
+                echo "<tr><td>" . $v['posiljatelj'] . "</td><td>" . $v['tekst'] . "</td><td><a href=\"" . \route\Route::get('d3')->generate(array(
                     "controller" => "ovlastenaOsobaCtl",
                     "action" => "displayObradiZahtjev"
-                )) . "?id=" . $v['id']  ."\">Obradi zahtjev</a></li></p>";
+                )) . "?id=" . $v['id']  ."\">Obradi zahtjev</a></td>";
             }
-            echo "</ol></p>";
+            echo "</table>";
         } else {
             echo "<p>Nemate novih zahtjeva!</p>";
         }
 ?>
-        <p>
-            <a href="<?php echo \route\Route::get('d1')->generate();?>">Vrati se na Naslovnicu</a>
-        </p>
+    <br><br>
+    <a href="<?php echo \route\Route::get('d1')->generate();?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+	</a>
 <?php
     }
     

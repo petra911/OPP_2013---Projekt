@@ -48,7 +48,7 @@ class RegisterForm extends AbstractView {
 			
 			<div class="form-group">
 				<label for="šifra"><b>Šifra</b></label>
-				<input type="password" class="form-control" id="šifra" placeholder="Upišite šifru" name="pass" />
+				<input type="password" class="form-control" id="šifra" placeholder="Upišite šifru minimalne dužine 6 znakova" name="pass" />
 			</div>
             
             <br>			

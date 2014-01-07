@@ -36,10 +36,10 @@ class Pretrazivanje implements Controller {
                 // najveći je problem unos više autora gdje  gledam presjek radova zadanih autora
                 // moguć je višestruki unos istog autora
                 $i = 0;
-                foreach ($niz_autor as $tmp) {
+                foreach ($niz_autor as $tmp) {                    
                     $rad_autor_tmp = $jeautor->select()->innerJoin("autor ON autor.idAutora = jeautor.idAutora"
                         )->innerJoin("znanstvenirad ON znanstvenirad.idRada = jeautor.idRada")->where(array("autor.prezime" => $tmp))->fetchAll();
-                      
+                                        
                     if ($i == 0) {
                         foreach ($rad_autor_tmp as $value) 
                             array_push($radovi, $value->idRada);  
@@ -140,15 +140,19 @@ class Pretrazivanje implements Controller {
                     
                     if (count($tmp1))
                         array_push($data["skup"], $tmp1[0]->naziv);
+                    else
+                        array_push($data["skup"], '');
                     
                     
-                    // odaj naziv casopisa
+                    // dodaj naziv casopisa
                     $tmp1 = $casopis->select()->where(array(
                       "idCasopisa" => $tmp[0]->idCasopisa
                         ))->fetchAll(); 
                         
                     if (count($tmp1))
                         array_push($data["casopis"], $tmp1[0]->naziv);
+                    else
+                        array_push($data["casopis"], '');
                     
                     
                     /**************************/
@@ -165,18 +169,27 @@ class Pretrazivanje implements Controller {
                             
                             $temp = array_unique(array_merge($temp,$tmp), SORT_REGULAR);                        
                                 
-                    }                   
+                    }    
                     
-                    $s = '';
-                    $s2 = '';
-                    foreach ($temp as $value)
-                    {
-                        $s .= $value->prezime . ',';
-                        $s2 .= $value->ime . ', ';
-                    }
+                    if (count($temp))
+                    {                    
+                        $s = '';
+                        $s2 = '';
+                        foreach ($temp as $value)
+                        {
+                            $s .= $value->prezime . ',';
+                            $s2 .= $value->ime . ', ';
+                        }
 
-                    array_push($data["imeautor"], $s2);
-                    array_push($data["prezimeautor"], $s);
+                        array_push($data["imeautor"], $s2);
+                        array_push($data["prezimeautor"], $s);
+                    }
+                    else
+                    {
+                        array_push($data["imeautor"], '');
+                        array_push($data["prezimeautor"], '');
+                    }
+                        
                     
                     /*********************************/
                     $temp = array();
@@ -190,12 +203,18 @@ class Pretrazivanje implements Controller {
                                 
                     }                   
                     
-                    $s = '';                   
-                    foreach ($temp as $value)
+                    if(count($temp))
                     {
-                        $s .= $value->tag . ',';                       
+                        $s = '';                   
+                        foreach ($temp as $value)
+                        {
+                            $s .= $value->tag . ',';                       
+                        }
+                        array_push($data["kljucnerijeci"], $s);  
                     }
-                    array_push($data["kljucnerijeci"], $s);  
+                    else 
+                        array_push($data["kljucnerijeci"], '');
+                        
                     
                     /*********************************/   
                 }

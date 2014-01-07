@@ -11,31 +11,45 @@ class ObradaZahtjeva extends AbstractView {
 ?>
     <p><b>Zahtjev: </b></p>
     <p><q><?php echo $this->zahtjev; ?></q></p>
-    
-    <p><form action="<?php echo \route\Route::get('d3')->generate(array(
+    <br>
+
+    <form action="<?php echo \route\Route::get('d3')->generate(array(
         "controller" => "ovlastenaOsobaCtl",
         "action" => "obradiZahtjev"
     ));?>" method="POST">
         
         <input type="hidden" name="id" value="<?php echo $this->id;?>" />
         
-        <p>Unesite datum u formatu datum&lt;broj&gt;
-        <input type="text" name="datum" />
-        </p>
-        <p>Unesite dan u formatu dan&lt;brojTjedna&gt;
-        <input type="text" name="dan" />
-        </p>
-        <p>
-            <textarea rows="5" cols="100" name="tekst">Upišite odgovor korisniku...</textarea>
-        </p>
-        <input type="submit" value="Pošalji odgovor" />
+		<div class="form-group">
+            <label for="ddatum"><b>Upišite datum</b></label>
+            <input type="text" class="form-control" id="ddatum" name="datum" placeholder="Format datuma, npr. datum10 - do 10. u mjesecu" />
+		</div>
+		<br>
+
+		
+		
+		<div class="form-group">
+            <label for="ddan"><b>Upišite dan</b></label>
+            <input type="text" class="form-control" id="ddan" name="dan" placeholder="Format dan, npr. sri2 - do druge srijede u mjesecu" />
+		</div>
+		<br>
+        
+		
+        <div class="form-group">
+			<label><b>Odgovor korisniku</b></label>
+            <textarea rows="5" cols="100" class="form-control" name="tekst" placeholder="Upišite odgovor korisniku..."></textarea>
+        </div>
+		<br>
+		
+		<input type="submit" class="btn btn-default" value="Pošalji odgovor" />
     
-    </form></p>
-    
+    </form>
+    <br>
     <p><b>Ukoliko ste unijeli datum ili dan poruka se automatski briše!</b></p>
-    <p>
-        <a href="<?php echo \route\Route::get('d1')->generate();?>">Vrati se na Naslovnicu</a>
-    </p>
+	<br><br>
+    <a href="<?php echo \route\Route::get('d1')->generate();?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+	</a>
 <?php
     }
     

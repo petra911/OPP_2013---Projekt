@@ -13,7 +13,6 @@ class Index extends AbstractView {
     protected function outputHTML() {
 //        session_destroy();
 ?>
-    <hr>
     <div class="container-fluid">
         <div class="row-fluid">
         <div>

@@ -20,8 +20,17 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
          * implementiraj
          */
 		//echo "gejjj <br>"; print_r($this->var);
-                
-		echo '<table class="table">';
+		echo '<table class="table table-bordered table-hover">
+			<tr>
+				<td><b>Ime autor</b></td>
+				<td><b>Prezime autor</b></td>
+				<td><b>Naslov</b></td>
+				<td><b>Sažetak</b></td>
+				<td><b>Ključne riječi</b></td>
+				<td><b>Časopis</b></td>
+				<td><b>Skup</b></td>
+				<td></td>
+			</tr>';
 		for ($i = 0; $i < count($this->var['id']); $i++)
 		{
 			echo '<tr>';
@@ -34,17 +43,24 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
                         echo "<td>{$this->var['skup'][$i]}</td>";
 			/* linkovi za dodavanje u portfelj*/
 			
+                        
                         echo "<td><a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
-                            "action" => "dodajEksperimentUPortfelj"
+                            "action" => "dodajRadUPortfelj"
                             )) . "?id=" . $this->var['id'][$i] . "\"> Dodaj u portfelj </a></td>";
                        
                         echo '</tr>';
 		}
-		echo '</table>';  
-        
+		echo '</table>';                 
                 
+                ?> <a href="<?php echo \route\Route::get('d1')->generate();?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+	</a> <?php
                 
                 
     }
 }
+
+                
+
+

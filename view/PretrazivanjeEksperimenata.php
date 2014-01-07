@@ -45,7 +45,7 @@ class PretrazivanjeEksperimenata extends AbstractView {
             <input type="date" name="vrijeme_zavrsetka" />
         </p>
         <p>
-            <b>Napomena:</b> Ukoliko zelite pretragu vršiti po više parametara, odvojite ih sa znakom točka-zarez (;)!
+            <b>Napomena:</b> Ukoliko zelite pretragu vršiti po više parametara, odvojite ih sa znakom zarez (,)!
         </p>
          
         <p>            

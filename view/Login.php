@@ -14,7 +14,7 @@ class Login extends AbstractView {
     
     protected function outputHTML() {
 ?>
-	<hr>
+
     <?php echo new LoginForm(); ?>
 
     <?php echo new components\ErrorMessage(array(

@@ -12,8 +12,12 @@ class UcitavanjeKonfiguracije extends AbstractView {
                                                         "controller" => "ovlastenaOsobaCtl",
                                                         "action" => "loadConfiguration"
                                                     ));?>" enctype="multipart/form-data">
-        <p><input type="file" name="datoteka" /></p>
-        <p><input type="submit" value="Šalji" /></p>
+		<br>
+		<input type="file" class="btn btn-default" name="datoteka" />
+		<br>
+		<input type="submit" class="btn btn-default" value="Šalji" />
+		
+		<br>
     </form>
 
     <?php echo new components\ErrorMessage(array(
@@ -24,12 +28,12 @@ class UcitavanjeKonfiguracije extends AbstractView {
         <a href="<?php echo \route\Route::get('d3')->generate(array(
             "controller" => "ovlastenaOsobaCtl",
             "action" => "ponistiNeplatise"
-        ));?>">Poništavanje Neplatiša!</a>
+        ));?>"><br><br>Poništavanje neplatiša!</a>
     </p>
-
-    <p>
-        <a href="<?php echo \route\Route::get('d1')->generate();?>">Vrati se na Naslovnicu</a>
-    </p>
+	<br><br>
+    <a href="<?php echo \route\Route::get('d1')->generate();?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+	</a>
 <?php
     }
     

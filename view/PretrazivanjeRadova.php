@@ -8,7 +8,7 @@ class PretrazivanjeRadova extends AbstractView {
     
     protected function outputHTML() {
 ?>
-	<hr>
+
     <form action="<?php echo \route\Route::get('d3')->generate(array(
                                                     "controller" => "pretrazivanje",
                                                     "action" => "pretraziRadove"
@@ -33,7 +33,7 @@ class PretrazivanjeRadova extends AbstractView {
 
 
         <p>
-            <b>Napomena:</b> Ukoliko zelite pretragu vršiti po više parametara, odvojite ih sa znakom točka-zarez (;)!
+            <b>Napomena:</b> Ukoliko zelite pretragu vršiti po više parametara, odvojite ih sa znakom zarez (,)!
         </p>
         <input type="submit" class="btn btn-default" name="submit" value="Traži" />
 		<br><br><br>
