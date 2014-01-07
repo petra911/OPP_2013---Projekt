@@ -17,11 +17,12 @@ class PretrazivanjeRadova extends AbstractView {
             <label for="prezime"><b>Prezime autora</b></label>
             <input type="text" class="form-control"prezime" name="autor" placeholder="Upišite prezime autora" />
 		</div>
-		<br>
+		<br>               
+                
   
 		<div class="form-group">
-            <label for="nasslov"><b>Naslov</b></label>
-            <input type="text" class="form-control" id="nasslov" name="naslov" placeholder="Upišite naslov" />
+            <label for="naslov"><b>Naslov</b></label>
+            <input type="text" class="form-control" id="naslov" name="naslov" placeholder="Upišite naslov" />
 		</div>
 		<br>
 

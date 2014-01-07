@@ -22,20 +22,21 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
 		//echo "gejjj <br>"; print_r($this->var);
 		echo '<table class="table table-bordered table-hover">
 			<tr>
-				<td><b>Ime autor</b></td>
-				<td><b>Prezime autor</b></td>
+				<td><b>Ime i prezime autora</b></td>				
 				<td><b>Naslov</b></td>
 				<td><b>Sažetak</b></td>
 				<td><b>Ključne riječi</b></td>
 				<td><b>Časopis</b></td>
 				<td><b>Skup</b></td>
+                                <td><b>Link</b></td>
+                                <td><b>Link</b></td>
+                                
 				<td></td>
 			</tr>';
 		for ($i = 0; $i < count($this->var['id']); $i++)
 		{
 			echo '<tr>';
-			echo "<td>{$this->var['imeautor'][$i]}</td>";
-			echo "<td>{$this->var['prezimeautor'][$i]}</td>";
+			echo "<td>{$this->var['imeautor'][$i]}</td>";			
 			echo "<td>{$this->var['naslov'][$i]}</td>";
 			echo "<td>{$this->var['sazetak'][$i]}</td>";
 			echo "<td>{$this->var['kljucnerijeci'][$i]}</td>";
@@ -44,10 +45,17 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
 			/* linkovi za dodavanje u portfelj*/
 			
                         
+                        if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K' )) {
                         echo "<td><a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
                             "action" => "dodajRadUPortfelj"
                             )) . "?id=" . $this->var['id'][$i] . "\"> Dodaj u portfelj </a></td>";
+                        
+                        echo "<td> <a href=\"" . \route\Route::get('d3')->generate(array(
+                            "controller" => "korisnik",
+                            "action" => "predloziKorekciju"
+                            )) . "?id=" . $this->var['id'][$i] . "&var=R". "\"> Predloži korekciju </a></td>";
+                        }
                        
                         echo '</tr>';
 		}
