@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `jeautor` (
   PRIMARY KEY (`id`),
   KEY `idAutora` (`idAutora`),
   KEY `idRada` (`idRada`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -255,7 +255,6 @@ CREATE TABLE IF NOT EXISTS `parametar` (
   `idParametra` int(11) NOT NULL AUTO_INCREMENT,
   `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
   `ispitniPrimjer` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `iznos` decimal(9,2) DEFAULT NULL,
   PRIMARY KEY (`idParametra`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -554,12 +553,6 @@ ALTER TABLE `ostvario`
   ADD CONSTRAINT `ostvario_ibfk_1` FOREIGN KEY (`idEksperimenta`) REFERENCES `znanstvenieksperiment` (`idEksperimenta`),
   ADD CONSTRAINT `ostvario_ibfk_2` FOREIGN KEY (`idRezultata`) REFERENCES `rezultat` (`idRezultata`);
 
---
--- Ograničenja za tablicu `posjeduje`
---
-ALTER TABLE `posjeduje`
-  ADD CONSTRAINT `posjeduje_ibfk_1` FOREIGN KEY (`idKorisnika`) REFERENCES `korisnik` (`idKorisnika`),
-  ADD CONSTRAINT `posjeduje_ibfk_2` FOREIGN KEY (`idZapisa`) REFERENCES `portfelj` (`idZapisa`);
 
 --
 -- Ograničenja za tablicu `pripada`

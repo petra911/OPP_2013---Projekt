@@ -56,4 +56,56 @@ class EkspertnaOsobaCtl implements Controller {
      public function displayReport() {
          // u suradnji s lukom (mozete preko View-a kojeg trebate napraviti)
      }
+     
+     public function displayDodavanjePlatformi() {
+         if(!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+             preusmjeri(\route\Route::get('d1')->generate());
+         }
+         
+         $error = null;
+         switch (get("msg")) {
+             case 1:
+                 $error = "Moj ispis!";
+                 break;
+             case 2:
+                 $error = "Zapis već postoji!";
+                 break;
+             default :
+                 break;
+             
+         }
+         
+         echo new \view\Main(array(
+             "body" => new \view\DodavanjePlatformi(array(
+                 "errorMessage" => $error
+             )),
+             "title" => "Dodavanje Platformi"
+         ));
+     }
+     
+     public function dodajPlatformu() {
+         if(!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+             preusmjeri(\route\Route::get('d1')->generate());
+         }
+         
+         if(post('xd') === false) {
+             preusmjeri(\route\Route::get('d3')->generate(array(
+                 "controller" => "ekspertnaOsobaCtl",
+                 "action" => "displayDodavanjePlatformi"
+             )) . "?msg=1");
+         }
+         
+         
+         $platforme = new \model\DBPlatforma();
+         $platforme->skraceniNaziv = post('xd');
+         if(!$platforme->postojiSkraceniNaziv(post("xd"))) {
+             preusmjeri(\route\Route::get("d3")->generate(array(
+                 "controller" => "ekspertnaOsobaCtl",
+                 "action" => "displayDodavanjePlatformi"
+             )) . "?msg=2");
+         }
+         $platforme->save();
+         
+         preusmjeri(\route\Route::get('d1')->generate());
+     }
 }

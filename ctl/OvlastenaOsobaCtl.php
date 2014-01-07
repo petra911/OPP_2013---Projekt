@@ -523,7 +523,7 @@ class OvlastenaOsobaCtl implements Controller {
             )) . "?msg=2");
         }
         
-        $handle = fopen(files('tmp_name', 'datoteka'), "r");
+        $handle = fopen(files('tmp_name', 'datoteka'), "rt");
         $prviRed = fscanf($handle, "%s %s %f %s");
         $drugiRed = fscanf($handle, '%s %s %s %s %s');
         fclose($handle);
@@ -536,7 +536,7 @@ class OvlastenaOsobaCtl implements Controller {
             )) . "?msg=3");
             }
         }
-        if($prviRed[0] != "Mjesečna" || $prviRed[1] != "naknada" || $prviRed[3] != "kn") {
+        if(iconv('windows-1250', 'utf-8', $prviRed[0]) != "Mjesečna" || $prviRed[1] != "naknada" || $prviRed[3] != "kn") {
             preusmjeri(\route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
                 "action" => "displayUcitavanjeKonfiguracije"
@@ -552,7 +552,7 @@ class OvlastenaOsobaCtl implements Controller {
             }
         }
         
-        if($drugiRed[0] != "Rok" || $drugiRed[1] != "plaćanja" || $drugiRed[2] != "u" || $drugiRed[3] != "mjesecu") {
+        if($drugiRed[0] != "Rok" || iconv('windows-1250', 'utf-8', $drugiRed[1]) != "plaćanja" || $drugiRed[2] != "u" || $drugiRed[3] != "mjesecu") {
              preusmjeri(\route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
                 "action" => "displayUcitavanjeKonfiguracije"
