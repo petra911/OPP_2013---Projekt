@@ -19,20 +19,33 @@ class DodavanjeAlataIde extends AbstractView {
             "controller" => "korisnik",
             "action" => "dodajAlatIde"
                 ));?>" method="POST">
-            <p>Unesite naziv:&nbsp;
-                <input type="text" name="naziv" />
-            </p>
-            <p>Unesite skraćeni naziv:&nbsp;
-                <input type="text" name="skraceni" />
-            </p>
-            <p>Unesite inačicu:&nbsp;
-                <input type="text" name="inacica" />
-            </p>
-            <p>Unesite cijenu:&nbsp;
-                <input type="text" name="cijena" />
-            </p>
-            <p>
-                <select name="eksperiment">
+				
+			<div class="form-group">
+				<label for="jedin"><b>Naziv</b></label>
+				<input type="text" class="form-control" id="author" placeholder="Upišite naziv" name="naziv" />
+			</div>
+			<br>
+			
+			<div class="form-group">
+				<label for="jedin"><b>Skraćeni naziv</b></label>
+				<input type="text" class="form-control" id="author" placeholder="Upišite skraćeni naziv" name="skraceni" />
+			</div>
+			<br>
+			
+			<div class="form-group">
+				<label for="jedin"><b>Inačicu</b></label>
+				<input type="text" class="form-control" id="author" placeholder="Upišite inačicu" name="inacica" />
+			</div>
+			<br>
+			
+			<div class="form-group">
+				<label for="price"><b>Cijena</b></label>
+				<input type="text" class="form-control" id="price" placeholder="Upišite cijenu" name="cijena" />
+			</div>
+			<br>
+			
+            <div class="form-group">
+                <select name="eksperiment" class="form-control">
                     <option value=""></option>
                     <?php if(count($this->eksperimenti)) {
                        foreach($this->eksperimenti as $v) {
@@ -40,16 +53,15 @@ class DodavanjeAlataIde extends AbstractView {
                        }
                     }?>
                 </select>
-            </p>
+            </div>
             
             <p>
-                Želim dodati alat: &nbsp;
+                Želim dodati alat
                 <input type="checkbox" name="checked" value="true" />
             </p>
-            
-            <p>
-            <input type="submit" value="Dodaj" />
-            </p>
+            <br>
+            <input type="submit" class="btn btn-default"  value="Dodaj" />
+
         </form>
         </p>
         

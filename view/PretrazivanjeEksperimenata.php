@@ -16,41 +16,67 @@ class PretrazivanjeEksperimenata extends AbstractView {
                                                     "action" => "pretraziEksperimente"
                                                 ));?>" method="POST" >												
 											
-        <p>
-            Unesite prezime autora:
-            <input type="text" name="autor" />
-        </p>
-        <p>
-            Unesite naziv eksperimenta:
-            <input type="text" name="naziv" />
-        </p>
-        <p>
-            Unesite naziv parametra:
-            <input type="text" name="parametar" />
-        </p>
-	<p>
-            Unesite iznos rezultata:
-            <input type="text" name="iznosrez" />
-        </p>
-	<p>
-            Unesite naziv mjerne jedinice rezultata:
-            <input type="text" name="jedinicarez" />
-        </p>		
-	<p>
-            Unesite vrijeme početka:
-            <input type="date" name="vrijeme_pocetka" />
-        </p>
-	<p>
-            Unesite vrijeme završetka:
-            <input type="date" name="vrijeme_zavrsetka" />
-        </p>
+        <div class="form-group">
+            <label for="prezime"><b>Prezime autora</b></label>
+            <input type="text" class="form-control"prezime" name="autor" placeholder="Upišite prezime autora" />
+		</div>
+		<br>
+  
+		<div class="form-group">
+            <label for="naslov"><b>Naziv eksperimenta</b></label>
+            <input type="text" class="form-control" id="naslov" name="naziv" placeholder="Upišite naziv" />
+		</div>
+		<br>
+
+		<div class="form-group">
+            <label for="vrijemep"><b>Vrijeme početka</b></label>
+            <input type="datetime-local" class="form-control" id="vrijemep" name="vrijemepocetka" placeholder="Odaberite početak eksperimenta" />
+		</div>
+		<br>
+                
+                <div class="form-group">
+            <label for="vrijemez"><b>Vrijeme završetka</b></label>
+            <input type="datetime-local" class="form-control" id="vrijemez" name="vrijemezavrsetka" placeholder="Odaberite završetak eksperimenta" />
+		</div>
+		<br>
+                
+                <div class="form-group">
+            <label for="ide"><b>Skraćeni naziv razvojne okoline</b></label>
+            <input type="text" class="form-control" id="ide" name="nazivide" placeholder="Upišite skraćeni naziv IDE" />
+		</div>
+		<br>
+                
+                <div class="form-group">
+            <label for="alat"><b>Skraćeni naziv alata</b></label>
+            <input type="text" class="form-control" id="alat" name="nazivalat" placeholder="Upišite skraćeni naziv alata" />
+		</div>
+		<br>
+                
+                <div class="form-group">
+            <label for="platforma"><b>Skraćeni naziv platforme</b></label>
+            <input type="text" class="form-control" id="platforma" name="nazivplatforma" placeholder="Upišite skraćeni naziv platfrome" />
+		</div>
+		<br>
+                
+                <div class="form-group">
+            <label for="iznosr"><b>Iznos rezultata eksperimenta</b></label>
+            <input type="number" step = "any" class="form-control" id="iznosr" name="iznosrezultata" placeholder="Upišite skraćeni naziv platfrome" />
+		</div>
+		<br>
+                
+                <div class="form-group">
+            <label for="mjernar"><b>Mjerna jedinica rezultata</b></label>
+            <input type="text" class="form-control" id="mjernaj" name="mjjedinicarezultata" placeholder="Upišite mjernu jedinicu rezultata" />
+		</div>
+		<br>
+                
+
+
         <p>
             <b>Napomena:</b> Ukoliko zelite pretragu vršiti po više parametara, odvojite ih sa znakom zarez (,)!
         </p>
-         
-        <p>            
-            <input type="submit" name="submit" value="Traži" />
-        </p>
+        <input type="submit" class="btn btn-default" name="submit" value="Traži" />
+		<br><br><br>
     </form>
 
     <?php echo new components\ErrorMessage(array(
@@ -58,7 +84,9 @@ class PretrazivanjeEksperimenata extends AbstractView {
     )); ?>
 	
     
-	<a href="<?php echo \route\Route::get('d1')->generate();?>">Vrati se na Naslovnicu!</a>
+	<a href="<?php echo \route\Route::get('d1')->generate();?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+	</a>
 <?php
     }
 	

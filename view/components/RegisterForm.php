@@ -19,7 +19,7 @@ class RegisterForm extends AbstractView {
 			<br>
             
 			<div class="form-group">
-				<label for="ime1"><b>Ime</label>
+				<label for="ime1"><b>Ime</b></label>
 				<input type="text" class="form-control" id="ime1" placeholder="Upišite ime" name="ime" />
 			</div>
             

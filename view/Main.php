@@ -26,6 +26,12 @@ class Main extends AbstractView {
     /**
      * @return string html sadrzaj
      */
+	 
+	 /**
+     *
+     * @var array 
+     */
+    private $polje;
     protected function outputHTML() {
         ?>
         <!DOCTYPE html>
@@ -38,16 +44,19 @@ class Main extends AbstractView {
                 <link href="../assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
                 <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
                 <link href="../assets/css/style.css" rel="stylesheet">
+                <link href="../assets/css/menu.css" rel="stylesheet">
 				
 				<link href="./assets/css/bootstrap.css" rel="stylesheet">
                 <link href="./assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
                 <link href="./assets/css/bootstrap-responsive.css" rel="stylesheet">
                 <link href="./assets/css/style.css" rel="stylesheet">
+                <link href="./assets/css/menu.css" rel="stylesheet">
 				
 				<link href="assets/css/bootstrap.css" rel="stylesheet">
                 <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
                 <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
                 <link href="assets/css/style.css" rel="stylesheet">
+                <link href="assets/css/menu.css" rel="stylesheet">
                 <?php if (null !== $this->script) {
                     echo $this->script;
                 }
@@ -55,22 +64,58 @@ class Main extends AbstractView {
             </head>
 
             <body>
-				<div class = "navbar navbar-inverse navbar-static-top">					
-					<div class="container">
-						<span class="navbar-brand"><?php echo $this->title; ?></span>
+			<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			  <div class="container">
+			    <div class="navbar-header">
+				  <span class="navbar-brand"><?php echo $this->title; ?></span>
+				</div>
+				<div class="navbar-collapse collapse">
+				  <div class="navbar-right form-inline" role="form">
+					<div class="form-group"> 
+					  <?php if(\model\DBKorisnik::isLoggedIn()) 
+						; else echo
+						"<li><a href=\"" . \route\Route::get('d2')->generate(array(
+																					"controller" => "login",
+																					"action" => "display"
+																					)) . "\">Sign In</a></li>"
+					  ;?>
 					</div>
-				</div>
-				<div class = "container-narrow">
-                    <?php echo $this->body; ?>
-
-				<hr>
-				<div class="footer">
-					<p>&copy; The7NoobZ</p>
-				</div>
-                </div>
-            </body>
-        </html>
-        <?php
+					<div class="form-group"> 
+					  <?php if(\model\DBKorisnik::isLoggedIn()) echo
+						"<li><a href=\"" . \route\Route::get('d3')->generate(array(
+																					"controller" => "korisnik",
+																					"action" => "logout"
+																					)) . "\">Odjavi se</a></li>"
+						; else echo
+						"<li><a href=\"" . \route\Route::get('d2')->generate(array(
+																					"controller" => "register",
+																					"action" => "display"
+																					)) . "\">Sign Up</a></li>"
+					  ;?>
+					</div>
+				  </div><!--/.navbar-collapse -->
+			    </div>
+			  </div>
+			</div>	
+			
+			</br>
+			</br>
+			</br>
+			</br>
+			</br>
+			
+			<div class = "container-narrow">
+              <?php echo $this->body; ?>
+            </div>
+                
+            <hr>
+                
+			<footer class="footer">
+			  <p>&copy; The7Noobz</p>
+      		</footer>
+			</body>
+		</html>
+<?php
     }
 
     /**

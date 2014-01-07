@@ -18,17 +18,27 @@ class DodavanjeVlastitogEksperimenta extends AbstractView {
             "controller" => "korisnik",
             "action" => "dodavanjeVlastitogEksperimenta"
                 ));?>" method="POST" enctype="multipart/form-data">
-            <p>Unesite naziv eksperimenta: &nbsp;
-                <input type="text" name="naziv" />
-            </p>
-            <p>Unesite vrijeme pocetka: (format dd.mm.yyyy. hh:mm) <br/>
-                <input type="text" name="vrijemePocetka" />
-            </p>
-            <p>Unesite vrijeme završetka: (format dd.mm.yyyy. hh:mm) <br/>
-                <input type="text" name="vrijemeZavrsetka" />
-            </p>
-            <p>
-            <select name="platforma">
+            
+			<div class="form-group">
+				<label for="eksp"><b>Naziv eksperimenta</b></label>
+				<input type="text" class="form-control" id="eksp" placeholder="Upišite naziv eksperimenta" name="naziv" />
+			</div>
+			<br>
+			
+			<div class="form-group">
+				<label for="poč"><b>Vrijeme početka</b></label>
+				<input type="text" class="form-control" id="poč" placeholder="Format dd.mm.yyyy. hh:mm" name="vrijemePocetka" />
+			</div>
+			<br>
+			
+			<div class="form-group">
+				<label for="end"><b>Vrijeme završetka</b></label>
+				<input type="text" class="form-control" id="end" placeholder="Format dd.mm.yyyy. hh:mm" name="vrijemeZavrsetka" />
+			</div>
+			<br>
+			
+			<div class="form-group">
+            <select name="platforma" class="form-control">
                 <option value=""></option>
                 <?php if(count($this->platforme)) {
                     foreach($this->platforme as $v) {
@@ -36,21 +46,30 @@ class DodavanjeVlastitogEksperimenta extends AbstractView {
                     }
                 }?>
             </select>
-            </p>
-            <p>Unesite parametre u formatu naziv-ispitniSlucaj;naziv-ispitniSlucaj....<br/>
-                <input type="text" name="parametri" />
-            </p>
-            <p>Unesite rezultate u formatu naziv-iznos-mjernaJedinica;naziv-iznos-mjernaJedinica....<br/>
-                <input type="text" name="rezultati" />
-            </p>
+			</div>
+			<br>
+			
+			<div class="form-group">
+				<label for="jedin"><b>Parametri</b></label>
+				<input type="text" class="form-control" id="author" placeholder="Format naziv-ispitniSlucaj;naziv-ispitniSlucaj..." name="parametri" />
+			</div>
+			<br>
+			
+			<div class="form-group">
+				<label for="jedin"><b>Rezultat</b></label>
+				<input type="text" class="form-control" id="author" placeholder="Format: naziv-iznos-mjernaJedinica;naziv-iznos-mjernaJedinica..." name="rezultati" />
+			</div>
+			<br>
             
-            <p>Ukoliko želite dodati eksperiment pomoću tekstualne datoteke, to možete učiniti u sljedećem polju:&nbsp;
-                <input type="file" name="datoteka" />
-            </p>
+			<div class="form-group">
+				<label for="jedin"><b>Dodati eksperiment pomoću tekstualne datoteke</b></label>
+				<input type="file" class="form-control" id="author" placeholder="Upišite naziv mjerne jedinice rezultata" name="datoteka" />
+			</div>
+			<br>
             
-            <input type="submit" value="Dodaj" />
+            <input type="submit" class="btn btn-default" value="Dodaj" />
         </form>
-
+		<br>
         <p>
             <b>Upute:</b><br/>
             Eksperiment možete povezati s alatom i razvojnim okruženjem preko sljedeće poveznice:
