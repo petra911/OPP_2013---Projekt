@@ -34,4 +34,34 @@ class DBZnanstveniEksperiment extends AbstractDBModel {
             return array();
         }
     }
+    
+    /**
+     * 
+     * @return boolean|string       prosjecna ocjena ili ispis Eksperiment nije ocijenjen | false ako prilikom poziva metode u modelu nije inicijaliziran idEksperimenta
+     */
+    public function prosjecnaOcjena() {
+        if($this->idEksperimenta == null) {
+            return false;
+        } else {
+            $ocjenjuje = new DBOcjenjuje();
+            $ocjene = new DBOcjena();
+            
+            $pov = $ocjenjuje->select()->where(array(
+                "idEksperimenta" => $this->getPrimaryKey()
+            ))->fetchAll();
+            
+            if(count($pov)) {
+                $sum = 0;
+                $count = count($pov);
+                foreach($pov as $v) {
+                    $ocjene->idOcjene = null;
+                    $ocjene->load($v->idOcjene);
+                    $sum = $sum + $ocjene->ocjena;
+                }
+                return ($sum / (float) $count);
+            } else {
+                return 'Eksperiment nije ocijenjen!';
+            }
+        }
+    }
 }
