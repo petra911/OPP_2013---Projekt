@@ -248,6 +248,7 @@ class Pretrazivanje implements Controller {
                 $niz_platforma = array();
 		$niz_iznosrezultata = array();
 		$niz_jedinicarezultata = array();
+                $niz_ispitniprimjer = array();
 		
 		if (!empty($_POST["autor"]))
 			$niz_autor = explode(",", $_POST["autor"]);
@@ -267,6 +268,8 @@ class Pretrazivanje implements Controller {
 			$niz_iznosrezultata = explode(",", $_POST["iznosrezultata"]);	
 		if (!empty($_POST["jedinicarez"]))
 			$niz_jedinicarezultata = explode(",", $_POST["jedinicarez"]);
+                if (!empty($_POST["ispitniprimjer"]))
+			$niz_ispitniprimjer = explode(",", $_POST["ispitniprimjer"]);
 			/* dohvaćanje podataka iz tablica */
 		
                 
@@ -282,7 +285,11 @@ class Pretrazivanje implements Controller {
                 $ide = new \model\DBIde();
                 $uraden = new \model\DBUraden();               
                 $autor = new \model\DBAutor();               
-                $autoreksperimenta  = new \model\DBAutorEksperimenta();          
+                $autoreksperimenta  = new \model\DBAutorEksperimenta();     
+                $pripadaju = new \model\DBPripadaju();
+                $parametar = new \model\DBParametar();
+                $portfelj = new \model\DBPortfelj();
+                
 		//print_r($niz_pocetak);
                 
                 $eksperimenti = array();//tu čuvam id eksperimenata koji zadovoljavaju kriterije po kojima tražiš
@@ -466,7 +473,28 @@ class Pretrazivanje implements Controller {
                         $eksperimenti = array_intersect($temp, $eksperimenti);      
                         
                     }
-                }                
+                }  
+                
+                $i = 0;
+                foreach ($niz_ispitniprimjer as $tmp) {
+                    $eks_ispitprimjer_tmp = $pripadaju->select()->innerJoin("parametar ON parametar.idParametra = pripadaju.idParametra"
+                        )->innerJoin("znanstvenieksperiment ON znanstvenieksperiment.idEksperimenta = pripadaju.idEksperimenta")->where(array("rezultat.mjernaJedinica" => $tmp))->fetchAll();
+                    
+                    if (!count($niz_autor) && !count($niz_naziv) && !count($niz_pocetak) && !count($niz_zavrsetak) 
+                            && !count($niz_ide) && !count($niz_alat) && !count($niz_platforma) && !count($niz_iznosrezultata) && !count($niz_jedinicarezultata) &&($i == 0)) { // ako nije ništa upisao u prošlom polju i prvi je unos onda unesi eksperimente
+                        foreach ($eks_ispitprimjer_tmp as $value) 
+                            array_push($eksperimenti, $value->idEksperimenta);  
+                        $i++;
+                    }
+                    else {
+                        $temp = array();
+                        foreach ($eks_ispitprimjer_tmp as $value)
+                            array_push($temp, $value->idEksperimenta);
+                        
+                        $eksperimenti = array_intersect($temp, $eksperimenti);      
+                        
+                    }
+                } 
                 
                 /* zapiši podatke u niz" */
                $eksperimenti = array_unique($eksperimenti, SORT_REGULAR);
@@ -477,24 +505,40 @@ class Pretrazivanje implements Controller {
                     "imeautor" => array(),                    
                     "naziv" => array(),
                     "pocetak" => array(),
-                    "zavrsetak" => array(),                   
-                    "nazivide" => array(),
-                    "nazivalat" => array(),
-                    "nazivplatforma" => array(),
-                    "iznosrezultata" => array(), 
-                    "mjjedinicarezultata" => array()
+                    "zavrsetak" => array(),
+                    "ocjena" => array()                   
+                    // ima još polje "interan" koje govori jel eksperiment interni ili ne
                 ); 
                 
                 //echo "Eksperimenti : " ;print_r($eksperimenti); echo "<br>";
 		
                 foreach($eksperimenti as $value)
                 {
-                    $eks_rez_tmp = $ostvario->select()->innerJoin("rezultat ON rezultat.idRezultata = ostvario.idRezultata")->where(array("ostvario.idEksperimenta" => $value))->fetchAll();                    
-                    $eks_platforma_tmp = $koristi->select()->innerJoin("platforma ON platforma.idPlatforme = koristi.idPlatforme")->where(array("koristi.idEksperimenta" => $value))->fetchAll();                    
-                    $eks_alat_tmp = $ostvaren->select()->innerJoin("alat ON alat.idAlata = ostvaren.idAlata")->where(array("ostvaren.idEksperimenta" => $value))->fetchAll();                    
-                    $eks_ide_tmp = $uraden->select()->innerJoin("ide ON ide.idIDE = uraden.idIDE")->where(array("uraden.idEksperimenta" => $value))->fetchAll();
-                    $eks_autor_tmp = $autoreksperimenta->select()->innerJoin("autor ON autor.idAutora = autoreksperimenta.idAutora")->where(array("autoreksperimenta.idEksperimenta" => $value))->fetchAll();
-                                          
+                    //echo "<br> <br <br> <br>"; print_r($_SESSION['auth']);
+                    /* ako je eksperiment interan, prikaži ga jedino vlasniku portfelja */
+                    
+                    $jeinteran = $znanstvenieksperiment->select()->where(array(
+                        "idEksperimenta" => $value, 
+                        "vidljivost" => "I"
+                        ))->fetchAll();
+                                       
+                    if(count($jeinteran))
+                    {
+                        //echo "<br> <br> <br> <br> <br> TU sam";
+                        $data["interan"] =  "1";
+                        if(!($portfelj->postojiZapis($_SESSION['auth'], $value, NULL)))
+                                continue;                        
+                    }  
+                    else // nađi mu ocjenu
+                    {
+                        $data["interan"] =  "0";
+                        $znanstvenieksperimentpom = new \model\DBZnanstveniEksperiment();
+                        $znanstvenieksperimentpom->idEksperimenta = $value;
+                        
+                        //echo "<br> <br> <br> <br> <br> TU sam"; print_r($eks);
+                        array_push($data["ocjena"], $znanstvenieksperimentpom->prosjecnaOcjena());
+                                            
+                    }
                     
                       /**************************/
                     
@@ -509,9 +553,12 @@ class Pretrazivanje implements Controller {
                     
                     array_push($data["naziv"], $eks[0]->naziv);                     
                     array_push($data["pocetak"], $eks[0]->vrijemePocetka); 
-                    array_push($data["zavrsetak"], $eks[0]->vrijemeZavrsetka);                                
+                    array_push($data["zavrsetak"], $eks[0]->vrijemeZavrsetka); 
                     
+                                     
                     /************************/ // dodaj autore
+                    $eks_autor_tmp = $autoreksperimenta->select()->innerJoin("autor ON autor.idAutora = autoreksperimenta.idAutora")->where(array("autoreksperimenta.idEksperimenta" => $value))->fetchAll();
+                    
                     $temp = array();
                     foreach ($eks_autor_tmp as $value2) 
                     {                           
@@ -541,136 +588,8 @@ class Pretrazivanje implements Controller {
                         $s = substr($s, 0, -2);
                     array_push($data["imeautor"], $s);
                         
-                    
-                    /************************/ // dodaj IDE
-                    $temp = array();
-                    foreach ($eks_ide_tmp as $value2) 
-                    {                           
-                            $tmp = $ide->select()->where(array(
-                              "idIDE" => $value2->idIDE
-                            ))->fetchAll();
-                            
-                            $temp = array_unique(array_merge($temp,$tmp), SORT_REGULAR);           
-                                
-                    }    
-                    
-                    $s = '';  
-                    if (count($temp))
-                    {
-                                              
-                        foreach ($temp as $value3)
-                        {
-                            $s .= $value3->naziv . ', ';                           
-                        }                                          
-                    }
-                    else
-                    {
-                        $s = '-';                        
-                    }
-                    
-                    if (strlen($s) > 1)
-                        $s = substr($s, 0, -2);
-                    array_push($data["nazivide"], $s);
-                        
-                    
-                     /************************/ // dodaj alat
-                    $temp = array();
-                    foreach ($eks_alat_tmp as $value2) 
-                    {                           
-                            $tmp = $alat->select()->where(array(
-                              "idAlata" => $value2->idAlata
-                            ))->fetchAll();
-                            
-                            $temp = array_unique(array_merge($temp,$tmp), SORT_REGULAR);           
-                                
-                    }    
-                    
-                    $s = '';  
-                    if (count($temp))
-                    {
-                                              
-                        foreach ($temp as $value3)
-                        {
-                            $s .= $value3->naziv . ', ';                           
-                        }                                          
-                    }
-                    else
-                    {
-                        $s = '-';                        
-                    }
-                    
-                    if (strlen($s) > 1)
-                        $s = substr($s, 0, -2);
-                    array_push($data["nazivalat"], $s);
-                    
-                     /************************/ // dodaj platformu
-                    $temp = array();
-                    foreach ($eks_platforma_tmp as $value2) 
-                    {                           
-                            $tmp = $platforma->select()->where(array(
-                              "idPlatforme" => $value2->idPlatforme
-                            ))->fetchAll();
-                            
-                            $temp = array_unique(array_merge($temp,$tmp), SORT_REGULAR);           
-                                
-                    }    
-                    
-                    $s = '';  
-                    if (count($temp))
-                    {
-                                              
-                        foreach ($temp as $value3)
-                        {
-                            $s .= $value3->naziv . ', ';                           
-                        }                                          
-                    }
-                    else
-                    {
-                        $s = '-';                        
-                    }
-                    
-                    if (strlen($s) > 1)
-                        $s = substr($s, 0, -2);
-                    array_push($data["nazivplatforma"], $s);
-                    
-                     /************************/ // dodaj rezultate
-                    $temp = array();
-                    foreach ($eks_rez_tmp as $value2) 
-                    {                           
-                            $tmp = $rezultat->select()->where(array(
-                              "idRezultata" => $value2->idRezultata
-                            ))->fetchAll();
-                            
-                            $temp = array_unique(array_merge($temp,$tmp), SORT_REGULAR);           
-                                
-                    }    
-                    
-                    $s = '';  
-                    $s2 = '';
-                    if (count($temp))
-                    {
-                                              
-                        foreach ($temp as $value3)
-                        {
-                            $s .= $value3->iznos . ', ';  
-                            $s2 .= $value3->mjernaJedinica . ', ';
-                        }                                          
-                    }
-                    else
-                    {
-                        $s = '-';    
-                        $s2 = '-';
-                    }
-                    
-                    if (strlen($s) > 1)
-                    {
-                        $s = substr($s, 0, -2);
-                        $s2 = substr($s2, 0, -2);
-                    }
-                    array_push($data["iznosrezultata"], $s);
-                    array_push($data["mjjedinicarezultata"], $s2);                   
-                    
                 }
+                    
                 
                  //echo "Eksperimenti : " ;print_r($data["id"]); echo "<br>";
 		

@@ -31,7 +31,7 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
                                 <td><b>Link</b></td>
                                 <td><b>Link</b></td>
                                 
-				<td></td>
+				
 			</tr>';
 		for ($i = 0; $i < count($this->var['id']); $i++)
 		{
@@ -46,10 +46,14 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
 			
                         
                         if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K' )) {
-                        echo "<td><a href=\"" . \route\Route::get('d3')->generate(array(
+                        
+                            $portfelj = new \model\DBPortfelj();
+                            if (!$portfelj->postojiZapis($_SESSION['auth'], null, $this->var['id'][$i])) {
+                            echo "<td><a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
                             "action" => "dodajRadUPortfelj"
                             )) . "?id=" . $this->var['id'][$i] . "\"> Dodaj u portfelj </a></td>";
+                            }
                         
                         echo "<td> <a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",

@@ -70,6 +70,12 @@ class PretrazivanjeEksperimenata extends AbstractView {
 		</div>
 		<br>
                 
+                 <div class="form-group">
+            <label for="mjernar"><b>Mjerna jedinica rezultata</b></label>
+            <input type="text" class="form-control" id="mjernaj" name="ispitniprimjer" placeholder="Upišite ispitni primjer rezultata" />
+		</div>
+		<br>
+                
 
 
         <p>

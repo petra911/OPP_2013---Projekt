@@ -21,38 +21,40 @@ class RezultatiPretrazivanjaEksperimenata extends AbstractView {
 			<tr>
 				<td><b>Ime i prezime autora</b></td>				
 				<td><b>Naziv</b></td>
-				<td><b>Početak eksperimenta</b></td>
-				<td><b>Završetak eksperimenta</b></td>
-				<td><b>Naziv IDE</b></td>				
-                                <td><b>Naziv alata</b></td>
-                                <td><b>Naziv platforme</b></td>
-                                <td><b>Iznos rezultata</b></td>
-				<td><b>Mjerna jedinica rezultata</b></td>
+				<td><b>Pocetak eksperimenta</b></td>
+				<td><b>Zavrsetak eksperimenta</b></td>	
+                                <td><b>Ocjena</b></td>	
                                 <td><b>Link</b></td>
                                 <td><b>Link</b></td>
-				<td></td>
+                                <td><b>Link</b></td>
+				
 			</tr>';
 		for ($i = 0; $i < count($this->var['id']); $i++)
-		{
+		{                    
 			echo '<tr>';
 			echo "<td>{$this->var['imeautor'][$i]}</td>";			
 			echo "<td>{$this->var['naziv'][$i]}</td>";
 			echo "<td>{$this->var['pocetak'][$i]}</td>";
 			echo "<td>{$this->var['zavrsetak'][$i]}</td>";
-			echo "<td>{$this->var['nazivide'][$i]}</td>";
-                        echo "<td>{$this->var['nazivalat'][$i]}</td>";
-                        echo "<td>{$this->var['nazivplatforma'][$i]}</td>";
-			echo "<td>{$this->var['iznosrezultata'][$i]}</td>";
-			echo "<td>{$this->var['mjjedinicarezultata'][$i]}</td>";			
+                        
+                        if ($this->var['interan'] == "0") // ako nije interni eksperiment
+                        {
+                        echo "<td>{$this->var['ocjena'][$i]}</td>";
+                        
+						
 					
 			/* linkovi za dodavanje u portfelj i ocjenjivanje*/                 
                         
+                        
                         if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K' )) {
-			echo "<td> <a href=\"" . \route\Route::get('d3')->generate(array(
+			
+                            $portfelj = new \model\DBPortfelj();
+                            if (!$portfelj->postojiZapis($_SESSION['auth'], $this->var['id'][$i], null)) {
+                            echo "<td> <a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
                             "action" => "dodajEksperimentUPortfelj"
                             )) . "?id=" . $this->var['id'][$i] . "\"> Dodaj u portfelj </a></td>";
-                        
+                            }
               
                        echo "<td> <a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
@@ -65,6 +67,7 @@ class RezultatiPretrazivanjaEksperimenata extends AbstractView {
                             "action" => "predloziKorekciju"
                             )) . "?id=" . $this->var['id'][$i] . "&var=E". "\"> Predloži korekciju </a></td>";
                        
+                        }
                         }
                         echo '</tr>';
 		}
