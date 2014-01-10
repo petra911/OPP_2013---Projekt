@@ -20,7 +20,7 @@ class Login implements Controller {
         } elseif (get('neispravno') == 3) {
             $this->errorMessage = 'Uspješno ste se registrirali!';
         } elseif (get('neispravno') == 4) {
-            $this->errorMessage = 'Pogrešna lozinka!';
+            $this->errorMessage = 'Pogrešna lozinka ili korisničko ime!';
         }
         
         echo new \view\Main(array(
