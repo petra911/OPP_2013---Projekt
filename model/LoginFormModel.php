@@ -2,8 +2,9 @@
 
 namespace model;
 use opp\model\Model;
+use opp\model\FormModel;
 
-class LoginFormModel implements Model {
+class LoginFormModel implements FormModel {
     
     /**
      *

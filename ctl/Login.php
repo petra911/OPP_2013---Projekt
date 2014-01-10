@@ -19,6 +19,8 @@ class Login implements Controller {
             $this->errorMessage = 'Vaš račun nije još uvijek aktiviran. Molimo pokušajte kasnije!';
         } elseif (get('neispravno') == 3) {
             $this->errorMessage = 'Uspješno ste se registrirali!';
+        } elseif (get('neispravno') == 4) {
+            $this->errorMessage = 'Pogrešna lozinka!';
         }
         
         echo new \view\Main(array(
@@ -38,6 +40,7 @@ class Login implements Controller {
 
         $validacija = new \model\LoginFormModel(post("userName"), post("pass"));
         $pov = $validacija->validate();
+
         if (true !== $pov) {
             preusmjeri(\route\Route::get('d2')->generate(array(
                 "controller" => "login"
@@ -65,8 +68,8 @@ class Login implements Controller {
         } else {
             // posalji ga da se registrira
             preusmjeri(\route\Route::get('d2')->generate(array(
-                "controller" => "register"
-            )));
+                "controller" => "login"
+            )) . "?neispravno=4");
         }
     }
     
