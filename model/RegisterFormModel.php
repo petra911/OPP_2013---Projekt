@@ -2,9 +2,8 @@
 
 namespace model;
 use opp\model\Model;
-use opp\model\FormModel;
 
-class RegisterFormModel implements FormModel {
+class RegisterFormModel implements Model {
     
     /**
      *

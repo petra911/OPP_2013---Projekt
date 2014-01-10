@@ -23,7 +23,7 @@ class Index extends AbstractView {
 
     <div class="carousel-inner">
         <div class="item active">
-            <img src="./assets/img/pokus.png" alt="Pokus" class = "img-responsive">
+            <img src="./assets/img/pokus.jpg" alt="Pokus" class = "img-responsive">
         </div>
         <div class="item">
             <img src="./assets/img/društvo.jpeg" alt="Društvo" class = "img-responsive">
@@ -45,10 +45,8 @@ class Index extends AbstractView {
 	<script src = "./assets/js/jquery.min.js"></script>
 	<script src = "./assets/js/bootstrap.js"></script>
 	
-<div class="navbar navbar-inverse" role="navigation">
-      <div class="container">
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
+<div id='cssmenu1'>
+  <ul>
           <?php if(isset($_SESSION['vrsta']) && $_SESSION['vrsta'] == 'O') {
             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
@@ -86,35 +84,68 @@ class Index extends AbstractView {
 				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
 					"controller" => "pretrazivanje",
 					"action" => "displayPretrazivanjeEksperimenata"
-				)) . "\">Pretraživanje znanstvenih eksperimenata</a></li>";                
+				)) . "\">Pretraživanje znanstvenih eksperimenata</a></li>";    
+                                         
 				
 			}
+                        
+                        if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'E')){
+                         
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayDodavanjeJavnogAlata"
+                                )) . "\"> Dodavanje Alata</a></li>";
+                            
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayDodavanjeIDE"
+                                )) . "\"> Dodavanje Razvojnih Okruženja</a></li>";
+                            
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayDodavanjePlatformi"
+                                )) . "\"> Dodavanje platforme</a></li>";
+                            
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayDodavanjeSklopovlja"
+                                )) . "\"> Dodavanje sklopovlja</a></li>";
+                            
+                           
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayDodavanjeZnanstvenogCasopisa"
+                                )) . "\"> Dodavanje znanstvenog časopisa</a></li>";
+                            
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayDodavanjeZnanstvenogSkupa"
+                                )) . "\"> Dodavanje znanstvenog skupa</a></li>";
+            
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayDodavanjeUredjaja"
+                                )) . "\"> Dodavanje uređaja</a></li>";
+                            
+                            
+                        }
+                   
+                        
         
           ?>
-          </ul>
-		</div><!--/.nav-collapse -->
-	  </div>
+  </ul>
 </div>
 
-<div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-      </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
 
 <?php
     }

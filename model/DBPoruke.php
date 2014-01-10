@@ -16,21 +16,12 @@ class DBPoruke extends AbstractDBModel {
         return array('idPrimatelja', 'idPosiljatelja', 'tekst');
     }
     
-    /**
-     * Dohvaća sve poruke koje pripadaju primatelju s navedenim id-em
-     * @param mixed $idPrimatelja
-     * @return array[]
-     */
     public function dohvatiPoruke($idPrimatelja) {
         return $this->select()->where(array(
             "idPrimatelja" => $idPrimatelja
         ))->fetchAll();
     }
     
-    /**
-     * Briše sve poruke koje pripadaju primatelju s navedenim id-em
-     * @param mixed $idPrimatelja
-     */
     public function brisiPoruke($idPrimatelja) {
         $pov = $this->dohvatiPoruke($idPrimatelja);
         if(count($pov)) {

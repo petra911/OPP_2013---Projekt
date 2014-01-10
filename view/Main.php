@@ -22,16 +22,16 @@ class Main extends AbstractView {
      * @var string 
      */
     private $script;
-
-    /**
-     * @return string html sadrzaj
-     */
 	 
 	 /**
      *
      * @var array 
      */
     private $polje;
+	
+	 /**
+     * @return string html sadrzaj
+     */
     protected function outputHTML() {
         ?>
         <!DOCTYPE html>
@@ -41,19 +41,16 @@ class Main extends AbstractView {
                 <title><?php echo $this->title; ?></title>
                 <meta charset="utf-8">
                 <link href="../assets/css/bootstrap.css" rel="stylesheet">
-                <link href="../assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
                 <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
                 <link href="../assets/css/style.css" rel="stylesheet">
                 <link href="../assets/css/menu.css" rel="stylesheet">
 				
 				<link href="./assets/css/bootstrap.css" rel="stylesheet">
-                <link href="./assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
                 <link href="./assets/css/bootstrap-responsive.css" rel="stylesheet">
                 <link href="./assets/css/style.css" rel="stylesheet">
                 <link href="./assets/css/menu.css" rel="stylesheet">
 				
 				<link href="assets/css/bootstrap.css" rel="stylesheet">
-                <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
                 <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
                 <link href="assets/css/style.css" rel="stylesheet">
                 <link href="assets/css/menu.css" rel="stylesheet">
@@ -74,23 +71,23 @@ class Main extends AbstractView {
 					<div class="form-group"> 
 					  <?php if(\model\DBKorisnik::isLoggedIn()) 
 						; else echo
-						"<li><a href=\"" . \route\Route::get('d2')->generate(array(
+						"<a href=\"" . \route\Route::get('d2')->generate(array(
 																					"controller" => "login",
 																					"action" => "display"
-																					)) . "\">Sign In</a></li>"
+																					)) . "\">Sign In</a>"
 					  ;?>
 					</div>
 					<div class="form-group"> 
 					  <?php if(\model\DBKorisnik::isLoggedIn()) echo
-						"<li><a href=\"" . \route\Route::get('d3')->generate(array(
+						"<a href=\"" . \route\Route::get('d3')->generate(array(
 																					"controller" => "korisnik",
 																					"action" => "logout"
-																					)) . "\">Odjavi se</a></li>"
+																					)) . "\">Odjavi se</a>"
 						; else echo
-						"<li><a href=\"" . \route\Route::get('d2')->generate(array(
+						"<a href=\"" . \route\Route::get('d2')->generate(array(
 																					"controller" => "register",
 																					"action" => "display"
-																					)) . "\">Sign Up</a></li>"
+																					)) . "\">Sign Up</a>"
 					  ;?>
 					</div>
 				  </div><!--/.navbar-collapse -->

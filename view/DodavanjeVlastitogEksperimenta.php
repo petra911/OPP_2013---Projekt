@@ -20,25 +20,25 @@ class DodavanjeVlastitogEksperimenta extends AbstractView {
                 ));?>" method="POST" enctype="multipart/form-data">
             
 			<div class="form-group">
-				<label for="eksp"><b>Naziv eksperimenta</b></label>
+				<label for="eksp"><b>Naziv eksperimenta:</b></label>
 				<input type="text" class="form-control" id="eksp" placeholder="Upišite naziv eksperimenta" name="naziv" />
 			</div>
-			<br>
+			<br />
 			
 			<div class="form-group">
-				<label for="poč"><b>Vrijeme početka</b></label>
+				<label for="poč"><b>Vrijeme početka:</b></label>
 				<input type="text" class="form-control" id="poč" placeholder="Format dd.mm.yyyy. hh:mm" name="vrijemePocetka" />
 			</div>
-			<br>
+			<br />
 			
 			<div class="form-group">
-				<label for="end"><b>Vrijeme završetka</b></label>
+				<label for="end"><b>Vrijeme završetka:</b></label>
 				<input type="text" class="form-control" id="end" placeholder="Format dd.mm.yyyy. hh:mm" name="vrijemeZavrsetka" />
 			</div>
-			<br>
-			
-			<div class="form-group">
-            <select name="platforma" class="form-control">
+			<br />
+            <div class="form-group">
+			<label for="izbor"><b>Izaberite znanstveni skup:</b></label>
+            <select name="platforma" class="form-control" id="izbor">
                 <option value=""></option>
                 <?php if(count($this->platforme)) {
                     foreach($this->platforme as $v) {
@@ -46,45 +46,49 @@ class DodavanjeVlastitogEksperimenta extends AbstractView {
                     }
                 }?>
             </select>
-			</div>
-			<br>
+            </div>
+			<br />
 			
 			<div class="form-group">
-				<label for="jedin"><b>Parametri</b></label>
+				<label for="par"><b>Parametri:</b></label>
 				<input type="text" class="form-control" id="author" placeholder="Format naziv-ispitniSlucaj;naziv-ispitniSlucaj..." name="parametri" />
 			</div>
-			<br>
+			<br />
 			
 			<div class="form-group">
-				<label for="jedin"><b>Rezultat</b></label>
+				<label for="rez"><b>Rezultat:</b></label>
 				<input type="text" class="form-control" id="author" placeholder="Format: naziv-iznos-mjernaJedinica;naziv-iznos-mjernaJedinica..." name="rezultati" />
 			</div>
-			<br>
+			<br />
             
 			<div class="form-group">
-				<label for="jedin"><b>Dodati eksperiment pomoću tekstualne datoteke</b></label>
+				<label for="dodaj"><b>Dodati eksperiment pomoću tekstualne datoteke:</b></label>
 				<input type="file" class="form-control" id="author" placeholder="Upišite naziv mjerne jedinice rezultata" name="datoteka" />
 			</div>
-			<br>
+			<br />
             
             <input type="submit" class="btn btn-default" value="Dodaj" />
         </form>
-		<br>
-        <p>
-            <b>Upute:</b><br/>
-            Eksperiment možete povezati s alatom i razvojnim okruženjem preko sljedeće poveznice:
-            <br/>
-            <a href="<?php echo \route\Route::get('d3')->generate(array(
-                "controller" => "korisnik",
-                "action" => "displayDodavanjeAlataIde"
-                ))?>">Klikni me!</a>
-        </p>
-
-        <p>
-            <a href="<?php echo \route\Route::get('d2')->generate(array(
+		<br />
+       
+        <b>Upute:</b>
+        <br />
+        <p>Eksperiment možete povezati s alatom i razvojnim okruženjem preko sljedeće poveznice:</p>
+        <a href="<?php echo \route\Route::get('d3')->generate(array(
+            "controller" => "korisnik",
+            "action" => "displayDodavanjeAlataIde"
+            ))?>"><input type="submit" class="btn btn-default" value="Poveži"/>
+        </a>
+       
+        <br />
+		<br />
+        <br />
+        
+        <a href="<?php echo \route\Route::get('d2')->generate(array(
                 "controller" => "korisnik"
-            ));?>">Vrati se u Portfelj</a>
-        </p>
+            ));?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se u portfelj" height="50" />
+		</a>
 <?php
     }
     

@@ -22,8 +22,8 @@ class DBPlatforma extends AbstractDBModel {
         ))->fetchAll();
         
         if(count($pov)) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }

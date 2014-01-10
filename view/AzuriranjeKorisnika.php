@@ -17,53 +17,88 @@ class AzuriranjeKorisnika extends AbstractView {
                                                                 "controller" => "ovlastenaOsobaCtl",
                                                                 "action" => "updateUser"
                                                             ));?>" method="POST">
-        <p>Ime:
-            <input id = 'ime' type="text" name="ime" value="<?php echo __($this->korisnik->ime);?>"/>
-        </p>
-        <p>Prezime:
-            <input id = 'prez' type="text" name="prez" value="<?php echo __($this->korisnik->prezime);?>"/>
-        </p>
-        <p>Email:
-            <input id = 'mail' type="text" name="mail" value="<?php echo __($this->korisnik->mail);?>"/>
-        </p>
-        <p>Datum rođenja:
-            <input id = 'datum' type="text" name="datum" value="<?php echo __($this->korisnik->datumRod);?>"/>&nbsp;Format YYYY-MM-DD
-        </p>
-        <p>Korisničko ime:
-            <input id = 'username' type="text" name="username" value="<?php echo __($this->korisnik->username);?>"/>
-        </p>
-        <p>Password:
-            <input id = 'pass' type="password" name="pass" />
-        </p>
-        <p>Validnost:
-            <input id = 'validnost' type="text" name="validnost" value="<?php echo __($this->korisnik->validnost);?>"/>&nbsp;0 ili 1
-        </p>
-        <p>Rok uplate:
-            <input id = 'rok' type="text" name="rok" value="<?php echo __($this->korisnik->rokUplate);?>"/>&nbsp;Format datum&lt;broj&gt; ili dan&lt;broj&gt;
-        </p>
-        <p>Iznos uplate:
-            <input id = 'iznos' type="text" name="iznos" value="<?php echo __($this->korisnik->uplata);?>"/>
-        </p>
-        <p>Vrsta korisnika:
-            <input id = 'vrsta' type="text" name="vrsta" value="<?php echo __($this->korisnik->vrsta);?>"/>&nbsp;Moguće vrijednosti: K, E ili O
-        </p>
+		<div class="form-group">
+			<label for="imee"><b>Ime</b></label>
+			<input type="text" class="form-control" id="imee" placeholder="Upišite ime" name="ime" value="<?php echo __($this->korisnik->ime);?>"/>
+		</div>
+		<br>
+		
+        <div class="form-group">
+			<label for="prezz"><b>Prezime</b></label>
+			<input type="text" class="form-control" id="prezz" placeholder="Upišite prezime" name="prez" value="<?php echo __($this->korisnik->prezime);?>"/>
+		</div>
+		<br>
+		
+        <div class="form-group">
+			<label for="email"><b>Email</b></label>
+			<input type="text" class="form-control" id="email" placeholder="Upišite e-mail" name="mail" value="<?php echo __($this->korisnik->mail);?>"/>
+		</div>
+		<br>
+		
+		<div class="form-group">
+			<label for="datumRod"><b>Datum rođenja</b></label>
+			<input type="text" class="form-control" id="datumRod" placeholder="Format: YYYY-MM-DD" name="datum" value="<?php echo __($this->korisnik->datumRod);?>"/>
+		</div>
+		<br>
+		
+		<div class="form-group">
+			<label for="korIme"><b>Korisničko ime</b></label>
+			<input type="text" class="form-control" id="korIme" placeholder="Upišite korisničko ime" name="username" value="<?php echo __($this->korisnik->username);?>"/>
+		</div>
+		<br>
+		
+		<div class="form-group">
+			<label for="passs"><b>Šifra</b></label>
+			<input type="password" class="form-control" id="passs" placeholder="Upišite šifru" name="pass" />
+		</div>
+		<br>
+
+		<div class="form-group">
+			<label for="validnostt"><b>Validnost</b></label>
+			<input type="text" class="form-control" id="validnostt" placeholder="Upišite validnost: 0 ili 1" name="validnost" value="<?php echo __($this->korisnik->validnost);?>"/>
+		</div>
+		<br>
+		
+		<div class="form-group">
+			<label for="rokk"><b>Rok uplate</b></label>
+			<input type="text" class="form-control" id="rokk" placeholder="Format: datum<broj> ili dan<broj>" name="rok" value="<?php echo __($this->korisnik->rokUplate);?>"/>
+		</div>		
+		<br>
+
+		<div class="form-group">
+			<label for="iznoss"><b>Iznos uplate</b></label>
+			<input type="text" class="form-control" id="iznoss" placeholder="Upišite iznos uplate" name="iznos" value="<?php echo __($this->korisnik->uplata);?>"/>
+		</div>		
+		<br>
+
+		<div class="form-group">
+			<label for="vrstaa"><b>Vrsta korisnika</b></label>
+			<input type="text" class="form-control" id="vrstaa" placeholder="Moguće vrijednosti: K, E ili O" name="vrsta" value="<?php echo __($this->korisnik->vrsta);?>"/>
+		</div>		
+		<br>
+		
         <p>
-            Želim izbrisati ovog korisnika: &nbsp;
-            <input type="checkbox" name="checked" value="true" />
+			<b>Želim izbrisati ovog korisnika &nbsp;</b>
+			<input type="checkbox" name="checked" value="true" />
         </p>
-        <input type ="hidden" name ="id" value="<?php echo __($this->korisnik->idKorisnika);?>" />
-        <p>
-            <input type="submit" value="Spremi!" />
-        </p>
+
+		
+		
+			<input type ="hidden" name ="id" value="<?php echo __($this->korisnik->idKorisnika);?>" />
+
+		<br>
+        
+		<input type="submit" class="btn btn-default" value="Spremi!" />
     </form>
     
     <?php echo new components\ErrorMessage(array(
         "errorMessage" => $this->errorMessage
     )); ?>
-
-    <p>
-        <a href="<?php echo \route\Route::get('d1')->generate();?>">Vrati se na Naslovnicu</a>
-    </p>
+	
+	<br><br>
+    <a href="<?php echo \route\Route::get('d1')->generate();?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+	</a>
 <?php
     }
     

@@ -19,32 +19,32 @@ class DodavanjeAlataIde extends AbstractView {
             "controller" => "korisnik",
             "action" => "dodajAlatIde"
                 ));?>" method="POST">
-				
-			<div class="form-group">
-				<label for="jedin"><b>Naziv</b></label>
-				<input type="text" class="form-control" id="author" placeholder="Upišite naziv" name="naziv" />
-			</div>
-			<br>
-			
-			<div class="form-group">
-				<label for="jedin"><b>Skraćeni naziv</b></label>
-				<input type="text" class="form-control" id="author" placeholder="Upišite skraćeni naziv" name="skraceni" />
-			</div>
-			<br>
-			
-			<div class="form-group">
-				<label for="jedin"><b>Inačicu</b></label>
-				<input type="text" class="form-control" id="author" placeholder="Upišite inačicu" name="inacica" />
-			</div>
-			<br>
-			
-			<div class="form-group">
-				<label for="price"><b>Cijena</b></label>
-				<input type="text" class="form-control" id="price" placeholder="Upišite cijenu" name="cijena" />
-			</div>
-			<br>
-			
-            <div class="form-group">
+         <div class="form-group">
+            <label for="naz"><b>Naziv</b></label>
+            <input type="text" class="form-control" name="naziv" placeholder="Upišite naziv"/>
+         </div>
+         <br />
+         
+         <div class="form-group">
+            <label for="skraceni"><b>Skraćeni naziv</b></label>
+            <input type="text" class="form-control" name="skraceni" placeholder="Upišite skraćeni naziv"/>
+         </div>
+         <br />
+         
+         <div class="form-group">
+            <label for="ver"><b>Inačica</b></label>
+            <input type="text" class="form-control" name="inacica" placeholder="Upišite inačicu"/>
+         </div>
+         <br />
+         
+         <div class="form-group">
+            <label for="cijena"><b>Cijena</b></label>
+            <input type="text" class="form-control" name="cijena" placeholder="Upišite cijenu"/>
+         </div>
+         <br />
+            
+         <div class="form-group">
+			<label for="eksp"><b>Izaberite eksperiment</b></label>
                 <select name="eksperiment" class="form-control">
                     <option value=""></option>
                     <?php if(count($this->eksperimenti)) {
@@ -53,23 +53,23 @@ class DodavanjeAlataIde extends AbstractView {
                        }
                     }?>
                 </select>
-            </div>
+         </div>
+         <br />
             
-            <p>
-                Želim dodati alat
-                <input type="checkbox" name="checked" value="true" />
-            </p>
-            <br>
-            <input type="submit" class="btn btn-default"  value="Dodaj" />
-
+         <p>
+             <b>Želim dodati alat: &nbsp;</b>
+             <input type="checkbox" name="checked" value="true" />
+         </p>
+            
+        <input type="submit" class="btn btn-default" value="Dodaj" />
         </form>
-        </p>
         
-        <p>
-            <a href="<?php echo \route\Route::get('d2')->generate(array(
-                "controller" => "korisnik"
-            ));?>">Vrati se u Portfelj</a>
-        </p>
+        <br><br>
+        <a href="<?php echo \route\Route::get('d2')->generate(array(
+																	"controller" => "korisnik"
+																	));?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se u portfelj" height="50" />
+		</a>
 <?php
     }
     

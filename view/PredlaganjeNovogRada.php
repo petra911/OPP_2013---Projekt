@@ -20,32 +20,45 @@ class PredlaganjeNovogRada extends AbstractView {
                                                                 "action" => "prijedlogRada"
                                                             ));?>" method="POST" enctype="multipart/form-data">
 
-            <p>Unesite imena i prezimena autora odvojena sa ';':
-                <br/>
-                <input type="text" name="autori" />
-            </p>
-            <p>Unesite naslov:
-                <br/>
-                <input type="text" name="naslov" />
-            </p>
-            <p>Unesite sažetak rada:
-                <br/>
-                <textarea name="sazetak" rows="5" cols="100"></textarea>
-            </p>
-            <p>Unesite ključne riječi odvojene sa ';':
-                <br/>
-                <input type="text" name="tag" />
-            </p>
-            <p>
-                Postavite pdf znanstvenog rada:
-                <input type="file" name="datoteka" />                
-            </p>
-            <p>Ako nemate dostupan pdf, upišite link na znanstveni rad:
-                <br/>
-                <input type="text" name="url" />
-            </p>
-            <p>Izaberite znanstveni skup:
-            <select name="skup">
+        <div class="form-group">
+            <label for="ime_prezime"><b>Ime i prezime autora:</b></label> 
+                <input type="text" class="form-control" name="autori" placeholder="Upišite ime prezime;" />
+        </div>
+        <br />
+        
+        <div class="form-group">
+            <label for="naslov"><b>Naslov:</b></label> 
+                <input type="text" class="form-control" name="naslov" placeholder="Upišite naslov" />
+        </div>
+        <br />
+        
+        <div class="form-group-textarea">
+            <label for="sazetak"><b>Sažetak rada:</b></label> 
+                <textarea name="sazetak" class="form-control" rows="5" cols="100" placeholder="Upišite sažetak rada"></textarea>
+       	</div>
+        <br />
+        
+        <div class="form-group">
+            <label for="kr"><b>Ključne riječi:</b></label> 
+                <input type="text" class="form-control" name="tag" placeholder="Upišite ključne riječi odvojene sa ;" />
+        </div>
+        <br />
+        
+        <div class="form-group">
+            <label for="pdf"><b>Pdf znanstvenog rada:</b></label> 
+            <input type="file" class="form-control" name="datoteka" />
+        </div>
+        <br />
+        
+        <div class="form-group-link">
+            <label for="link"><b>Link na znanstveni rad:</b></label>
+                <input type="text" class="form-control" name="url"  placeholder="Upišite link na znanstveni rad ako nemate file" />
+        </div>
+        <br />
+        
+        <div class="form-group">
+            <label for="skup"><b>Izaberite znanstveni skup:</b></label>
+            <select name="skup" class="form-control">
                 <option value=""></option>
                 <?php
                 if(count($this->skupovi)) {
@@ -55,9 +68,12 @@ class PredlaganjeNovogRada extends AbstractView {
                 }
                 ?>
             </select>
-            </p>
-            <p>Izaberite časopis:
-                <select name="casopis">
+       </div>
+       <br />
+       
+       <div class="form-group">
+            <label for="casopis"><b>Izaberite časopis:</b></label>
+                <select name="casopis" class="form-control">
                     <option value=""></option>
                 <?php
                 if(count($this->casopisi)) {
@@ -67,21 +83,28 @@ class PredlaganjeNovogRada extends AbstractView {
                 }
                 ?>
                 </select>
-            </p>
-            <p>Ukoliko rad nije objavljen niti u jednom od gore navedenih časopisa/skupova, upišite osnovne informacije o časopisu/radu:
-                <textarea name="tekst" rows="5" cols="100"></textarea>
-            </p>
-            <p>
-                <input type="submit" value="Predloži" />
-            </p>
+		</div>
+        <br />
+        
+        <div class="form-group-textarea">
+            <label for="info"><b>Osnovne informacije o radu:</b></label>
+                <textarea name="tekst" class="form-control" rows="5" cols="100" placeholder="Ukoliko rad nije objavljen niti u jednom od gore navedenih časopisa/skupova, upišite osnovne informacije o radu"></textarea>
+        </div>
+        <br />
+        
+        <input type="submit" class="btn btn-default" value="Predloži" />
+            
         </form>
-        </p>
+        
+      	<br />
+   		<br />
+   		<br />
 
-        <p>
-            <a href="<?php echo \route\Route::get('d2')->generate(array(
+        <a href="<?php echo \route\Route::get('d2')->generate(array(
                 "controller" => "korisnik"
-            ));?>">Vrati se u Portfelj</a>
-        </p>
+            ));?>">
+		<img src="../assets/img/home-icon.jpg" alt="Vrati se u portfelj" height="50" />
+		</a>
 
 <?php
     }

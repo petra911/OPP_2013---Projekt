@@ -15,4 +15,18 @@ class DBZnanstveniCasopis extends AbstractDBModel {
     public function getColumns() {
         return array('naziv', 'godiste', 'redniBroj', 'adresa');
     }
+    
+    public function postojiIdenticanCasopis($naziv,$godiste,$redniBroj,$adresa) {
+        $pov = $this->select()->where(array(
+            "naziv" => $naziv,
+            "godiste" => $godiste,
+            "redniBroj" => $redniBroj,
+            "adresa" => $adresa
+        ))->fetchAll();
+        
+        if(count($pov)) {
+            return true;
+        }
+        return false;
+    }
 }

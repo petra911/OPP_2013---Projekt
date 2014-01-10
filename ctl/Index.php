@@ -11,7 +11,7 @@ class Index implements Controller {
             "body" => new \view\Index(array(
                 "polje" => array(1,2,3,4,5,6)
             )),
-            "title" => "OPP Scientia"
+            "title" => "Početna"
         ));
     }
 }

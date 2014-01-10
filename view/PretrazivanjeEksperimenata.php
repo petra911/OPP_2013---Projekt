@@ -90,7 +90,9 @@ class PretrazivanjeEksperimenata extends AbstractView {
     )); ?>
 	
     
-	<a href="<?php echo \route\Route::get('d1')->generate();?>">
+	<a href="<?php echo \route\Route::get('d2')->generate(array(
+																"controller" => "korisnik"
+																));?>">
 		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
 	</a>
 <?php
