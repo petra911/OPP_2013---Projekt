@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `ocjena` (
 --
 
 CREATE TABLE IF NOT EXISTS `ocjenjuje` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idKorisnika` int(11) NOT NULL,
   `idOcjene` int(11) NOT NULL,
   `idEksperimenta` int(11) NOT NULL,
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `ocjenjuje` (
   KEY `idOcjene` (`idOcjene`),
   KEY `idEksperimenta` (`idEksperimenta`),
   KEY `idKorisnika` (`idKorisnika`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT = 1;
 
 -- --------------------------------------------------------
 

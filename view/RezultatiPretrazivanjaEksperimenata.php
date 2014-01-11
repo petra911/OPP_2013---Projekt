@@ -35,12 +35,8 @@ class RezultatiPretrazivanjaEksperimenata extends AbstractView {
 			echo "<td>{$this->var['imeautor'][$i]}</td>";			
 			echo "<td>{$this->var['naziv'][$i]}</td>";
 			echo "<td>{$this->var['pocetak'][$i]}</td>";
-			echo "<td>{$this->var['zavrsetak'][$i]}</td>";
-                        
-                        if ($this->var['interan'] == "0") // ako nije interni eksperiment
-                        {
-                        echo "<td>{$this->var['ocjena'][$i]}</td>";
-                        
+			echo "<td>{$this->var['zavrsetak'][$i]}</td>";               
+                        echo "<td>{$this->var['ocjena'][$i]}</td>";  
 						
 					
 			/* linkovi za dodavanje u portfelj i ocjenjivanje*/                 
@@ -56,19 +52,21 @@ class RezultatiPretrazivanjaEksperimenata extends AbstractView {
                             )) . "?id=" . $this->var['id'][$i] . "\"> Dodaj u portfelj </a></td>";
                             }
               
-                       echo "<td> <a href=\"" . \route\Route::get('d3')->generate(array(
+                       
+                            
+                            echo "<td> <a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
-                            "action" => "ocijeni"
+                            "action" => "displayOcjenjivanje"
                             )) . "?id=" . $this->var['id'][$i] . "\"> Ocijeni </a></td>";
-                       
+                             
                        
                        echo "<td> <a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
-                            "action" => "predloziKorekciju"
-                            )) . "?id=" . $this->var['id'][$i] . "&var=E". "\"> Predloži korekciju </a></td>";
+                            "action" => "displayPredlaganjeKorekcije"
+                            )) . "?id=" . $this->var['id'][$i] . "&v=E". "\"> Predloži korekciju </a></td>";
                        
                         }
-                        }
+                        
                         echo '</tr>';
 		}
 		echo '</table>';

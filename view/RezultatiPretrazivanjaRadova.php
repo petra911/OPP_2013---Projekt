@@ -57,8 +57,8 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
                         
                         echo "<td> <a href=\"" . \route\Route::get('d3')->generate(array(
                             "controller" => "korisnik",
-                            "action" => "predloziKorekciju"
-                            )) . "?id=" . $this->var['id'][$i] . "&var=R". "\"> Predloži korekciju </a></td>";
+                            "action" => "displayPredlaganjeKorekcije"
+                            )) . "?id=" . $this->var['id'][$i] . "&v=R". "\"> Predloži korekciju </a></td>";
                         }
                        
                         echo '</tr>';

@@ -515,31 +515,31 @@ class Pretrazivanje implements Controller {
                 foreach($eksperimenti as $value)
                 {
                     //echo "<br> <br <br> <br>"; print_r($_SESSION['auth']);
-                    /* ako je eksperiment interan, prikaži ga jedino vlasniku portfelja */
+                   
                     
                     $jeinteran = $znanstvenieksperiment->select()->where(array(
                         "idEksperimenta" => $value, 
                         "vidljivost" => "I"
                         ))->fetchAll();
                                        
-                    if(count($jeinteran))
+                    if(count($jeinteran) && (!($portfelj->postojiZapis($_SESSION['auth'], $value, NULL)))) // to je inerni eksperiment nekog drugog korinika  
                     {
-                        //echo "<br> <br> <br> <br> <br> TU sam";
-                        $data["interan"] =  "1";
-                        if(!($portfelj->postojiZapis($_SESSION['auth'], $value, NULL)))
-                                continue;                        
-                    }  
-                    else // nađi mu ocjenu
-                    {
-                        $data["interan"] =  "0";
-                        $znanstvenieksperimentpom = new \model\DBZnanstveniEksperiment();
-                        $znanstvenieksperimentpom->idEksperimenta = $value;
+                        //echo "<br> <br> <br> <br> <br> TU sam";                        
                         
-                        //echo "<br> <br> <br> <br> <br> TU sam"; print_r($eks);
-                        array_push($data["ocjena"], $znanstvenieksperimentpom->prosjecnaOcjena());
-                                            
+                        continue;         
+                            
                     }
                     
+                    $znanstvenieksperimentpom = new \model\DBZnanstveniEksperiment();
+                    $znanstvenieksperimentpom->idEksperimenta = $value;
+
+                    //echo "<br> <br> <br> <br> <br> TU sam"; print_r($eks);
+                    array_push($data["ocjena"], $znanstvenieksperimentpom->prosjecnaOcjena());   
+                        
+                        
+                   
+                    
+                   
                       /**************************/
                     
                     array_push($data["id"], $value); // dodaj id
