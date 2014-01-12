@@ -74,10 +74,12 @@ class DodavanjeVlastitogEksperimenta extends AbstractView {
         <b>Upute:</b>
         <br />
         <p>Eksperiment možete povezati s alatom i razvojnim okruženjem preko sljedeće poveznice:</p>
+		<br />
         <a href="<?php echo \route\Route::get('d3')->generate(array(
             "controller" => "korisnik",
             "action" => "displayDodavanjeAlataIde"
-            ))?>"><input type="submit" class="btn btn-default" value="Poveži"/>
+            ))?>">
+			<input type="submit" class="btn btn-default" value="Poveži"/>
         </a>
        
         <br />

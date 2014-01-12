@@ -16,8 +16,8 @@ class Ocjenjivanje extends AbstractView {
         <input type="hidden" name="id" value="<?php echo $this->id;?>" />
         
         <p>
-            Odaberite ocjenu:
-            <select name="ocjena">
+            <label><b>Odaberite ocjenu</b></label>
+            <select class="form-control" name="ocjena">
                 <option value=""></option>
                 <option value="1">1</option>
                 <option value="1.5">1.5</option>
@@ -41,19 +41,21 @@ class Ocjenjivanje extends AbstractView {
             </select>
         </p>
         
-        <p>
-            Dodijelite oznaku:
-            <input type="text" name="oznaka" />
-        </p>
+        <div class="form-group">
+			<label for="karakt"><b>Oznaka</b></label>
+			<input type="text" class="form-control" id="karakt" placeholder="Upišite oznaku, npr. dobro, loše" name="oznaka" />
+		</div>
+		<br>
         
-        <input type="submit" value="ocijeni" />
+        <input type="submit" class="btn btn-default" value="Ocijeni" />
     </form>
 
-<p>
-    <a href="<?php echo \route\Route::get('d2')->generate(array(
-        "controller" => "korisnik"
-    ));?>">Vrati se u Portfelj!</a>
-</p>
+		<br><br>
+		<a href="<?php echo \route\Route::get('d2')->generate(array(
+																"controller" => "korisnik"
+																));?>">
+			<img src="../assets/img/home-icon.jpg" alt="Vrati se u portfelj" height="50" />
+		</a>
 <?php
     }
     

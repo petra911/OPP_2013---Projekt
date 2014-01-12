@@ -11,7 +11,7 @@ class E404 implements Controller {
         header("HTTP/1.1 404 Not found");
 
         echo new \view\Main(array(
-            "title" => "OPP TEST",
+            "title" => "Nije pronađena stranica",
             "body" => new \view\E404()
         ));
     }

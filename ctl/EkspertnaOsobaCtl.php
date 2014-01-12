@@ -14,7 +14,7 @@ class EkspertnaOsobaCtl implements Controller {
             case 1:
                 $this->errorMessage= "Uspješno ste dodali platformu!";
             case 2:
-                $this->errorMessage="Uspješno ste dodali znanstveni časopis";
+                $this->errorMessage="Uspješno ste dodali znanstveni časopis!";
                 break;
             case 3:
                 $this->errorMessage="Uspješno ste dodali znanstveni skup!";
@@ -118,7 +118,7 @@ class EkspertnaOsobaCtl implements Controller {
                 $error = "Sva polja moraju biti popunjena!";
     
              case 2:
-                 $error ="Postoji identican casopis!";
+                 $error ="Postoji identičan časopis!";
                  break;
              default :
                  break;
@@ -181,13 +181,13 @@ class EkspertnaOsobaCtl implements Controller {
         $error = null;
         switch(get("msg")) {
             case 1:
-                $error = "Nepostojeći znanstveni casopis!";
+                $error = "Nepostojeći znanstveni časopis!";
                 break;
             case 2:
                 $error = "Uspješno ažurirani podaci!";
                 break;
             case 3:
-                $error = "Uspješno obrisan znanstveni casopis!";
+                $error = "Uspješno obrisan znanstveni časopis!";
                 break;
             case 4:
                 $error = "Naziv je obavezan!";
@@ -201,7 +201,7 @@ class EkspertnaOsobaCtl implements Controller {
                 "casopisi" => $casopisi,
                 "errorMessage" => $error
             )),
-            "title" => "Pregled Znanstvenih Casopisa"
+            "title" => "Pregled znanstvenih časopisa"
         ));
      }
      
@@ -213,13 +213,13 @@ class EkspertnaOsobaCtl implements Controller {
         $error = null;
         switch (get("msg")) {
             case 1:
-                $error = "naziv je obavezan!";
+                $error = "Naziv je obavezan!";
                 break;
             case 2:
                 $error = "Pogrešno ispunjen obrazac!";
                 break;
             case 3:
-                $error = "Nepostojeći Znanstveni Casopis!";
+                $error = "Nepostojeći znanstveni časopis!";
                 break;
             default:
                 break;
@@ -234,7 +234,7 @@ class EkspertnaOsobaCtl implements Controller {
                         "casopis" => $casopis,
                         "errorMessage" => $error
                     )),
-                    "title" => "Ažuriranje Podataka o Znanstvenome Casopisu"
+                    "title" => "Ažuriranje podataka o znanstvenome časopisu"
                 ));
             } catch (\opp\model\NotFoundException $e) {
                 preusmjeri(\route\Route::get('d3')->generate(array(
@@ -396,7 +396,7 @@ class EkspertnaOsobaCtl implements Controller {
                 "skupovi" => $skupovi,
                 "errorMessage" => $error
             )),
-            "title" => "Pregled Znanstvenih Skupova"
+            "title" => "Pregled znanstvenih skupova"
         ));
      }
      
@@ -408,13 +408,13 @@ class EkspertnaOsobaCtl implements Controller {
         $error = null;
         switch (get("msg")) {
             case 1:
-                $error = "naziv je obavezan!";
+                $error = "Naziv je obavezan!";
                 break;
             case 2:
                 $error = "Pogrešno ispunjen obrazac!";
                 break;
             case 3:
-                $error = "Nepostojeći Znanstveni Casopis!";
+                $error = "Nepostojeći znanstveni časopis!";
                 break;
             default:
                 break;
@@ -429,7 +429,7 @@ class EkspertnaOsobaCtl implements Controller {
                         "skup" => $skup,
                         "errorMessage" => $error
                     )),
-                    "title" => "Ažuriranje Podataka o Znanstvenome Skupu"
+                    "title" => "Ažuriranje podataka o znanstvenome skupu"
                 ));
             } catch (\opp\model\NotFoundException $e) {
                 preusmjeri(\route\Route::get('d3')->generate(array(
@@ -519,7 +519,7 @@ class EkspertnaOsobaCtl implements Controller {
             "body" => new \view\DodavanjeJavnogAlata(array(
                 "errorMessage" => $error
             )),
-            "title" => "Dodavanje Alata"
+            "title" => "Dodavanje alata"
         ));
     }
     
@@ -601,7 +601,7 @@ class EkspertnaOsobaCtl implements Controller {
                 "alati" => $alati,
                 "errorMessage" => $error
             )),
-            "title" => "Pregled Javnih Alata"
+            "title" => "Pregled javnih alata"
         ));
     }
     
@@ -614,7 +614,7 @@ class EkspertnaOsobaCtl implements Controller {
         $error = null;
         switch (get("msg")) {
             case 1:
-                $error = "naziv i skraceni naziv su obavezni!";
+                $error = "Naziv i skraćeni naziv su obavezni!";
                 break;
             case 2:
                 $error = "Pogrešno ispunjen obrazac!";
@@ -635,7 +635,7 @@ class EkspertnaOsobaCtl implements Controller {
                         "alat" => $alat,
                         "errorMessage" => $error
                     )),
-                    "title" => "Ažuriranje Podataka o Javnom Alatu"
+                    "title" => "Ažuriranje podataka o javnom alatu"
                 ));
             } catch (\opp\model\NotFoundException $e) {
                 preusmjeri(\route\Route::get('d3')->generate(array(
@@ -725,7 +725,7 @@ class EkspertnaOsobaCtl implements Controller {
             "body" => new \view\DodavanjeIDE(array(
                 "errorMessage" => $error
             )),
-            "title" => "Dodavanje Razvojnih Okruženja"
+            "title" => "Dodavanje razvojnih okruženja"
         ));
     }
     
@@ -820,7 +820,7 @@ class EkspertnaOsobaCtl implements Controller {
         $error = null;
         switch (get("msg")) {
             case 1:
-                $error = "naziv i skraceni naziv su obavezni!";
+                $error = "Naziv i skraćeni naziv su obavezni!";
                 break;
             case 2:
                 $error = "Pogrešno ispunjen obrazac!";
@@ -841,7 +841,7 @@ class EkspertnaOsobaCtl implements Controller {
                         "IDE" => $IDE,
                         "errorMessage" => $error
                     )),
-                    "title" => "Ažuriranje Podataka o IDE-u"
+                    "title" => "Ažuriranje podataka o IDE-u"
                 ));
             } catch (\opp\model\NotFoundException $e) {
                 preusmjeri(\route\Route::get('d3')->generate(array(
@@ -948,7 +948,7 @@ class EkspertnaOsobaCtl implements Controller {
              "body" => new \view\DodavanjePlatformi(array(
                  "errorMessage" => $error
              )),
-             "title" => "Dodavanje Platformi"
+             "title" => "Dodavanje platformi"
          ));
      }
      
@@ -984,7 +984,7 @@ class EkspertnaOsobaCtl implements Controller {
                 "platforme" => $platforme,
                 "errorMessage" => $error
             )),
-            "title" => "Pregled Platformi"
+            "title" => "Pregled platformi"
         ));
      }
 
@@ -1166,7 +1166,7 @@ class EkspertnaOsobaCtl implements Controller {
                 "sklopovlja" => $sklopovlja,
                 "errorMessage" => $error
             )),
-            "title" => "Pregled Sklopovlja"
+            "title" => "Pregled sklopovlja"
         ));
          
      }

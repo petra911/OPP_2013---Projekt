@@ -12,7 +12,7 @@ class PromjenaModela extends AbstractView {
 																	));?>" method="POST">
         
         <div class="form-group-textarea">
-            <label for="mobla"><b>Vaša molba:</b></label>
+            <label for="mobla"><b>Vaša molba</b></label>
             <textarea rows="5" class="form-control" cols ="100" name="tekst" placeholder="Upišite Vašu molbu"></textarea>
         </div>
         <br>

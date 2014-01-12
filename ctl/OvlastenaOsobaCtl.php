@@ -23,7 +23,7 @@ class OvlastenaOsobaCtl implements Controller {
             "body" => new \view\Validation(array(
                 "list" => $zahtjevi
             )),
-            "title" => "Validacija Korisničkih Računa"
+            "title" => "Validacija korisničkih računa"
         ));
     }
     
@@ -62,7 +62,7 @@ class OvlastenaOsobaCtl implements Controller {
                 "korisnici" => $korisnici,
                 "errorMessage" => $error
             )),
-            "title" => "Pregled Registriranih Korisnika"
+            "title" => "Pregled registriranih korisnika"
         ));
     }
     
@@ -96,7 +96,7 @@ class OvlastenaOsobaCtl implements Controller {
                         "korisnik" => $korisnik,
                         "errorMessage" => $error
                     )),
-                    "title" => "Ažuriranje Podataka o Korisniku"
+                    "title" => "Ažuriranje podataka o korisniku"
                 ));
             } catch (\opp\model\NotFoundException $e) {
                 preusmjeri(\route\Route::get('d3')->generate(array(
@@ -309,7 +309,7 @@ class OvlastenaOsobaCtl implements Controller {
                 "zahtjevi" => $polje,
                 "errorMessage" => $error
             )),
-            "title" => "Zahtjevi za Promjenom Modela Plaćanja"
+            "title" => "Zahtjevi za promjenom modela plaćanja"
         ));
     }
     
@@ -331,7 +331,7 @@ class OvlastenaOsobaCtl implements Controller {
                     "id" => get("id"),
                     "zahtjev" => $p
                 )),
-                "title" => "Obrada Zahtjeva"
+                "title" => "Obrada zahtjeva"
             ));
         } else {
             preusmjeri(\route\Route::get('d1')->generate());
@@ -459,7 +459,7 @@ class OvlastenaOsobaCtl implements Controller {
             "body" => new \view\Akcije(array(
                 "zapisi" => $zapisi
             )),
-            "title" => "Akcije Korisnika"
+            "title" => "Akcije korisnika"
         ));
     }
 
@@ -491,7 +491,7 @@ class OvlastenaOsobaCtl implements Controller {
             "body" => new \view\UcitavanjeKonfiguracije(array(
                 "errorMessage" => $this->errorMessage
             )),
-            "title" => "Učitavanje Konfiguracije"
+            "title" => "Učitavanje konfiguracije"
         ));
     }
     

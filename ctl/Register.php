@@ -82,7 +82,7 @@ class Register implements Controller {
         $this->checkErrorMessage();
         
         echo new \view\Main(array(
-            "title" => 'Register',
+            "title" => 'Registracija',
             "body" => new \view\Register(array(
                 "errorMessage" => $this->ispis
             ))

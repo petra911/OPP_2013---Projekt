@@ -25,20 +25,23 @@ class PredlaganjeKorekcije extends AbstractView {
             
             <input type="hidden" name="id" value="<?php echo $this->id;?>" />
             <input type="hidden" name="v" value="<?php echo $this->v?>" />
+            <div class="form-group-textarea">
+				<label><b>Vaš prijedlog</b></label>
+				<textarea rows="5" class="form-control" cols ="100" name="tekst" placeholder="Upišite Vaš prijedlog"></textarea>
+			</div>
+			<br>
             <p>
-            <textarea name="tekst" rows="5" cols="100">Unesite Vaš prijedlog...</textarea>
-            </p>
-            <p>
-            <input type="submit" value="Pošalji" />
+            <input type="submit" class="btn btn-default" value="Pošalji" />
             </p>
         </form>
         </p>
         
-        <p>
-            <a href="<?php echo \route\Route::get('d2')->generate(array(
-                "controller" => "korisnik"
-            ));?>">Vrati se u Portfelj</a>
-        </p>
+        <br><br>
+		<a href="<?php echo \route\Route::get('d2')->generate(array(
+																"controller" => "korisnik"
+																));?>">
+			<img src="../assets/img/home-icon.jpg" alt="Vrati se u portfelj" height="50" />
+		</a>
 <?php
     }
     

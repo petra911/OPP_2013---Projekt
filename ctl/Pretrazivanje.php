@@ -599,7 +599,7 @@ class Pretrazivanje implements Controller {
                     "body" => new \view\RezultatiPretrazivanjaEksperimenata(array(
                     "var" => $data
                      )),
-                    "title" => "Rezultati pretraživanja Eksperimenata"
+                    "title" => "Rezultati pretraživanja eksperimenata"
                 ));
 		 
     }
@@ -614,7 +614,7 @@ class Pretrazivanje implements Controller {
             "body" => new \view\PretrazivanjeRadova(array(
                 "errorMessage" => $this->errorMessage
             )),
-            "title" => "Pretraživanje Znanstvenih Radova"
+            "title" => "Pretraživanje znanstvenih radova"
         ));
     }
     
@@ -630,7 +630,7 @@ class Pretrazivanje implements Controller {
             "body" => new \view\PretrazivanjeEksperimenata(array(
                 "errorMessage" => $this->errorMessage
             )),
-            "title" => "Pretraživanje Znanstvenih Eksperimenata"
+            "title" => "Pretraživanje znanstvenih eksperimenata"
         ));
     }
 }

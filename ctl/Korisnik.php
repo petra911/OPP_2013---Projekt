@@ -142,7 +142,7 @@ class Korisnik implements Controller {
                 "errorMessage" => $error,
                 "skupovi" => $p
             )),
-            "title" => "Dodavanje Vlastitog Eksperimenta"
+            "title" => "Dodavanje vlastitog eksperimenta"
         ));
     }
     
@@ -638,7 +638,7 @@ class Korisnik implements Controller {
                 "errorMessage" => $error,
                 "eksperimenti" => $eks
             )),
-            "title" => "Dodavanje Alata i Razvojnih Okruženja"
+            "title" => "Dodavanje alata i razvojnih okruženja"
         ));
     }
     
@@ -763,7 +763,7 @@ class Korisnik implements Controller {
                 "skupovi" => $skupovi,
                 "casopisi" => $casopisi
             )),
-            "title" => "Predlaganje Novog Znanstvenog Rada"
+            "title" => "Predlaganje novog znanstvenog rada"
         ));
     }
     
@@ -901,7 +901,7 @@ class Korisnik implements Controller {
                     "id" => $id,
                     "v" => $vrsta
                 )),
-                "title" => "Predlaganje Korekcije"
+                "title" => "Predlaganje korekcije"
             ));
         }
     }
@@ -1006,7 +1006,7 @@ class Korisnik implements Controller {
             "body" => new \view\Ocjenjivanje(array(
                 "id" => get("id")
             )),
-            "title" => "Ocjenjivanje Eksperimenata"
+            "title" => "Ocjenjivanje eksperimenata"
         ));
     }
 
@@ -1018,7 +1018,7 @@ class Korisnik implements Controller {
         
         echo new \view\Main(array(
             "body" => new \view\PromjenaModela(),
-            "title" => "Promjena Modela Plaćanja"
+            "title" => "Promjena modela plaćanja"
         ));
         
     }
@@ -1036,7 +1036,7 @@ class Korisnik implements Controller {
         echo new \view\Main(array(
             "body" => new \view\Inbox(array(
                 "poruke" => $zapisi)),
-            "title" => "Inbox"
+            "title" => "Poruke"
         ));
     }
 

@@ -51,23 +51,23 @@ class Index extends AbstractView {
             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
                 "action" => "displayRegistrations"
-            )) . "\">Validacija Novih Korisnika</a></li>";
+            )) . "\">Validacija novih korisnika</a></li>";
              echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
                 "action" => "displayUcitavanjeKonfiguracije"
-            )) . "\">Učitavanje Konfiguracije</a></li>";
+            )) . "\">Učitavanje konfiguracije</a></li>";
              echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
                 "action" => "displayActions"
-            )) . "\">Akcije Korisnika</a></li>";
+            )) . "\">Akcije korisnika</a></li>";
              echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
                 "action" => "displayZahtjeviZaPromjenom"
-            )) . "\">Zahtjevi Za Promjenom Modela Plaćanja</a></li>";
+            )) . "\">Zahtjevi za promjenom modela plaćanja</a></li>";
              echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
                 "action" => "displayPregledKorisnika"
-            )) . "\">Pregled Korisnika</a></li>";
+            )) . "\">Pregled korisnika</a></li>";
 		  }
     
 			// ako nisi ovlastena osoba
@@ -94,17 +94,17 @@ class Index extends AbstractView {
                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                                     "controller" =>  "ekspertnaOsobaCtl",
                                     "action" =>"displayDodavanjeJavnogAlata"
-                                )) . "\"> Dodavanje Alata</a></li>";
+                                )) . "\"> Dodavanje alata</a></li>";
                             
                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                                     "controller" =>  "ekspertnaOsobaCtl",
                                     "action" =>"displayPregledZnanstvenihCasopisa"
-                                )) . "\"> Mijenjanje/Brisanje Znanstvenih Casopisa</a></li>";
+                                )) . "\"> Mijenjanje/brisanje znanstvenih časopisa</a></li>";
                             
                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                                     "controller" =>  "ekspertnaOsobaCtl",
                                     "action" =>"displayPregledZnanstvenihSkupova"
-                                )) . "\"> Mijenjanje/Brisanje Znanstvenih Skupova</a></li>";
+                                )) . "\"> Mijenjanje/brisanje znanstvenih skupova</a></li>";
                             
                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                                     "controller" =>  "ekspertnaOsobaCtl",
@@ -114,22 +114,22 @@ class Index extends AbstractView {
                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                                     "controller" =>  "ekspertnaOsobaCtl",
                                     "action" =>"displayPregledJavnihAlata"
-                                )) . "\"> Mijenjanje/Brisanje Javnih Alata</a></li>";
+                                )) . "\"> Mijenjanje/brisanje javnih alata</a></li>";
                             
                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                                     "controller" =>  "ekspertnaOsobaCtl",
                                     "action" =>"displayPregledPlatformi"
-                                )) . "\"> Mijenjanje/Brisanje Platformi</a></li>";
+                                )) . "\"> Mijenjanje/brisanje platformi</a></li>";
                             
                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                                     "controller" =>  "ekspertnaOsobaCtl",
                                     "action" =>"displayPregledIDE"
-                                )) . "\"> Mijenjanje/Brisanje IDE</a></li>";
+                                )) . "\"> Mijenjanje/brisanje IDE</a></li>";
                             
                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                                     "controller" =>  "ekspertnaOsobaCtl",
                                     "action" =>"displayPregledSklopovlja"
-                                )) . "\"> Mijenjanje/Brisanje Sklopovlja</a></li>";
+                                )) . "\"> Mijenjanje/brisanje sklopovlja</a></li>";
                             
                             
                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(

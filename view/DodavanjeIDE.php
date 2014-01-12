@@ -32,7 +32,7 @@ class DodavanjeIDE extends AbstractView {
 			<br>
 			
 			<div class="form-group">
-				<label for="jedin"><b>Inačicu</b></label>
+				<label for="jedin"><b>Inačica</b></label>
 				<input type="text" class="form-control" id="author" placeholder="Upišite inačicu" name="inacica" />
 			</div>
 			<br>

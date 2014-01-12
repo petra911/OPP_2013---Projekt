@@ -30,25 +30,25 @@ class Portfelj extends AbstractView {
          <li><a href="<?php echo \route\Route::get('d3')->generate(array(
 																		"controller" => "korisnik",
 																		"action" => "displayPredlaganjeNovogRada"
-																		)); ?>">Predloži Dodavanje Novog Rada</a></li>
+																		)); ?>">Predloži dodavanje novog rada</a></li>
          <li><a href="<?php echo \route\Route::get('d3')->generate(array(
 																		"controller" => "korisnik",
 																		"action" => "displayDodavanjeAlataIde"
-																		)); ?>">Dodavanje Alata i Razvojnih Okruženja</a></li>
+																		)); ?>">Dodavanje alata i razvojnih okruženja</a></li>
          <li class='last'><a href="<?php echo \route\Route::get('d3')->generate(array(
                                                                     "controller" => "korisnik",
                                                                     "action" => "displayDodavanjeVlastitogEksperimenta"
-                                                                    )); ?>">Dodavanje Vlastitog Eksperimenta</a>
+                                                                    )); ?>">Dodavanje vlastitog eksperimenta</a>
       </ul>
    </li>
    <li><a href="<?php echo \route\Route::get('d3')->generate(array(
                                                                     "controller" => "korisnik",
                                                                     "action" => "displayPromjenaModela"
-                                                                    )); ?>">Promjena Modela Plaćanja</a></li>
+                                                                    )); ?>">Promjena modela plaćanja</a></li>
    <li class='last'><a href="<?php echo \route\Route::get('d3')->generate(array(
 																				"controller" => "korisnik",
 																				"action" => "displayPoruke"
-																				)); ?>">Inbox</a></a></li>
+																				)); ?>">Poruke</a></li>
 
 </ul>
 </div>
@@ -85,15 +85,10 @@ class Portfelj extends AbstractView {
     </div>
 </div>
 
-
 </br>
 </br>
 </br>
 </br>
-
-
-
-
 
     
 <?php

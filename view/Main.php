@@ -74,7 +74,7 @@ class Main extends AbstractView {
 						"<a href=\"" . \route\Route::get('d2')->generate(array(
 																					"controller" => "login",
 																					"action" => "display"
-																					)) . "\">Sign In</a>"
+																					)) . "\">Prijava</a>"
 					  ;?>
 					</div>
 					<div class="form-group"> 
@@ -87,7 +87,7 @@ class Main extends AbstractView {
 						"<a href=\"" . \route\Route::get('d2')->generate(array(
 																					"controller" => "register",
 																					"action" => "display"
-																					)) . "\">Sign Up</a>"
+																					)) . "\">Registracija</a>"
 					  ;?>
 					</div>
 				  </div><!--/.navbar-collapse -->
