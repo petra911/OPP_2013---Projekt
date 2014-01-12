@@ -3,17 +3,17 @@
 namespace model;
 use opp\model\AbstractDBModel;
 
-class DBAlat extends AbstractDBModel {
+class DBSklopovlje extends AbstractDBModel {
     public function getTable() {
-        return 'alat';
+        return 'sklopovlje';
     }
     
     public function getPrimaryKeyColumn() {
-        return 'idAlata';
+        return 'idSklopovlja';
     }
     
     public function getColumns() {
-        return array('naziv', 'skraceniNaziv', 'inacica', 'cijena', 'vidljivost', 'link');
+        return array('karakteristika', 'skraceniNaziv');
     }
     
     public function loadSkraceniNaziv($skraceniNaziv) {
@@ -41,14 +41,12 @@ class DBAlat extends AbstractDBModel {
             
     }
     
-    public function dohvatiJavneAlate(){
-        return $this->select()->where(array(
-            "vidljivost" => 'J'
-        ))->fetchAll();
+    public function dohvatiSklopovlja(){
+        return $this->select()->fetchAll();
     
     }
     
-    public function brisiJavniAlat($primaryKey) {
+    public function brisiSklopovlje($primaryKey) {
         try {
             $this->load($primaryKey);
         }  catch (\opp\model\NotFoundException $e) {

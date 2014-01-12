@@ -26,4 +26,19 @@ class DBPlatforma extends AbstractDBModel {
         }
         return false;
     }
+    
+    public function dohvatiPlatforme(){
+        return $this->select()->fetchAll();
+    
+    }
+    
+    public function brisiPlatformu($primaryKey) {
+        try {
+            $this->load($primaryKey);
+        }  catch (\opp\model\NotFoundException $e) {
+            return false;
+        }
+        $this->delete();
+        return true;
+    }
 }

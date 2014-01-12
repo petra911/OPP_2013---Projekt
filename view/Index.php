@@ -98,8 +98,39 @@ class Index extends AbstractView {
                             
                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                                     "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayPregledZnanstvenihCasopisa"
+                                )) . "\"> Mijenjanje/Brisanje Znanstvenih Casopisa</a></li>";
+                            
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayPregledZnanstvenihSkupova"
+                                )) . "\"> Mijenjanje/Brisanje Znanstvenih Skupova</a></li>";
+                            
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
                                     "action" =>"displayDodavanjeIDE"
-                                )) . "\"> Dodavanje Razvojnih Okruženja</a></li>";
+                                )) . "\"> Dodavanje IDE</a></li>";
+                            
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayPregledJavnihAlata"
+                                )) . "\"> Mijenjanje/Brisanje Javnih Alata</a></li>";
+                            
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayPregledPlatformi"
+                                )) . "\"> Mijenjanje/Brisanje Platformi</a></li>";
+                            
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayPregledIDE"
+                                )) . "\"> Mijenjanje/Brisanje IDE</a></li>";
+                            
+                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                                    "controller" =>  "ekspertnaOsobaCtl",
+                                    "action" =>"displayPregledSklopovlja"
+                                )) . "\"> Mijenjanje/Brisanje Sklopovlja</a></li>";
+                            
                             
                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                                     "controller" =>  "ekspertnaOsobaCtl",

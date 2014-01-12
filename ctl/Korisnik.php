@@ -110,8 +110,8 @@ class Korisnik implements Controller {
             preusmjeri(\route\Route::get('d1')->generate());
         }
         
-        $platforma = new \model\DBPlatforma();
-        $p = $platforma->select()->fetchAll();
+        $skup = new \model\DBZnanstveniSkup();
+        $p = $skup->select()->fetchAll();
         
         $error = null;
         switch (get("msg")) {
@@ -140,7 +140,7 @@ class Korisnik implements Controller {
         echo new \view\Main(array(
             "body" => new \view\DodavanjeVlastitogEksperimenta(array(
                 "errorMessage" => $error,
-                "platforme" => $p
+                "skupovi" => $p
             )),
             "title" => "Dodavanje Vlastitog Eksperimenta"
         ));

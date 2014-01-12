@@ -40,4 +40,19 @@ class DBIde extends AbstractDBModel {
         }
             
     }
+    
+    public function dohvatiIDE(){
+        return $this->select()->fetchAll();
+    
+    }
+    
+    public function brisiIDE($primaryKey) {
+        try {
+            $this->load($primaryKey);
+        }  catch (\opp\model\NotFoundException $e) {
+            return false;
+        }
+        $this->delete();
+        return true;
+    }
 }

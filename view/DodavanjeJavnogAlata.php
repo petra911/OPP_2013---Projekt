@@ -16,7 +16,7 @@ class DodavanjeJavnogAlata extends AbstractView {
         <p>
         <form action="<?php echo \route\Route::get("d3")->generate(array(
             "controller" => "ekspertnaOsobaCtl",
-            "action" => "dodajJavniAlatIde"
+            "action" => "dodajJavniAlat"
                 ));?>" method="POST">
 				
 			<div class="form-group">
@@ -45,7 +45,7 @@ class DodavanjeJavnogAlata extends AbstractView {
 	
                         <div class="form-group">
 				<label for="jedin"><b>Poveznica</b></label>
-				<input type="text" class="form-control" id="author" placeholder="Upišite inačicu" name="link" />
+				<input type="text" class="form-control" id="author" placeholder="Upišite poveznicu" name="link" />
 			</div>
 			<br>
             

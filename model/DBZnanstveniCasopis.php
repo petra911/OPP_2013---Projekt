@@ -29,4 +29,19 @@ class DBZnanstveniCasopis extends AbstractDBModel {
         }
         return false;
     }
+    
+    public function dohvatiZnanstveneCasopise(){
+        return $this->select()->fetchAll();
+    
+    }
+    
+    public function brisiZnanstveniCasopis($primaryKey) {
+        try {
+            $this->load($primaryKey);
+        }  catch (\opp\model\NotFoundException $e) {
+            return false;
+        }
+        $this->delete();
+        return true;
+    }
 }
