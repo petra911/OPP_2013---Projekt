@@ -50,7 +50,7 @@ class DodavanjeJavnogAlata extends AbstractView {
 			<br>
             
             <br>
-            <input type="submit" class="btn btn-default"  value="Dodaj" />
+            <input type="submit" class="btn btn-primary"  value="Dodaj" />
 
         </form>
         </p>

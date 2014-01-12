@@ -21,7 +21,7 @@ class PromjenaModela extends AbstractView {
             <input type="hidden" name="id" value="<?php echo $_SESSION['auth'];?>" />
         </p>
         
-        <input type="submit" class="btn btn-default" value="Pošalji molbu" />      
+        <input type="submit" class="btn btn-primary" value="Pošalji molbu" />      
     </form>
 
     <br><br>

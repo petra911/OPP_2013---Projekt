@@ -31,7 +31,7 @@ class PredlaganjeKorekcije extends AbstractView {
 			</div>
 			<br>
             <p>
-            <input type="submit" class="btn btn-default" value="Pošalji" />
+            <input type="submit" class="btn btn-primary" value="Pošalji" />
             </p>
         </form>
         </p>

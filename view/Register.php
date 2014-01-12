@@ -21,7 +21,7 @@ class Register extends AbstractView {
     )); ?>
     
     <a href="<?php echo \route\Route::get('d1')->generate();?>">
-		<img src="./assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+		<img src="assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
 	</a>
     
 <?php

@@ -30,7 +30,7 @@ class DodavanjeSklopovlja extends AbstractView{
 		</div>
 		<br>
         
-		<input type="submit" class="btn btn-default" name="submit" value="Dodaj sklopovlje" /><br>
+		<input type="submit" class="btn btn-primary" name="submit" value="Dodaj sklopovlje" /><br>
                         
     </form>
 	

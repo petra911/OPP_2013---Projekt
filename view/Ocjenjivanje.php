@@ -47,7 +47,7 @@ class Ocjenjivanje extends AbstractView {
 		</div>
 		<br>
         
-        <input type="submit" class="btn btn-default" value="Ocijeni" />
+        <input type="submit" class="btn btn-primary" value="Ocijeni" />
     </form>
 
 		<br><br>

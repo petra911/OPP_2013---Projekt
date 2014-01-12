@@ -92,7 +92,7 @@ class PredlaganjeNovogRada extends AbstractView {
         </div>
         <br />
         
-        <input type="submit" class="btn btn-default" value="Predloži" />
+        <input type="submit" class="btn btn-primary" value="Predloži" />
             
         </form>
         

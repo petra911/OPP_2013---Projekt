@@ -96,20 +96,26 @@ class Main extends AbstractView {
 			  </div>
 			</div>	
 			
-			</br>
-			</br>
-			</br>
-			</br>
-			</br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
 			
 			<div class = "container-narrow">
               <?php echo $this->body; ?>
             </div>
                 
             <hr>
-            <br />
-   		<br />
-   		<br />
+            <br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+		
 			<div class="navbar navbar-inverse navbar-fixed-bottom " role="navigation">
 			  <span class="navbar-brand">&copy; The7Noobz</span>
       		</div>

@@ -15,7 +15,7 @@ class UcitavanjeKonfiguracije extends AbstractView {
 		<br>
 		<input type="file" class="btn btn-default" name="datoteka" />
 		<br>
-		<input type="submit" class="btn btn-default" value="Šalji" />
+		<input type="submit" class="btn btn-primary" value="Šalji" />
 		
 		<br>
     </form>
@@ -28,7 +28,7 @@ class UcitavanjeKonfiguracije extends AbstractView {
         <a href="<?php echo \route\Route::get('d3')->generate(array(
             "controller" => "ovlastenaOsobaCtl",
             "action" => "ponistiNeplatise"
-        ));?>"><br><br>Poništavanje neplatiša!</a>
+        ));?>"><br><br><br><button type="button" class="btn btn-primary">Poništavanje neplatiša!</button></a>
     </p>
 	<br><br>
     <a href="<?php echo \route\Route::get('d1')->generate();?>">

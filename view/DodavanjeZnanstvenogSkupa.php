@@ -54,7 +54,7 @@ class DodavanjeZnanstvenogSkupa extends AbstractView{
 		</div>
 		<br>
         
-		<input type="submit" class="btn btn-default" name="submit" value="Dodaj znanstveni skup" /><br>
+		<input type="submit" class="btn btn-primary" name="submit" value="Dodaj znanstveni skup" /><br>
     </form>
 	
 	<br><br>

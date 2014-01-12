@@ -61,7 +61,7 @@ class DodavanjeAlataIde extends AbstractView {
              <input type="checkbox" name="checked" value="true" />
          </p>
             
-        <input type="submit" class="btn btn-default" value="Dodaj" />
+        <input type="submit" class="btn btn-primary" value="Dodaj" />
         </form>
         
         <br><br>

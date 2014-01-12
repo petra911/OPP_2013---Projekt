@@ -41,7 +41,7 @@ class ObradaZahtjeva extends AbstractView {
         </div>
 		<br>
 		
-		<input type="submit" class="btn btn-default" value="Pošalji odgovor" />
+		<input type="submit" class="btn btn-primary" value="Pošalji odgovor" />
     
     </form>
     <br>

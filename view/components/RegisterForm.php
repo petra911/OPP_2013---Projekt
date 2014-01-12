@@ -53,7 +53,7 @@ class RegisterForm extends AbstractView {
             
             <br>			
 			
-            <input type="submit" class="btn btn-default" value="Registriraj me!" />
+            <input type="submit" class="btn btn-primary" value="Registriraj me!" />
 			<br><br><br>
     </form>
 <?php

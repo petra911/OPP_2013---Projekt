@@ -21,7 +21,7 @@ class LoginForm extends AbstractView {
             <input type="password" class="form-control" id="šifra" name="pass" placeholder="Upišite šifru" />
 		</div>
 		<br>
-		<input type="submit" class="btn btn-default" value="Prijavi me!" />
+		<input type="submit" class="btn btn-primary" value="Prijavi me!" />
 		<br><br><br>
     </form>
     </br>

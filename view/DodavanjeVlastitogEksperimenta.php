@@ -67,7 +67,7 @@ class DodavanjeVlastitogEksperimenta extends AbstractView {
 			</div>
 			<br />
             
-            <input type="submit" class="btn btn-default" value="Dodaj" />
+            <input type="submit" class="btn btn-primary" value="Dodaj" />
         </form>
 		<br />
        
@@ -79,7 +79,7 @@ class DodavanjeVlastitogEksperimenta extends AbstractView {
             "controller" => "korisnik",
             "action" => "displayDodavanjeAlataIde"
             ))?>">
-			<input type="submit" class="btn btn-default" value="Poveži"/>
+			<input type="submit" class="btn btn-primary" value="Poveži"/>
         </a>
        
         <br />

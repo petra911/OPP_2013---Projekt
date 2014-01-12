@@ -12,7 +12,7 @@ class Akcije extends AbstractView {
         
     protected function outputHTML() {
         if(count($this->zapisi)) {
-        echo "<table border=\"1\">
+        echo "<table class='table table-bordered table-hover'>
             <tr>
             <th>
                 Korisnik
@@ -35,7 +35,10 @@ class Akcije extends AbstractView {
                             ));
         }
         ?>
-            <a href="<?php echo \route\Route::get('d1')->generate();?>">Vrati se na Naslovnicu!</a>
+		<br><br>
+        <a href="<?php echo \route\Route::get('d1')->generate();?>">
+			<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
+		</a>
 <?php
     }
     

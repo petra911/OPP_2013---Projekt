@@ -88,7 +88,7 @@ class AzuriranjeKorisnika extends AbstractView {
 
 		<br>
         
-		<input type="submit" class="btn btn-default" value="Spremi!" />
+		<input type="submit" class="btn btn-primary" value="Spremi!" />
     </form>
     
     <?php echo new components\ErrorMessage(array(

@@ -44,7 +44,7 @@ class DodavanjeZnanstvenogCasopisa extends AbstractView{
 			</div>
 			<br>
           
-            <input type="submit" class="btn btn-default" name="submit" value="Dodaj znanstveni časopis" /><br>
+            <input type="submit" class="btn btn-primary" name="submit" value="Dodaj znanstveni časopis" /><br>
  
     </form>
 	

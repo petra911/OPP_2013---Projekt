@@ -81,7 +81,7 @@ class PretrazivanjeEksperimenata extends AbstractView {
         <p>
             <b>Napomena:</b> Ukoliko zelite pretragu vršiti po više parametara, odvojite ih sa znakom zarez (,)!
         </p>
-        <input type="submit" class="btn btn-default" name="submit" value="Traži" />
+        <input type="submit" class="btn btn-primary" name="submit" value="Traži" />
 		<br><br><br>
     </form>
 

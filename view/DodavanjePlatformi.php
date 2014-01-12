@@ -58,7 +58,7 @@ class DodavanjePlatformi extends AbstractView {
 			</div>
 			<br>
                    
-			<input type="submit" class="btn btn-default" name="submit" value="Dodaj platformu" /><br>
+			<input type="submit" class="btn btn-primary" name="submit" value="Dodaj platformu" /><br>
 		</form>
 
 		<br><br>
