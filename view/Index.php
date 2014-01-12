@@ -45,7 +45,7 @@ class Index extends AbstractView {
 	<script src = "./assets/js/jquery.min.js"></script>
 	<script src = "./assets/js/bootstrap.js"></script>
 	
-<div id='cssmenu1'>
+<div id='cssmenu'>
   <ul>
           <?php if(isset($_SESSION['vrsta']) && $_SESSION['vrsta'] == 'O') {
             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
@@ -69,18 +69,18 @@ class Index extends AbstractView {
                 "action" => "displayPregledKorisnika"
             )) . "\">Pregled korisnika</a></li>";
 		  }
-    
-			// ako nisi ovlastena osoba
-			if(!isset($_SESSION['vrsta']) || (isset($_SESSION['vrsta']) && $_SESSION['vrsta'] != 'O')) {
+			?>
+			
+			<?php if(!isset($_SESSION['vrsta']) || (isset($_SESSION['vrsta']) && $_SESSION['vrsta'] != 'O')) {
 				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
 					"controller" => "pretrazivanje",
 					"action" => "displayPretrazivanjeRadova"
 				)) . "\">Pretraživanje znanstvenih radova</a></li>";                
 				
 			}
-		 
-			// ako si Ekpertna Osoba ili Registrirani korisnik
-			if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K' || $_SESSION['vrsta'] == 'E')){
+			?>
+			
+			<?php if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K' || $_SESSION['vrsta'] == 'E')){
 				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
 					"controller" => "pretrazivanje",
 					"action" => "displayPretrazivanjeEksperimenata"
@@ -88,82 +88,87 @@ class Index extends AbstractView {
                                          
 				
 			}
-                        
-                        if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'E')){
-                         
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayDodavanjeJavnogAlata"
-                                )) . "\"> Dodavanje alata</a></li>";
+             ?>
+
+		<li class='has-sub'><a>Dodavanje</a>
+		<ul>
+			<li><?php if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'E')){
+
+                echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayDodavanjeJavnogAlata"
+                )) . "\"> Dodavanje alata</a></li>";
+				
+				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayDodavanjeIDE"
+                )) . "\"> Dodavanje IDE</a></li>";
+				
+				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayDodavanjePlatformi"
+                )) . "\"> Dodavanje platforme</a></li>";
+				
+				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayDodavanjeSklopovlja"
+                )) . "\"> Dodavanje sklopovlja</a></li>";
                             
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayPregledZnanstvenihCasopisa"
-                                )) . "\"> Mijenjanje/brisanje znanstvenih časopisa</a></li>";
+                echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayDodavanjeUredjaja"
+                )) . "\"> Dodavanje uređaja</a></li>";
+				
+				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayDodavanjeZnanstvenogCasopisa"
+                )) . "\"> Dodavanje znanstvenog časopisa</a></li>";
                             
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayPregledZnanstvenihSkupova"
-                                )) . "\"> Mijenjanje/brisanje znanstvenih skupova</a></li>";
-                            
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayDodavanjeIDE"
-                                )) . "\"> Dodavanje IDE</a></li>";
-                            
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayPregledJavnihAlata"
-                                )) . "\"> Mijenjanje/brisanje javnih alata</a></li>";
-                            
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayPregledPlatformi"
-                                )) . "\"> Mijenjanje/brisanje platformi</a></li>";
-                            
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayPregledIDE"
-                                )) . "\"> Mijenjanje/brisanje IDE</a></li>";
-                            
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayPregledSklopovlja"
-                                )) . "\"> Mijenjanje/brisanje sklopovlja</a></li>";
-                            
-                            
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayDodavanjePlatformi"
-                                )) . "\"> Dodavanje platforme</a></li>";
-                            
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayDodavanjeSklopovlja"
-                                )) . "\"> Dodavanje sklopovlja</a></li>";
-                            
-                           
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayDodavanjeZnanstvenogCasopisa"
-                                )) . "\"> Dodavanje znanstvenog časopisa</a></li>";
-                            
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayDodavanjeZnanstvenogSkupa"
-                                )) . "\"> Dodavanje znanstvenog skupa</a></li>";
+                echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayDodavanjeZnanstvenogSkupa"
+                )) . "\"> Dodavanje znanstvenog skupa</a></li>";
+            }
+			?></li></ul></li>
+			
+			
+		<li class='has-sub'><a>Mijenjanje/brisanje</a>
+			<ul>
+			<li><?php if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'E')){
+                echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayPregledIDE"
+                )) . "\"> Mijenjanje/brisanje IDE</a></li>";
+				
+				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayPregledJavnihAlata"
+                )) . "\"> Mijenjanje/brisanje javnih alata</a></li>";
+				
+				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayPregledPlatformi"
+                )) . "\"> Mijenjanje/brisanje platformi</a></li>";
             
-                            echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
-                                    "controller" =>  "ekspertnaOsobaCtl",
-                                    "action" =>"displayDodavanjeUredjaja"
-                                )) . "\"> Dodavanje uređaja</a></li>";
-                            
-                            
-                        }
-                   
-                        
-        
-          ?>
+                
+				
+				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayPregledSklopovlja"
+                )) . "\"> Mijenjanje/brisanje sklopovlja</a></li>";
+				
+				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayPregledZnanstvenihCasopisa"
+                )) . "\"> Mijenjanje/brisanje znanstvenih časopisa</a></li>";
+				
+				echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                    "controller" =>  "ekspertnaOsobaCtl",
+                    "action" =>"displayPregledZnanstvenihSkupova"
+                )) . "\"> Mijenjanje/brisanje znanstvenih skupova</a></li>";
+			}
+			?></li></ul></li>
+
   </ul>
 </div>
 

@@ -66,6 +66,7 @@ class Main extends AbstractView {
 			    <div class="navbar-header">
 				  <span class="navbar-brand"><?php echo $this->title; ?></span>
 				</div>
+				
 				<div class="navbar-collapse collapse">
 				  <div class="navbar-right form-inline" role="form">
 					<div class="form-group"> 
@@ -106,10 +107,12 @@ class Main extends AbstractView {
             </div>
                 
             <hr>
-                
-			<footer class="footer">
-			  <p>&copy; The7Noobz</p>
-      		</footer>
+            <br />
+   		<br />
+   		<br />
+			<div class="navbar navbar-inverse navbar-fixed-bottom " role="navigation">
+			  <span class="navbar-brand">&copy; The7Noobz</span>
+      		</div>
 			</body>
 		</html>
 <?php

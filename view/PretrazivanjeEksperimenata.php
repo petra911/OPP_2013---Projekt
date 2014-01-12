@@ -95,6 +95,7 @@ class PretrazivanjeEksperimenata extends AbstractView {
 																));?>">
 		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
 	</a>
+		
 <?php
     }
 	

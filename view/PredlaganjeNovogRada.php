@@ -105,7 +105,7 @@ class PredlaganjeNovogRada extends AbstractView {
             ));?>">
 		<img src="../assets/img/home-icon.jpg" alt="Vrati se u portfelj" height="50" />
 		</a>
-
+		
 <?php
     }
     

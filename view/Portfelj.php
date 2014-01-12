@@ -9,12 +9,13 @@ class Portfelj extends AbstractView {
     
     protected function outputHTML() {
 ?>
-<div style="padding-left:30px;"><img src="./assets/img/portfolio.jpg" alt="Pokus" class = "img-responsive"></div>
+<div style="padding-left:30px;">
+	<img src="./assets/img/portfolio.jpg" alt="Pokus" class = "img-responsive"></div>
 </div>
 
 <div id='cssmenu'>
 <ul>
-   	<li class='has-sub'><a><span>Pretraživanje</span></a>
+   	<li class='has-sub'><a>Pretraživanje</a>
       <ul>
       	<li><?php echo "<a href=\"" . \route\Route::get('d3')->generate(array(
 																				"controller" => "pretrazivanje",
@@ -25,7 +26,7 @@ class Portfelj extends AbstractView {
 																							"action" => "displayPretrazivanjeEksperimenata"
 																						)) . "\">Pretraživanje znanstvenih eksperimenata</a>"; ?>        </li>  
 	 </ul>
-   <li class='has-sub'><a><span>Dodavanje</span></a>
+   <li class='has-sub'><a>Dodavanje</a>
       <ul>
          <li><a href="<?php echo \route\Route::get('d3')->generate(array(
 																		"controller" => "korisnik",
