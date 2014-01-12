@@ -16,4 +16,11 @@ class DBAkcijaSustava extends AbstractDBModel {
         return array('idKorisnika', 'vrijeme', 'opisAkcije');
     }
     
+    public function zabiljeziNovuAkciju($idKorisnika, $vrijeme, $opisAkcije) {
+        $this->idAkcije = null;
+        $this->idKorisnika = $idKorisnika;
+        $this->vrijeme = $vrijeme;
+        $this->opisAkcije = $opisAkcije;
+        $this->save();
+    }
 }

@@ -55,7 +55,7 @@ class Portfelj extends AbstractView {
 </div>
 
 <div class="main">
-	<h1><span>Vlastiti dodani eksperimenti</span></h1>
+	<h1><span>Radovi i eksperimenti</span></h1>
     <div class = "container-narrow">
     <?php echo new components\ErrorMessage(array(
         "errorMessage" => $this->errorMessage

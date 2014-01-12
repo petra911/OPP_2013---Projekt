@@ -10,6 +10,8 @@ class Index extends AbstractView {
      */
     private $polje;
     
+    private $errorMessage;
+    
     protected function outputHTML() {
 //        session_destroy();
 ?>
@@ -90,9 +92,10 @@ class Index extends AbstractView {
 			}
              ?>
 
-		<li class='has-sub'><a>Dodavanje</a>
+      <?php if (isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'E')) {
+		echo "<li class='has-sub'><a>Dodavanje</a>
 		<ul>
-			<li><?php if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'E')){
+			<li>";?><?php if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'E')){
 
                 echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                     "controller" =>  "ekspertnaOsobaCtl",
@@ -129,12 +132,12 @@ class Index extends AbstractView {
                     "action" =>"displayDodavanjeZnanstvenogSkupa"
                 )) . "\"> Dodavanje znanstvenog skupa</a></li>";
             }
-			?></li></ul></li>
+			?><?php echo "</li></ul></li>
 			
 			
 		<li class='has-sub'><a>Mijenjanje/brisanje</a>
 			<ul>
-			<li><?php if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'E')){
+			<li>";?><?php if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'E')){
                 echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
                     "controller" =>  "ekspertnaOsobaCtl",
                     "action" =>"displayPregledIDE"
@@ -167,11 +170,19 @@ class Index extends AbstractView {
                     "action" =>"displayPregledZnanstvenihSkupova"
                 )) . "\"> Mijenjanje/brisanje znanstvenih skupova</a></li>";
 			}
-			?></li></ul></li>
+			?><?php echo "</li></ul></li>";
 
+                }?>
   </ul>
 </div>
 
+<div class="main">
+    <div class = "container-narrow">
+    <?php echo new components\ErrorMessage(array(
+        "errorMessage" => $this->errorMessage
+    )); ?>
+    </div>
+</div>
 <br>
 <br>
 <br>
@@ -195,7 +206,10 @@ class Index extends AbstractView {
         $this->polje = $poljeID;
         return $this;
     }
-
-
+    
+    public function setErrorMessage($errorMessage) {
+        $this->errorMessage = $errorMessage;
+        return $this;
+    }
 }
 ?>

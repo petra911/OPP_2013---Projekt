@@ -7,11 +7,13 @@ class OvlastenaOsobaCtl implements Controller {
     private $errorMessage;
     
     public function validate() {
+        $akcijeSustava = new \model\DBAkcijaSustava();
         $id = get('id');
         $korisnik = new \model\DBKorisnik();
         $korisnik->load($id);
         $korisnik->validnost = 1;
         $korisnik->save();
+        $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Validira korisnika " . $korisnik->getPrimaryKey());
         preusmjeri(\route\Route::get('d1')->generate());
     }
 
@@ -113,10 +115,12 @@ class OvlastenaOsobaCtl implements Controller {
     }
     
     public function updateUser() {
+        $akcijeSustava = new \model\DBAkcijaSustava();
         if(post("checked") == true) {
             // znaci da trebam brisati korisnika
             $korisnik = new \model\DBKorisnik();
             $pov = $korisnik->brisiKorisnika(post("id"));
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Briše korisnika " . post("id"));
             preusmjeri(\route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
                 "action" => "displayPregledKorisnika"
@@ -255,6 +259,7 @@ class OvlastenaOsobaCtl implements Controller {
             }
             
             $korisnik->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Ažurira korisnika " . $korisnik->getPrimaryKey());
             preusmjeri(\route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
                 "action" => "displayPregledKorisnika"
@@ -340,6 +345,7 @@ class OvlastenaOsobaCtl implements Controller {
     }
     
     public function obradiZahtjev() {
+        $akcijeSustava = new \model\DBAkcijaSustava();
         if(post("datum") === false && post("dan") === false && post("tekst") === false) {
             preusmjeri(\route\Route::get('d1')->generate());
         } else if (post("datum") === false && post("dan") === false && post("tekst") !== false) {
@@ -349,8 +355,10 @@ class OvlastenaOsobaCtl implements Controller {
             $poruka->idPrimatelja = post("id");
             $poruka->tekst = post("tekst");
             $poruka->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Šalje poruku korisniku " . post("id"));
             
             $poruka->brisiPoruku(post("id"), -1);
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Briše poruku!");
             
             preusmjeri(\route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
@@ -376,6 +384,7 @@ class OvlastenaOsobaCtl implements Controller {
             $korisnik->load(post("id"));
             $korisnik->rokUplate = $datum;
             $korisnik->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Ažurira rok uplate za korisnika " . $korisnik->getPrimaryKey());
             
             // salji odgovor
             $poruka = new \model\DBPoruke;
@@ -384,9 +393,10 @@ class OvlastenaOsobaCtl implements Controller {
             $poruka->tekst = post("tekst", null);
             if($poruka->tekst !== null)
             $poruka->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Šalje poruku korisniku " . post("id"));
             
             $poruka->brisiPoruku(post("id"), -1);
-            
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Briše poruku!");
             preusmjeri(\route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
                 "action" => "displayZahtjeviZaPromjenom"
@@ -417,6 +427,7 @@ class OvlastenaOsobaCtl implements Controller {
             $korisnik->load(post("id"));
             $korisnik->rokUplate = $dan;
             $korisnik->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Ažurira rok uplate za korisnika " . $korisnik->getPrimaryKey());
             
             // salji odgovor
             $poruka = new \model\DBPoruke;
@@ -425,8 +436,10 @@ class OvlastenaOsobaCtl implements Controller {
             $poruka->tekst = post("tekst", null);
             if($poruka->tekst !== null)
             $poruka->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Šalje poruku korisniku " . post("id"));
             
             $poruka->brisiPoruku(post("id"), -1);
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Briše poruku!");
             
             preusmjeri(\route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
@@ -451,10 +464,15 @@ class OvlastenaOsobaCtl implements Controller {
         foreach($a as $v) {
             $zapisi[$i]['vrijeme'] = $v->vrijeme;
             $zapisi[$i]['opis'] = $v->opisAkcije;
+            try {
             $korisnik->load($v->idKorisnika);
             $zapisi[$i]['korisnik'] = $korisnik->username;
+            } catch (\opp\model\NotFoundException $e) {
+                $zapisi[$i]['korisnik'] = "Ne postoji!";
+            }
             $i = $i + 1;
         }
+        
         echo new \view\Main(array(
             "body" => new \view\Akcije(array(
                 "zapisi" => $zapisi
@@ -509,6 +527,7 @@ class OvlastenaOsobaCtl implements Controller {
             preusmjeri(\route\Route::get('d1')->generate());
         }
         
+        $akcijeSustava = new \model\DBAkcijaSustava();
         if (files('name', 'datoteka') === false) {
             preusmjeri(\route\Route::get('d3')->generate(array(
                 "controller" => "ovlastenaOsobaCtl",
@@ -578,6 +597,7 @@ class OvlastenaOsobaCtl implements Controller {
            $kofiguracija->dan = substr($drugiRed[4], 0, -1);
        }
        $konfiguracija->insertNewConfiguration();
+       $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Mijenja/ dodaje konfiguraciju!");
        
        $korisnik = new \model\DBKorisnik();
        $korisnik->loadConfiguration($konfiguracija->iznos, $stara);
@@ -592,11 +612,13 @@ class OvlastenaOsobaCtl implements Controller {
         $konfiguracija = new \model\DBKonfiguracija();
         $konfiguracija->loadOldConfiguration();
         $korisnik = new \model\DBKorisnik();
+        $akcijeSustava = new \model\DBAkcijaSustava();
         
         
         if ($konfiguracija->datum != null) {
             if(date('j') > $konfiguracija->datum) {
                 $korisnik->deaktivirajNeplatise();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Poništi neplatiše!");
             }
         } else {
             $dan = date('w');

@@ -11,6 +11,7 @@ class Register implements Controller {
             preusmjeri(\route\Route::get('d1')->generate());
         }
         
+        $akcijeSustava = new \model\DBAkcijaSustava();
         if(!post("userName") || !post("pass") || !post("datum") || !post("ime") || !post("prez") || !post("mail")) {
             preusmjeri(\route\Route::get('d2')->generate(array(
                 "controller" => "register"
@@ -44,6 +45,7 @@ class Register implements Controller {
         
         try {
             $korisnik->saveNewUser();
+            $akcijeSustava->zabiljeziNovuAkciju($korisnik->getPrimaryKey(), date("Y-m-d H:i:s"), "Registriran " . $korisnik->getPrimaryKey());
         }  catch (\opp\model\UserAlreadyExistsException $e) {
             preusmjeri(\route\Route::get('d2')->generate(array(
                 "controller" => "register"

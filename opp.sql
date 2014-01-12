@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Baza podataka: `opp`
 --
-CREATE DATABASE IF NOT EXISTS `opp` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `opp` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
 USE `opp`;
 
 -- --------------------------------------------------------
@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS `akcijasustava` (
   `idAkcije` int(11) NOT NULL AUTO_INCREMENT,
   `idKorisnika` int(11) NOT NULL,
   `vrijeme` datetime DEFAULT NULL,
-  `opisAkcije` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `opisAkcije` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idAkcije`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -44,15 +44,15 @@ CREATE TABLE IF NOT EXISTS `akcijasustava` (
 
 CREATE TABLE IF NOT EXISTS `alat` (
   `idAlata` int(11) NOT NULL AUTO_INCREMENT,
-  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `skraceniNaziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `inacica` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `skraceniNaziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `inacica` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `cijena` decimal(9,2) DEFAULT NULL,
-  `vidljivost` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `link` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `vidljivost` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `link` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idAlata`),
   UNIQUE KEY `skraceniNaziv` (`skraceniNaziv`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -62,10 +62,10 @@ CREATE TABLE IF NOT EXISTS `alat` (
 
 CREATE TABLE IF NOT EXISTS `autor` (
   `idAutora` int(11) NOT NULL AUTO_INCREMENT,
-  `ime` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `prezime` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `ime` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `prezime` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idAutora`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -75,14 +75,14 @@ CREATE TABLE IF NOT EXISTS `autor` (
 
 CREATE TABLE IF NOT EXISTS `ide` (
   `idIDE` int(11) NOT NULL AUTO_INCREMENT,
-  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `skraceniNaziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci NOT NULL,
-  `inacica` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `skraceniNaziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `inacica` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `cijena` decimal(9,2) DEFAULT NULL,
-  `vidljivost` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `vidljivost` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idIDE`),
   UNIQUE KEY `skraceniNaziv` (`skraceniNaziv`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 -- --------------------------------------------------------
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `jeautor` (
   PRIMARY KEY (`id`),
   KEY `idAutora` (`idAutora`),
   KEY `idRada` (`idRada`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -108,18 +108,18 @@ CREATE TABLE IF NOT EXISTS `jeautor` (
 
 CREATE TABLE IF NOT EXISTS `kljucnerijeci` (
   `idTaga` int(11) NOT NULL AUTO_INCREMENT,
-  `tag` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `tag` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idTaga`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `konfiguracija` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `iznos` decimal(9,2) NOT NULL,
-  `dan` varchar(4) COLLATE utf8_croatian_ci DEFAULT NULL,
+  `dan` varchar(4) COLLATE utf8_bin DEFAULT NULL,
   `datum` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -129,18 +129,18 @@ CREATE TABLE IF NOT EXISTS `konfiguracija` (
 
 CREATE TABLE IF NOT EXISTS `korisnik` (
   `idKorisnika` int(11) NOT NULL AUTO_INCREMENT,
-  `ime` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `prezime` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `mail` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `ime` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `prezime` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `mail` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `datumRod` date DEFAULT NULL,
-  `username` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `vrsta` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `username` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `vrsta` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `validnost` tinyint(1) DEFAULT NULL,
   `uplata` decimal(9,2) DEFAULT NULL,
   `rokUplate` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`idKorisnika`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `koristi` (
   PRIMARY KEY (`id`),
   KEY `idEksperimenta` (`idEksperimenta`),
   KEY `idPlatforme` (`idPlatforme`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `obiljezen` (
   PRIMARY KEY (`id`),
   KEY `idRada` (`idRada`),
   KEY `idTaga` (`idTaga`)  
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -180,10 +180,10 @@ CREATE TABLE IF NOT EXISTS `obiljezen` (
 
 CREATE TABLE IF NOT EXISTS `ocjena` (
   `idOcjene` int(11) NOT NULL AUTO_INCREMENT,
-  `oznaka` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `oznaka` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `ocjena` decimal(3,1) DEFAULT NULL,
   PRIMARY KEY (`idOcjene`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `ocjenjuje` (
   KEY `idOcjene` (`idOcjene`),
   KEY `idEksperimenta` (`idEksperimenta`),
   KEY `idKorisnika` (`idKorisnika`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT = 1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
 
 -- --------------------------------------------------------
 
@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `ostvaren` (
   PRIMARY KEY (`id`),
   KEY `idEksperimenta` (`idEksperimenta`),
   KEY `idAlata` (`idAlata`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -230,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `ostvario` (
   PRIMARY KEY (`id`),
   KEY `idRezultata` (`idRezultata`),
   KEY `idEksperimenta` (`idEksperimenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
 -- --------------------------------------------------------
@@ -244,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `autoreksperimenta` (
   `idAutora` int(11) NOT NULL,
   `idEksperimenta` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 -- --------------------------------------------------------
 
 --
@@ -253,10 +253,10 @@ CREATE TABLE IF NOT EXISTS `autoreksperimenta` (
 
 CREATE TABLE IF NOT EXISTS `parametar` (
   `idParametra` int(11) NOT NULL AUTO_INCREMENT,
-  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `ispitniPrimjer` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `ispitniPrimjer` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idParametra`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -266,16 +266,16 @@ CREATE TABLE IF NOT EXISTS `parametar` (
 
 CREATE TABLE IF NOT EXISTS `platforma` (
   `idPlatforme` int(11) NOT NULL AUTO_INCREMENT,
-  `tip` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `skraceniNaziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci NOT NULL,
-  `inacica` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `link` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `datasheet` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `tip` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `skraceniNaziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `inacica` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `link` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `datasheet` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `cijena` decimal(9,2) DEFAULT NULL,
   PRIMARY KEY (`idPlatforme`),
   UNIQUE KEY `skraceniNaziv` (`skraceniNaziv`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -289,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `portfelj` (
   `idEksperimenta` int(11) DEFAULT NULL,
   `idRada` int(11) DEFAULT NULL,  
   PRIMARY KEY (`idZapisa`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -301,9 +301,9 @@ CREATE TABLE IF NOT EXISTS `poruke` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idPrimatelja` int(11) NOT NULL,
   `idPosiljatelja` int(11) NOT NULL,
-  `tekst` varchar(500) COLLATE utf8_croatian_ci DEFAULT NULL,
+  `tekst` varchar(500) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 -- --------------------------------------------------------
 
 -- --------------------------------------------------------
@@ -317,16 +317,16 @@ CREATE TABLE IF NOT EXISTS `prijedlozi` (
   `idKorisnika` int(11) NOT NULL,
   `idEksperimenta` int(11) DEFAULT NULL,
   `idRada` int(11) DEFAULT NULL,
-  `tekst` varchar(500) COLLATE utf8_croatian_ci DEFAULT NULL,
-  `naslov` varchar(100) COLLATE utf8_croatian_ci DEFAULT NULL,
-  `sazetak` varchar(100) COLLATE utf8_croatian_ci DEFAULT NULL,
-  `lokacija` varchar(100) COLLATE utf8_croatian_ci DEFAULT NULL,
-  `autori` varchar(500) COLLATE utf8_croatian_ci DEFAULT NULL,
-  `kljucneRijeci` varchar(500) COLLATE utf8_croatian_ci DEFAULT NULL,
+  `tekst` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `naslov` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `sazetak` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `lokacija` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `autori` varchar(500) COLLATE utf8_bin DEFAULT NULL,
+  `kljucneRijeci` varchar(500) COLLATE utf8_bin DEFAULT NULL,
   `idSkupa` int(11) DEFAULT NULL,
   `idCasopisa` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_croatian_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=6 ;
 -- --------------------------------------------------------
 
 --
@@ -338,7 +338,7 @@ CREATE TABLE IF NOT EXISTS `pripada` (
   `idEksperimenta` int(11) NOT NULL,
   PRIMARY KEY (`idRada`,`idEksperimenta`),
   KEY `idEksperimenta` (`idEksperimenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -353,7 +353,7 @@ CREATE TABLE IF NOT EXISTS `pripadaju` (
   PRIMARY KEY (`id`),
   KEY `idParametra` (`idParametra`),
   KEY `idEksperimenta` (`idEksperimenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT = 1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT = 1;
 
 -- --------------------------------------------------------
 
@@ -363,11 +363,11 @@ CREATE TABLE IF NOT EXISTS `pripadaju` (
 
 CREATE TABLE IF NOT EXISTS `rezultat` (
   `idRezultata` int(11) NOT NULL AUTO_INCREMENT,
-  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `iznos` decimal(9,2) DEFAULT NULL,
-  `mjernaJedinica` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `mjernaJedinica` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idRezultata`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 -- --------------------------------------------------------
@@ -381,7 +381,7 @@ CREATE TABLE IF NOT EXISTS `sadrzi_plat_sklop` (
   `idPlatforme` int(11) NOT NULL,
   PRIMARY KEY (`idSklopovlja`,`idPlatforme`),
   KEY `idPlatforme` (`idPlatforme`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -394,7 +394,7 @@ CREATE TABLE IF NOT EXISTS `sastojiseod` (
   `idUredaja` int(11) NOT NULL,
   PRIMARY KEY (`idSklopovlja`,`idUredaja`),
   KEY `idUredaja` (`idUredaja`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -404,10 +404,10 @@ CREATE TABLE IF NOT EXISTS `sastojiseod` (
 
 CREATE TABLE IF NOT EXISTS `sklopovlje` (
   `idSklopovlja` int(11) NOT NULL AUTO_INCREMENT,
-  `karakteristika` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `skraceniNaziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `karakteristika` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `skraceniNaziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idSklopovlja`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -422,7 +422,7 @@ CREATE TABLE IF NOT EXISTS `uraden` (
   PRIMARY KEY (`id`),
   KEY `idEksperimenta` (`idEksperimenta`),
   KEY `idIDE` (`idIDE`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- --------------------------------------------------------
 
@@ -432,13 +432,13 @@ CREATE TABLE IF NOT EXISTS `uraden` (
 
 CREATE TABLE IF NOT EXISTS `uredaj` (
   `idUredaja` int(11) NOT NULL AUTO_INCREMENT,
-  `karakteristika` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `skraceniNaziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `link` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `datasheet` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `vrsta` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `karakteristika` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `skraceniNaziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `link` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `datasheet` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `vrsta` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idUredaja`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -448,12 +448,12 @@ CREATE TABLE IF NOT EXISTS `uredaj` (
 
 CREATE TABLE IF NOT EXISTS `znanstvenicasopis` (
   `idCasopisa` int(11) NOT NULL AUTO_INCREMENT,
-  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `godiste` int(11) DEFAULT NULL,
   `redniBroj` int(11) DEFAULT NULL,
-  `adresa` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `adresa` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idCasopisa`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -463,12 +463,12 @@ CREATE TABLE IF NOT EXISTS `znanstvenicasopis` (
 
 CREATE TABLE IF NOT EXISTS `znanstvenieksperiment` (
   `idEksperimenta` int(11) NOT NULL AUTO_INCREMENT,
-  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `vrijemePocetka` datetime DEFAULT NULL,
   `vrijemeZavrsetka` datetime DEFAULT NULL,
-  `vidljivost` varchar(1) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,			-- 'J' ili 'K'
+  `vidljivost` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,			-- 'J' ili 'K'
   PRIMARY KEY (`idEksperimenta`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -478,15 +478,15 @@ CREATE TABLE IF NOT EXISTS `znanstvenieksperiment` (
 
 CREATE TABLE IF NOT EXISTS `znanstvenirad` (
   `idRada` int(11) NOT NULL AUTO_INCREMENT,
-  `naslov` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `sazetak` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `lokacija` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `naslov` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `sazetak` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `lokacija` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `idCasopisa` int(11) NOT NULL,
   `idSkupa` int(11) NOT NULL,
   PRIMARY KEY (`idRada`),
   KEY `idCasopisa` (`idCasopisa`),
   KEY `idSkupa` (`idSkupa`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -496,14 +496,14 @@ CREATE TABLE IF NOT EXISTS `znanstvenirad` (
 
 CREATE TABLE IF NOT EXISTS `znanstveniskup` (
   `idSkupa` int(11) NOT NULL AUTO_INCREMENT,
-  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `mjesto` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
-  `drzava` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `naziv` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `mjesto` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `drzava` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `danPocetka` date DEFAULT NULL,
   `danZavrsetka` date DEFAULT NULL,
-  `adresa` varchar(100) CHARACTER SET utf8 COLLATE utf8_croatian_ci DEFAULT NULL,
+  `adresa` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`idSkupa`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Ograničenja za izbačene tablice

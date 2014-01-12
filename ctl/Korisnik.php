@@ -110,8 +110,8 @@ class Korisnik implements Controller {
             preusmjeri(\route\Route::get('d1')->generate());
         }
         
-        $skup = new \model\DBZnanstveniSkup();
-        $p = $skup->select()->fetchAll();
+        $platforma = new \model\DBPlatforma();
+        $p = $platforma->select()->fetchAll();
         
         $error = null;
         switch (get("msg")) {
@@ -140,7 +140,7 @@ class Korisnik implements Controller {
         echo new \view\Main(array(
             "body" => new \view\DodavanjeVlastitogEksperimenta(array(
                 "errorMessage" => $error,
-                "skupovi" => $p
+                "platforme" => $p
             )),
             "title" => "Dodavanje vlastitog eksperimenta"
         ));
@@ -151,6 +151,8 @@ class Korisnik implements Controller {
         if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'K') {
             preusmjeri(\route\Route::get('d1')->generate());
         }
+        
+        $akcijeSustava = new \model\DBAkcijaSustava();
         
         if((post("naziv") === false || post("vrijemePocetka") === false || post("vrijemeZavrsetka") === false || post("parametri")=== false || post("rezultati") === false) && files("tmp_name", "datoteka") === false) {
             preusmjeri(\route\Route::get('d3')->generate(array(
@@ -361,6 +363,7 @@ class Korisnik implements Controller {
             $idA = array();
             for($i = 0; $i < $a; $i = $i + 1) {
                 $idA[$i] = $autor->dodajAutora($autori[$i]["ime"], $autori[$i]["prezime"]);
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje autora " . $idA[$i]);
             }
             
             
@@ -372,6 +375,7 @@ class Korisnik implements Controller {
             $eksperiment->save();
             
             $idEksperimenta = $eksperiment->getPrimaryKey();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje eksperimenta " . $idEksperimenta);
             
             // sad zabiljezi autora
             $veza = new \model\DBAutorEksperimenta();
@@ -380,6 +384,7 @@ class Korisnik implements Controller {
                 $veza->idAutora = $idA[$j];
                 $veza->idEksperimenta = $idEksperimenta;
                 $veza->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu autoreksperimenta " . $veza->id);
             }
                         
             // zabiljezi platformu
@@ -390,6 +395,7 @@ class Korisnik implements Controller {
                     $koristi->idPlatforme = $v;
                     $koristi->idEksperimenta = $idEksperimenta;
                     $koristi->save();
+                    $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu koristi " . $koristi->id);
                 }
             }
             
@@ -398,10 +404,12 @@ class Korisnik implements Controller {
             $pripadaju = new \model\DBPripadaju();
             for ($i = 0; $i < $p; $i = $i + 1) {
                 $idParametra = $parametar->dodajParametar($parametri[$i]["naziv"], $parametri[$i]["ispitniSlucaj"]);
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje parametra " . $idParametra);
                 $pripadaju->id = null;
                 $pripadaju->idEksperimenta = $idEksperimenta;
                 $pripadaju->idParametra = $idParametra;
                 $pripadaju->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu pripadaju " . $pripadaju->id);
             }
             
             // zabilježi rezultate
@@ -410,10 +418,12 @@ class Korisnik implements Controller {
             
             for ($i = 0; $i < $r; $i = $i + 1) {
                 $idRezultata = $rezultat->dodajRezultat($rezultati[$i]["naziv"], $rezultati[$i]["iznos"], $rezultati[$i]["mjernaJedinica"]);
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje rezultata " . $idRezultata);
                 $ostvario->id = null;
                 $ostvario->idEksperimenta = $idEksperimenta;
                 $ostvario->idRezultata = $idRezultata;
                 $ostvario->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu ostvario " . $ostvario->id);
             } 
             
             // zabiljezi alate i ide
@@ -424,6 +434,7 @@ class Korisnik implements Controller {
                     $ostvaren->idAlata = $v;
                     $ostvaren->idEksperimenta = $idEksperimenta;
                     $ostvaren->save();
+                    $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu ostvaren " . $ostvaren->id);
                 }
             }
             
@@ -434,6 +445,7 @@ class Korisnik implements Controller {
                     $ostvaren->idIDE = $v;
                     $ostvaren->idEksperimenta = $idEksperimenta;
                     $ostvaren->save();
+                    $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu uraden " . $ostvaren->id);
                 }
             }
             
@@ -442,7 +454,7 @@ class Korisnik implements Controller {
             $portfelj->idKorisnika = $_SESSION['auth'];
             $portfelj->idEksperimenta = $idEksperimenta;
             $portfelj->save();
-            
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje eksperimenta u portfelj " . $portfelj->idZapisa);
         } else {
             // provjera vremena:
             $pattern = '/^(0[0-9]|[1-2][0-9]|3[01])\.(0[0-9]|1[0-2])\.([0-9]{4})\. ([01][0-9]|2[0-4]):[0-5][0-9]$/';
@@ -527,6 +539,7 @@ class Korisnik implements Controller {
             
             $autor = new \model\DBAutor();
             $idAutora = $autor->dodajAutora($korisnik->ime, $korisnik->prezime);
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje autora " . $idAutora);
             
             $eksperiment = new \model\DBZnanstveniEksperiment();
             $eksperiment->naziv = post("naziv");
@@ -536,12 +549,14 @@ class Korisnik implements Controller {
             $eksperiment->save();
             
             $idEksperimenta = $eksperiment->getPrimaryKey();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje eksperimenta " . $idEksperimenta);
             
             // sad zabiljezi autora
             $veza = new \model\DBAutorEksperimenta();
             $veza->idAutora = $idAutora;
             $veza->idEksperimenta = $idEksperimenta;
             $veza->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu autoreksperimenta " . $veza->id);
             
             // zabiljezi platformu
             if(post("platforma") !== false) {
@@ -549,6 +564,7 @@ class Korisnik implements Controller {
                 $koristi->idPlatforme = post("platforma");
                 $koristi->idEksperimenta = $idEksperimenta;
                 $koristi->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu koristi " . $koristi->id);
             }
             
             //zabiljezi parametre
@@ -558,18 +574,22 @@ class Korisnik implements Controller {
             for($i = strpos($izraz, ";"); $i !== false; $i = strpos($izraz, ";")) {
                 $j = strpos($izraz, "-");
                 $idParametra = $parametar->dodajParametar(substr($izraz, 0, $j), substr($izraz, $j + 1, $i - $j - 1));
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje parametra " . $idParametra);
                 $pripadaju->id = null;
                 $pripadaju->idParametra = $idParametra;
                 $pripadaju->idEksperimenta = $idEksperimenta;
                 $pripadaju->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu pripadaju " . $pripadaju->id);
                 $izraz = substr($izraz, $i + 1);
             }
             $j = strpos($izraz, "-");
             $idParametra = $parametar->dodajParametar(substr($izraz, 0, $j), substr($izraz, $j + 1));
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje parametra " . $idParametra);
             $pripadaju->id = null;
             $pripadaju->idParametra = $idParametra;
             $pripadaju->idEksperimenta = $idEksperimenta;
             $pripadaju->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu pripadaju " . $pripadaju->id);
             
             // zabilježi rezultate
             $rezultat = new \model\DBRezultat();
@@ -580,25 +600,30 @@ class Korisnik implements Controller {
                 $j = strpos($izraz, "-");
                 $k = strpos($izraz, "-", $j + 1);
                 $idRezultata = $rezultat->dodajRezultat(substr($izraz, 0, $j), substr($izraz, $j + 1, $k - $j - 1), substr($izraz, $k + 1, $i - $k - 1));
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje rezultata " . $idRezultata);
                 $ostvario->id = null;
                 $ostvario->idRezultata = $idRezultata;
                 $ostvario->idEksperimenta = $idEksperimenta;
                 $ostvario->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu ostvario " . $ostvario->id);
                 $izraz = substr($izraz, $i + 1);
             }
             $j = strpos($izraz, "-");
             $k = strpos($izraz, "-", $j + 1);
             $idRezultata = $rezultat->dodajRezultat(substr($izraz, 0, $j), substr($izraz, $j + 1, $k - $j - 1), substr($izraz, $k + 1));
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje rezultata " . $idRezultata);
             $ostvario->id = null;
             $ostvario->idRezultata = $idRezultata;
             $ostvario->idEksperimenta = $idEksperimenta;
             $ostvario->save();  
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu ostvario " . $ostvario->id);
             
             // josh ga dodam u portfelj
             $portfelj = new \model\DBPortfelj();
             $portfelj->idKorisnika = $_SESSION['auth'];
             $portfelj->idEksperimenta = $idEksperimenta;
             $portfelj->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje eksperimenta u portfelj " . $portfelj->idZapisa);
         }
         
         preusmjeri(\route\Route::get('d2')->generate(array(
@@ -656,6 +681,8 @@ class Korisnik implements Controller {
             preusmjeri(\route\Route::get('d1')->generate());
         }
         
+        $akcijeSustava = new \model\DBAkcijaSustava();        
+        
         if(post("naziv") === false || post("skraceni") === false || post("inacica") === false || post("cijena") === false || post("eksperiment") === false) {
             preusmjeri(\route\Route::get('d3')->generate(array(
                 "controller" => "korisnik",
@@ -692,6 +719,7 @@ class Korisnik implements Controller {
                 $ostvaren->idEksperimenta = post("eksperiment");
                 $ostvaren->idAlata = $id;
                 $ostvaren->povezi($id, post("eksperiment"));
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu ostvaren " . $ostvaren->id);
                 preusmjeri(\route\Route::get('d2')->generate(array(
                     "controller" => "korisnik",
                 )) . "?msg=15");
@@ -703,11 +731,13 @@ class Korisnik implements Controller {
                 $alat->vidljivost = 'I';
                 $alat->link = NULL;
                 $alat->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje alata " . $alat->getPrimaryKey());
                 
                 $ostvaren = new \model\DBOstvaren();
                 $ostvaren->idEksperimenta = post("eksperiment");
                 $ostvaren->idAlata = $alat->getPrimaryKey();
                 $ostvaren->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu ostvaren " . $ostvaren->id);
             }
             
         } else {
@@ -720,6 +750,7 @@ class Korisnik implements Controller {
                 $uraden->idEksperimenta = post("eksperiment");
                 $uraden->idIDE = $id;
                 $uraden->povezi($id, post("eksperiment"));
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu uraden " . $uraden->id);
                 preusmjeri(\route\Route::get('d2')->generate(array(
                     "controller" => "korisnik",
                 )) . "?msg=15");
@@ -730,11 +761,13 @@ class Korisnik implements Controller {
                 $alat->cijena = post("cijena");
                 $alat->vidljivost = 'I';
                 $alat->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje razvojnog okruzenja " . $alat->getPrimaryKey());
                 
                 $uraden = new \model\DBUraden();
                 $uraden->idIDE = $alat->getPrimaryKey();
                 $uraden->idEksperimenta = post("eksperiment");
                 $uraden->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu uraden " . $uraden->id);
             }
         }
 
@@ -818,6 +851,8 @@ class Korisnik implements Controller {
         $prijedlog->tekst = post("tekst", null);
         
         $prijedlog->save();
+        $akcijeSustava = new \model\DBAkcijaSustava();
+        $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Predlaze rad - idPrijedloga je " . $prijedlog->getPrimaryKey());
         
          if(files("tmp_name", "datoteka") !== false) {
              $destination = "./pdf/" . $prijedlog->getPrimaryKey() . ".pdf";
@@ -926,6 +961,8 @@ class Korisnik implements Controller {
                 $prijedlog->idRada = post("id");
             }
             $prijedlog->save();
+            $akcijeSustava = new \model\DBAkcijaSustava();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Predlaze korekciju - idPrijedloga je " . $prijedlog->getPrimaryKey());
             
             preusmjeri(\route\Route::get("d2")->generate(array(
                 "controller" => "korisnik"
@@ -942,16 +979,19 @@ class Korisnik implements Controller {
         $ocjenjuje = new \model\DBOcjenjuje();
         $pov = $ocjenjuje->provjeraOcjene($_SESSION['auth'], post("id"));
         $ocjena = new \model\DBOcjena();
+        $akcijeSustava = new \model\DBAkcijaSustava();
         
         if($pov == false) {
             $ocjena->oznaka = post("oznaka", NULL);
             $ocjena->ocjena = post("ocjena", NULL);
             $ocjena->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Unosi novu ocjenu s id-em" . $ocjena->getPrimaryKey());
             
             $ocjenjuje->idKorisnika = $_SESSION['auth'];
             $ocjenjuje->idOcjene = $ocjena->getPrimaryKey();
             $ocjenjuje->idEksperimenta = post("id");
             $ocjenjuje->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Unosi zapis u tablicu ocjenjuje" . $ocjenjuje->getPrimaryKey());
             
             preusmjeri(\route\Route::get('d2')->generate(array(
                 "controller" => "korisnik"
@@ -968,6 +1008,7 @@ class Korisnik implements Controller {
             $ocjena->oznaka = post("oznaka", NULL);
             $ocjena->ocjena = post("ocjena", NULL);
             $ocjena->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Mijenja staru ocjenu s id-em" . $ocjena->getPrimaryKey());
             
             preusmjeri(\route\Route::get('d2')->generate(array(
                 "controller" => "korisnik"
@@ -1032,6 +1073,8 @@ class Korisnik implements Controller {
         $poruka = new \model\DBPoruke();
         $zapisi = $poruka->dohvatiPoruke($_SESSION['auth']);
         $poruka->brisiPoruke($_SESSION['auth']);
+        $akcijeSustava = new \model\DBAkcijaSustava();
+        $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Brise poruke");
         
         echo new \view\Main(array(
             "body" => new \view\Inbox(array(
@@ -1048,6 +1091,8 @@ class Korisnik implements Controller {
             $poruka->tekst = post("tekst");
             $poruka->idPrimatelja = -1;         // kod za ovlaštene osobe
             $poruka->save();
+            $akcijeSustava = new \model\DBAkcijaSustava();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Šalje prijedlog za promjenom modela plaćanja " . $poruka->getPrimaryKey());
             preusmjeri(\route\Route::get('d2')->generate(array(
                 "controller" => "korisnik"
             )) . "?msg=1");
@@ -1074,6 +1119,7 @@ class Korisnik implements Controller {
             preusmjeri(\route\Route::get('d1')->generate());
         }
         
+        $akcijeSustava = new \model\DBAkcijaSustava();
         $korisnik = new \model\DBKorisnik();
         if(!$korisnik->userExists($_SESSION['auth'])) {
             preusmjeri(\route\Route::get('d2')->generate(array(
@@ -1101,6 +1147,7 @@ class Korisnik implements Controller {
                 $portfelj->idEksperimenta = NULL;
                 $portfelj->idRada = get("id");
                 $portfelj->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodaje rad u portfelj - id zapisa u portfelju je " . $portfelj->getPrimaryKey());
             }
             
             preusmjeri(\route\Route::get('d2')->generate(array(
@@ -1115,6 +1162,7 @@ class Korisnik implements Controller {
             preusmjeri(\route\Route::get('d1')->generate());
         }
         
+        $akcijeSustava = new \model\DBAkcijaSustava();
         $korisnik = new \model\DBKorisnik();
         if(!$korisnik->userExists($_SESSION['auth'])) {
             preusmjeri(\route\Route::get('d2')->generate(array(
@@ -1142,6 +1190,7 @@ class Korisnik implements Controller {
                 $portfelj->idEksperimenta = get("id");
                 $portfelj->idRada = NULL;
                 $portfelj->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodaje eksperiment u portfelj - id zapisa u portfelju je " . $portfelj->getPrimaryKey());
             }
             
             preusmjeri(\route\Route::get('d2')->generate(array(
@@ -1156,6 +1205,7 @@ class Korisnik implements Controller {
             preusmjeri(\route\Route::get('d1')->generate());
         }
         
+        $akcijeSustava = new \model\DBAkcijaSustava();
         if(get("id") === false) {
             preusmjeri(\route\Route::get('d2')->generate(array(
                 "controller" => "korisnik"
@@ -1166,6 +1216,7 @@ class Korisnik implements Controller {
                 $eksperiment->load(get("id"));
                 $portfelj = new \model\DBPortfelj();
                 $pov = $portfelj->brisiZapis($_SESSION['auth'], get("id"), NULL);
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Brise eksperiment iz portfelja!");
                
                 if(!$pov) {
                     preusmjeri(\route\Route::get('d2')->generate(array(
@@ -1190,6 +1241,7 @@ class Korisnik implements Controller {
             preusmjeri(\route\Route::get('d1')->generate());
         }
         
+        $akcijeSustava = new \model\DBAkcijaSustava();
         if(get("id") === false) {
             preusmjeri(\route\Route::get('d2')->generate(array(
                 "controller" => "korisnik"
@@ -1200,6 +1252,7 @@ class Korisnik implements Controller {
                 $eksperiment->load(get("id"));
                 $portfelj = new \model\DBPortfelj();
                 $pov = $portfelj->brisiZapis($_SESSION['auth'], NULL, get("id"));
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Brise rad iz portfelja!");
                 
                 if(!$pov) {
                     preusmjeri(\route\Route::get('d2')->generate(array(

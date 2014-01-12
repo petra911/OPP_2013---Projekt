@@ -34,7 +34,7 @@ class PretrazivanjeRadova extends AbstractView {
 
 
         <p>
-            <b>Napomena:</b> Ukoliko zelite pretragu vršiti po više parametara, odvojite ih sa znakom zarez (,)!
+            <b>Napomena:</b> Ukoliko želite pretragu vršiti po više parametara, odvojite ih sa znakom zarez (,)!
         </p>
         <input type="submit" class="btn btn-default" name="submit" value="Traži" />
 		<br><br><br>

@@ -5,7 +5,7 @@ use opp\view\AbstractView;
 
 class DodavanjeVlastitogEksperimenta extends AbstractView {
     private $errorMessage;
-    private $skupovi;
+    private $platforme;
 
 
     protected function outputHTML() {
@@ -37,13 +37,13 @@ class DodavanjeVlastitogEksperimenta extends AbstractView {
 			</div>
 			<br />
             <div class="form-group">
-			<label for="izbor"><b>Izaberite znanstveni skup:</b></label>
-            <select name="skup" class="form-control" id="izbor">
+			<label for="izbor"><b>Izaberite platformu:</b></label>
+            <select name="platforma" class="form-control" id="izbor">
                 <option value=""></option>
-                <?php if(count($this->skupovi)) {
-                    foreach($this->skupovi as $v) {
-                        echo "<option value=\"" . $v->idSkupa . "\">" . $v->naziv . "</option>";
-                    }
+                <?php if(count($this->platforme)) {
+                  foreach($this->platforme as $v) {
+                     echo "<option value=\"" . $v->idPlatforme . "\">" . $v->skraceniNaziv . "</option>";
+                }
                 }?>
             </select>
             </div>
@@ -99,8 +99,8 @@ class DodavanjeVlastitogEksperimenta extends AbstractView {
         return $this;
     }
 
-    public function setSkupovi($skupovi) {
-        $this->skupovi = $skupovi;
+    public function setPlatforme($platforme) {
+        $this->platforme = $platforme;
         return $this;
     }
 
