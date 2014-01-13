@@ -2031,9 +2031,9 @@ public function  dodajJavniEksperiment() {
         $autor = new \model\DBAutor();
         $ae = new \model\DBAutorEksperimenta();
         $casopis = new \model\DBZnanstveniCasopis();
-        $objavljen = new \model\DBObjavljen();
         $pripada = new \model\DBPripada();
         $eksperiment = new \model\DBZnanstveniEksperiment();
+        $znanstveniRad = new \model\DBZnanstveniRad();
         
         
         $pdf->setNaziv("Report");
@@ -2065,7 +2065,7 @@ public function  dodajJavniEksperiment() {
             $casopisi = $casopis->select()->fetchAll();
             if(count($casopisi)) {
                 foreach($casopisi as $v) {
-                    $idRadova = $objavljen->select()->where(array(
+                    $idRadova = $znanstveniRad->select()->where(array(
                         "idCasopisa" => $v->getPrimaryKey()
                     ))->fetchAll();
                     
@@ -2075,7 +2075,7 @@ public function  dodajJavniEksperiment() {
                             $s = $pripada->select()->where(array(
                                 "idRada" => $k->idRada
                             ))->fetchAll();
-                            $suma = $suma + $s;
+                            $suma = $suma + count($s);
                         }
                         $pdf->Cell(0,10,'U publikaciji ' . $v->naziv . ' objavljeno je ' . $suma . ' eksperimenata',0,1);
                     } else {
