@@ -86,8 +86,11 @@ class Index extends AbstractView {
 			}
 			?>
 			
-			<?php if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K' || $_SESSION['vrsta'] == 'E')){
-                            
+			<?php if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'E')){
+                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                "controller" => "ekspertnaOsobaCtl",
+                "action" => "displayPrijedlozi"
+            )) . "\">Prijedlozi za korekciju</a></li>";
                             
                 
                 echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(

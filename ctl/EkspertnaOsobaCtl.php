@@ -81,13 +81,7 @@ class EkspertnaOsobaCtl implements Controller {
         // prikazes postojeci rad (podatke o njemu unutar obrasca kojeg ces vec popuniti s podacima iz baze
         // dakle ovdje uz provjere (pogledaj recimo display u ostlim klasama) pozoves View koji ce ispisati taj obrazac
     }
-     /**
-     * analogno gornjem napravi funckije i za Eksperiment, Javni Alat, IDE, Platforme, SKlopovlje i uređaje
-     */
-    
-     public function displayPrijedlozi() {
-         // preusmjeri na pogled PrijedloziKorisnika 
-     }
+
      
      public function sendReply() {
          // vraca odgovor korisniku
@@ -1813,6 +1807,85 @@ public function  dodajJavniEksperiment() {
     }
      
 
+    public function displayPrijedlogZaKorekciju() {
+        if(!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        if(get("id") === false) {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $poruka = new \model\DBPrijedlozi();
+        try {
+            $poruka->load(get("id"));
+            echo new \view\Main(array(
+                "body" => new \view\PrijedlogZaKorekciju(array(
+                    "poruka" => $poruka->tekst,
+                    "vrsta" => $poruka->idEksperimenta != null? "znanstvenog eksperimenta" : "znanstvenog rada",
+                    "korisnik" => $poruka->idKorisnika,
+                    "id" => $poruka->getPrimaryKey()
+                )),
+                "title" => "Prijedlog za korekciju"
+            ));
+        }  catch (opp\model\NotFoundException $e) {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+    }
+    
+    public function obradaPrijedloga() {
+        if(!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        if(get("idK") === false || get("id") === false) {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $poruka = new \model\DBPoruke();
+        $prijedlog = new \model\DBPrijedlozi();
+        $akcijeSustava = new \model\DBAkcijaSustava();
+        
+        try {
+            $prijedlog->load(get("id"));
+            $prijedlog->delete();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Brisanje prijedloga " . get("id"));
+            
+            if(post("tekst") !== false && post("tekst") != '') {
+                $poruka->idPosiljatelja = -2;
+                $poruka->idPrimatelja = get("idK");
+                $poruka->tekst = post("tekst");
+                $poruka->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Slanje poruke " . $poruka->getPrimaryKey());
+            }
+            
+        } catch (opp\model\NotFoundException $e) {
+            preusmjeri(\route\Route::get('d1')->generate());
+        } 
+        
+        preusmjeri(\route\Route::get('d3')->generate(array(
+            "controller" => "ekspertnaOsobaCtl",
+            "action" => "displayPrijedlozi"
+        )));
+    }
+    
+    public function displayPrijedlozi() {
+        if(!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $prijedlozi = new \model\DBPrijedlozi();
+        $pov = $prijedlozi->select()->where(array(
+            "lokacija" => NULL
+        ))->fetchAll();
+        
+        echo new \view\Main(array(
+            "body" => new \view\Prijedlozi(array(
+                "poruke" => $pov
+            )),
+            "title" => "Prijedlozi za korekciju"
+        ));
+    }
      
      
      
