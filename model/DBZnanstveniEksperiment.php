@@ -56,6 +56,9 @@ class DBZnanstveniEksperiment extends AbstractDBModel {
                 foreach($pov as $v) {
                     $ocjene->idOcjene = null;
                     $ocjene->load($v->idOcjene);
+                    if($ocjene->ocjena === NULL) {
+                        $count = $count - 1;
+                    }
                     $sum = $sum + $ocjene->ocjena;
                 }
                 return ($sum / (float) $count);
