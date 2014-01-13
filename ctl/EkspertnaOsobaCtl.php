@@ -26,7 +26,13 @@ class EkspertnaOsobaCtl implements Controller {
                 $this->errorMessage="Uspješno ste dodali javni alat!";
                 break;
             case 6:
-                $this->errorMessage="Uspješno ste dodali";
+                $this->errorMessage="Uspješno ste dodali javni rad";
+                break;
+            case 7:
+                $this->errorMessage= "Uspješno ste dodali javni znaanstveni esperiment";
+                break;
+            case 8:
+                $this->errorMessage= "Dogodila se pogreška, pokušajte ponovno!";
                 break;
             default:
                 break;
@@ -1171,8 +1177,640 @@ class EkspertnaOsobaCtl implements Controller {
          
      }
 
+
+        public function displayDodavanjeJavnogRada() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $error=null;
+        switch(get("msg")) {
+            case 1:
+                $error = "Niste unijeli znanstveni skup ili časopis!";
+                break;
+            case 2:
+                $error = "Morate odabrati pdf file ili postaviti link na znanstveni rad!";
+                break;
+            case 3:
+                $error = "Dopušteno slanje samo pdf datoteka!";
+                break;
+            case 4:
+                $error = "Dopušteno slanje samo pdf datoteka!";
+                break;
+            default:
+                break;
+        }
+        $s = new \model\DBZnanstveniSkup();
+        $skupovi = $s->select()->fetchAll();
+        
+        $c = new \model\DBZnanstveniCasopis();
+        $casopisi = $c->select()->fetchAll();
+        
+        echo new \view\Main(array(
+            "body" => new \view\DodavanjeJavnogRada(array(
+                "errorMessage" => $error,
+                "skupovi" => $skupovi,
+                "casopisi" => $casopisi
+            )),
+            "title" => "Dodavanje novog znanstvenog rada"
+        ));
+    }
+    
+    public function dodavanjeJavnogRada() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        if(post("skup") === false  && post("casopis") === false){
+            preusmjeri(\route\Route::get('d3')->generate(array(
+                "controller" => "ekspertnaOsobaCtl",
+                "action" => "displayDodavanjeJavnogRada"
+            )) . "?msg=1");
+        }
+        
+        if(post("url") === false && files('tmp_name', "datoteka") === false) {
+            preusmjeri(\route\Route::get('d2')->generate(array(
+                "controller" => "ekspertnaOsobaCtl",
+                "action" => "displayDodavanjeJavnogRada"
+            )) . "?msg=2");
+        }
+        
+        $rad = new \model\DBZnanstveniRad();
+        
+        //provjeri je li pdf
+        if(files("tmp_name", "datoteka") !== false) {
+            if(function_exists('finfo_file')) {
+                $finfo = \finfo_open(FILEINFO_MIME_TYPE);
+                $mime = finfo_file($finfo, files("tmp_name", "datoteka"));
+            } else {
+                $mime = \mime_content_type(files("tmp_name", "datoteka"));
+            }
+            if($mime != 'application/pdf') {
+                preusmjeri(\route\Route::get('d2')->generate(array(
+                  "controller" => "ekspertnaOsobaCtl",
+                "action" => "displayDodavanjeJavnogRada"
+            )) . "?msg=3");
+            }
+            
+        } else {
+            $rad->lokacija = post("url", null);
+        }
+
+        // spremi prijedlog
+        $rad->naslov = post("naslov", null);
+        $rad->sazetak = post("sazetak", null);
+        
+        $rad->idSkupa = post("skup", null);
+        $rad->idCasopisa = post("casopis", null);
+        
+        $rad->save();
+        
+         if(files("tmp_name", "datoteka") !== false) {
+             $destination = "./pdf/" . $prijedlog->getPrimaryKey() . ".pdf";
+             if(false === move_uploaded_file(files("tmp_name", "datoteka"), $destination)) {
+                 preusmjeri(\route\Route::get('d2')->generate(array(
+                   "controller" => "ekspertnaOsobaCtl",
+                "action" => "displayDodavanjeJavnogRada"
+            )) . "?msg=3");
+             }
+             $prijedlog->lokacija = $destination;
+             $prijedlog->save();
+         }
+        
+        preusmjeri(\route\Route::get('d2')->generate(array(
+            "controller" => "ekspertnaOsobaCtl"
+        )) . "?msg=6");
+    }
      
-     
+    public function displayDodavanjeJavnogEksperimenta() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $platforma = new \model\DBPlatforma();
+        $p = $platforma->select()->fetchAll();
+        
+        $error = null;
+        switch (get("msg")) {
+            case 1:
+                $error = "Neispravno popunjen obrazac!";
+                break;
+            case 2:
+                $error = "Dozvoljene su samo tekstualne datoteke!";
+                break;
+            case 3:
+                $error = "Neodgovarajući format vremena!";
+                break;
+            case 4:
+                $error = "Neodgovarajući format parametara!";
+                break;
+            case 5:
+                $error = "Neodgovarajući format rezultata!";
+                break;
+            case 6:
+                $error = "Neodgovarajući format datoteke!";
+                break;
+            default:
+                break;
+        }
+        
+        echo new \view\Main(array(
+            "body" => new \view\DodavanjeJavnogEksperimenta(array(
+                "errorMessage" => $error,
+                "platforme" => $p
+            )),
+            "title" => "Dodavanje javnog eksperimenta"
+        ));
+    }     
+    
+    
+public function  dodajJavniEksperiment() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $akcijeSustava = new \model\DBAkcijaSustava();
+        
+        if((post("naziv") === false || post("vrijemePocetka") === false || post("vrijemeZavrsetka") === false || post("parametri")=== false || post("rezultati") === false) && files("tmp_name", "datoteka") === false) {
+            preusmjeri(\route\Route::get('d3')->generate(array(
+                "controller" => "ekspertnaOsobaCtl",
+                "action" => "displayDodavanjeJavnogEksperimenta"
+            )) . "?msg=1");
+        }
+        
+        // ako je poslana datoteka gledam samo nju
+        if(files("tmp_name", "datoteka") !== false) {
+            if(function_exists('finfo_file')) {
+                $finfo = \finfo_open(FILEINFO_MIME_TYPE);
+                $mime = finfo_file($finfo, files("tmp_name", "datoteka"));
+            } else {
+                $mime = \mime_content_type(files("tmp_name", "datoteka"));
+            }
+            if($mime != 'text/plain') {
+                preusmjeri(\route\Route::get('d3')->generate(array(
+                "controller" => "ekspertnaOsobaCtl",
+                "action" => "displayDodavanjeJavnogEksperimenta"
+            )) . "?msg=2");
+            }
+            
+            $autori = array();
+            $a = 0;
+            $parametri = array();
+            $p = 0;
+            $rezultati = array();
+            $r = 0;
+            $tools = array();
+            $ides = array();
+            $platforms = array();
+            $start = null;
+            $end = null;
+            $naslov = null;
+            
+            $handle = fopen(files("tmp_name", "datoteka"), "rt");
+            $naslov = fgets($handle);
+            $naslov = substr($naslov, 0, strlen($naslov) - 1);
+            if($naslov === false) {
+                preusmjeri(\route\Route::get('d3')->generate(array(
+                    "controller" => "ekspertnaOsobaCtl",
+                    "action" => "displayDodavanjeJavnogEksperimenta"
+                )) . "?msg=6");
+            }
+            
+            while(($niz = fgets($handle)) !== FALSE) {
+                $niz = substr($niz, 0, strlen($niz) - 1);
+                $i = strpos($niz, " ");
+                $identifikator = substr($niz, 0, $i);
+                
+                switch ($identifikator) {
+                    case "Author":
+                        $pattern = '/^(Author) [A-ZČĆŽŠĐ][a-zčćžšđ]+ ([A-ZČĆŽŠĐ]\. ){0,1}[A-ZČĆŽŠĐ][a-zčćžšđ]+$/u';
+                        if($this->test_pattern($pattern, $niz) === false) {
+                            preusmjeri(\route\Route::get('d3')->generate(array(
+                                "controller" => "ekspertnaOsobaCtl",
+                                "action" => "ddisplayDodavanjeJavnogEksperimenta"
+                            )) . "?msg=6");
+                        }
+                        $s1 = strpos($niz, " ");
+                        $s2 = strpos($niz, " ", $s1 + 1);
+                        $s3 = strpos($niz, " ", $s2 + 1);
+                        if($s3 === false) {
+                            $autori[$a]["ime"] = substr($niz, $s1 + 1, $s2 - $s1 - 1);
+                            $autori[$a]["prezime"] = substr($niz, $s2 + 1);
+                        } else {
+                            $autori[$a]["ime"] = substr($niz, $s1 + 1, $s2 - $s1 - 1);
+                            $autori[$a]["prezime"] = substr($niz, $s3 + 1);
+                        }
+                        $a = $a + 1;
+                        break;
+                    case "Start":
+                        $pattern = '/^Start (0[0-9]|[1-2][0-9]|3[01])\.(0[0-9]|1[0-2])\.([0-9]{4})\. ([01][0-9]|2[0-4]):[0-5][0-9]$/';
+                        if($this->test_pattern($pattern, $niz) === false) {
+                            preusmjeri(\route\Route::get('d3')->generate(array(
+                                "controller" => "ekspertnaOsobaCtl",
+                                "action" => "displayDodavanjeJavnogEksperimenta"
+                            )) . "?msg=6");
+                        }
+                        $start = date("Y-m-d H:i:s", strtotime($niz));
+                        break;
+                    case "End":
+                        $pattern = '/^End (0[0-9]|[1-2][0-9]|3[01])\.(0[0-9]|1[0-2])\.([0-9]{4})\. ([01][0-9]|2[0-4]):[0-5][0-9]$/';
+                        if($this->test_pattern($pattern, $niz) === false) {
+                            preusmjeri(\route\Route::get('d3')->generate(array(
+                                "controller" => "ekspertnaOsobaCtl",
+                                "action" => "displayDodavanjeJavnogEksperimenta"
+                            )) . "?msg=6");
+                        }
+                        $end = date("Y-m-d H:i:s", strtotime($niz));
+                        break;
+                    case "Tool":
+                        $skraceniNaziv = substr($niz, $i + 1);
+                        $alat = new \model\DBAlat();
+                        $idAlata = $alat->dohvatiId($skraceniNaziv);
+                        if($idAlata === false) {
+                            preusmjeri(\route\Route::get('d3')->generate(array(
+                                "controller" => "ekspertnaOsobaCtl",
+                                "action" => "displayDodavanjeJavnogEksperimenta"
+                            )) . "?msg=6");
+                        }
+                        $tools[$idAlata] = $idAlata;
+                        break;
+                    case "IDE":
+                        $skraceniNaziv = substr($niz, $i + 1);
+                        $alat = new \model\DBIde();
+                        $idAlata = $alat->dohvatiId($skraceniNaziv);
+                        if($idAlata === false) {
+                            preusmjeri(\route\Route::get('d3')->generate(array(
+                                "controller" => "ekspertnaOsobaCtl",
+                                "action" => "displayDodavanjeJavnogEksperimenta"
+                            )) . "?msg=6");
+                        }
+                        $ides[$idAlata] = $idAlata;
+                        break;
+                    case "Platform":
+                        $skraceniNaziv = substr($niz, $i + 1);
+                        $platforma = new \model\DBPlatforma();
+                        $pov = $platforma->select()->where(array(
+                            "skraceniNaziv" => $skraceniNaziv
+                        ))->fetchAll();
+
+                        if(count($pov)) {
+                            $idPlatforme = $pov[0]->idPlatforme;
+                            $platforms[$idPlatforme] = $idPlatforme;
+                        } else {
+                             preusmjeri(\route\Route::get('d3')->generate(array(
+                                "controller" => "ekspertnaOsobaCtl",
+                                "action" => "displayDodavanjeJavnogEksperimenta"
+                            )) . "?msg=6");
+                        }
+                        break;
+                    case "Parameter":
+                        $j = strpos($niz, " ", $i + 1);
+                        if($j === FALSE) {
+                            preusmjeri(\route\Route::get('d3')->generate(array(
+                                "controller" => "ekspertnaOsobaCtl",
+                                "action" => "displayDodavanjeJavnogEksperimenta"
+                            )) . "?msg=6");
+                        }
+                        $naziv = substr($niz, $i + 1, $j - $i - 1);
+                        $ispitniSlucaj = substr($niz, $j + 1);
+                        $pattern = '/^[A-Za-z0-9]{1,}$/u';
+                        if($this->test_pattern($pattern, $naziv) === false || $this->test_pattern($pattern, $ispitniSlucaj) === false) {
+                            preusmjeri(\route\Route::get('d3')->generate(array(
+                                "controller" => "ekspertnaOsobaCtl",
+                                "action" => "displayDodavanjeJavnogEksperimenta"
+                            )) . "?msg=6");
+                        }
+                        
+                        $parametri[$p]["ispitniSlucaj"] = $ispitniSlucaj;
+                        $parametri[$p]["naziv"] = $naziv;
+                        $p = $p + 1;
+                        break;
+                    case "Value":
+                        $j = strpos($niz, " ", $i + 1);
+                        $k = strpos($niz, " ", $j + 1);
+                        if($j === FALSE) {
+                            preusmjeri(\route\Route::get('d3')->generate(array(
+                                "controller" => "ekspertnaOsobaCtl",
+                                "action" => "displayDodavanjeJavnogEksperimenta"
+                            )) . "?msg=6");
+                        }
+                        $naziv = substr($niz, $i + 1, $j - $i - 1);
+                        if($k !== false) {
+                            $iznos = substr($niz, $j + 1, $k - $j -1);
+                            $mjernaJedinica = substr($niz, $k + 1);
+                            $pat = '/^[A-Za-z]{1,10}$/u';
+                            if($this->test_pattern($pat, $mjernaJedinica) === false) {
+                                preusmjeri(\route\Route::get('d3')->generate(array(
+                                "controller" => "ekspertnaOsobaCtl",
+                                "action" => "displayDodavanjeJavnogEksperimenta"
+                            )) . "?msg=6");
+                            }
+                        } else {
+                            $iznos = substr($niz, $j + 1);
+                        }
+                        $pattern = '/^[A-Za-z0-9]{1,}$/u';
+                        $pattern2 = '/^[0-9]{1,}\.{0,1}[0-9]*$/u';
+                        if($this->test_pattern($pattern, $naziv) === false ||$this->test_pattern($pattern2, $iznos) === false) {
+                            preusmjeri(\route\Route::get('d3')->generate(array(
+                                "controller" => "ekspertnaOsobaCtl",
+                                "action" => "displayDodavanjeJavnogEksperimenta"
+                            )) . "?msg=6");
+                        }
+                        $rezultati[$r]["iznos"] = $iznos;
+                        $parametri[$r]["naziv"] = $naziv;
+                        if ($k === false) {
+                            $parametri[$r]["mjernaJedinica"] = $mjernaJedinica;
+                        }else {
+                            $parametri[$r]["mjernaJedinica"] = NULL;
+                        }
+                        $r = $r + 1;
+                        break;
+                    default :
+                        preusmjeri(\route\Route::get('d3')->generate(array(
+                            "controller" => "ekspertnaOsobaCtl",
+                            "action" => "displayDodavanjeJavnogEksperimenta"
+                        )) . "?msg=6");
+                }
+                
+            }
+            fclose($handle);
+            
+            // unos podataka
+            $autor = new \model\DBAutor();
+            $idA = array();
+            for($i = 0; $i < $a; $i = $i + 1) {
+                $idA[$i] = $autor->dodajAutora($autori[$i]["ime"], $autori[$i]["prezime"]);
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje autora " . $idA[$i]);
+            }
+            
+            
+            $eksperiment = new \model\DBZnanstveniEksperiment();
+            $eksperiment->naziv = $naslov;
+            $eksperiment->vrijemePocetka = $start;
+            $eksperiment->vrijemeZavrsetka = $end;
+            $eksperiment->vidljivost = "J";
+            $eksperiment->save();
+            
+            $idEksperimenta = $eksperiment->getPrimaryKey();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje eksperimenta " . $idEksperimenta);
+            
+            // sad zabiljezi autora
+            $veza = new \model\DBAutorEksperimenta();
+            for($j = 0; $j < $i; $j = $j + 1) {
+                $veza->id = null;
+                $veza->idAutora = $idA[$j];
+                $veza->idEksperimenta = $idEksperimenta;
+                $veza->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu autoreksperimenta " . $veza->id);
+            }
+                        
+            // zabiljezi platformu
+            if(count($platforms)) {
+                foreach($platforms as $k => $v) {
+                    $koristi = new \model\DBKoristi();
+                    $koristi->id = null;
+                    $koristi->idPlatforme = $v;
+                    $koristi->idEksperimenta = $idEksperimenta;
+                    $koristi->save();
+                    $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu koristi " . $koristi->id);
+                }
+            }
+            
+            //zabiljezi parametre
+            $parametar = new \model\DBParametar();
+            $pripadaju = new \model\DBPripadaju();
+            for ($i = 0; $i < $p; $i = $i + 1) {
+                $idParametra = $parametar->dodajParametar($parametri[$i]["naziv"], $parametri[$i]["ispitniSlucaj"]);
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje parametra " . $idParametra);
+                $pripadaju->id = null;
+                $pripadaju->idEksperimenta = $idEksperimenta;
+                $pripadaju->idParametra = $idParametra;
+                $pripadaju->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu pripadaju " . $pripadaju->id);
+            }
+            
+            // zabilježi rezultate
+            $rezultat = new \model\DBRezultat();
+            $ostvario = new \model\DBOstvario();
+            
+            for ($i = 0; $i < $r; $i = $i + 1) {
+                $idRezultata = $rezultat->dodajRezultat($rezultati[$i]["naziv"], $rezultati[$i]["iznos"], $rezultati[$i]["mjernaJedinica"]);
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje rezultata " . $idRezultata);
+                $ostvario->id = null;
+                $ostvario->idEksperimenta = $idEksperimenta;
+                $ostvario->idRezultata = $idRezultata;
+                $ostvario->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu ostvario " . $ostvario->id);
+            } 
+            
+            // zabiljezi alate i ide
+            if(count($tools)) {
+                foreach($tools as $k => $v) {
+                    $ostvaren = new \model\DBOstvaren();
+                    $ostvaren->id = null;
+                    $ostvaren->idAlata = $v;
+                    $ostvaren->idEksperimenta = $idEksperimenta;
+                    $ostvaren->save();
+                    $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu ostvaren " . $ostvaren->id);
+                }
+            }
+            
+            if(count($ides)) {
+                foreach($ides as $k => $v) {
+                    $ostvaren = new \model\DBUraden();
+                    $ostvaren->id = null;
+                    $ostvaren->idIDE = $v;
+                    $ostvaren->idEksperimenta = $idEksperimenta;
+                    $ostvaren->save();
+                    $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu uraden " . $ostvaren->id);
+                }
+            }
+            
+            // josh ga dodam u portfelj
+            $portfelj = new \model\DBPortfelj();
+            $portfelj->idKorisnika = $_SESSION['auth'];
+            $portfelj->idEksperimenta = $idEksperimenta;
+            $portfelj->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje eksperimenta u portfelj " . $portfelj->idZapisa);
+        } else {
+            // provjera vremena:
+            $pattern = '/^(0[0-9]|[1-2][0-9]|3[01])\.(0[0-9]|1[0-2])\.([0-9]{4})\. ([01][0-9]|2[0-4]):[0-5][0-9]$/';
+            $vrijeme1 = post("vrijemePocetka");
+            $vrijeme2 = post("vrijemeZavrsetka");
+            
+            if($this->test_pattern($pattern, $vrijeme1) === false || $this->test_pattern($pattern, $vrijeme2) === false) {
+                 preusmjeri(\route\Route::get('d3')->generate(array(
+                "controller" => "ekspertnaOsobaCtl",
+                "action" => "displayDodavanjeJavnogEksperimenta"
+            )) . "?msg=3");
+            }
+            
+            // provjera parametara naziv-ispitniSlucaj
+            $pattern1 = '/^[A-Za-z0-9čćžđšČĆŽĐŠ]{1,}-[A-Za-z0-9čćžšđČĆŽŠĐ]{1,}$/u';
+            $ispravno = true;
+            $izraz = post("parametri");
+            if(strpos($izraz, ";") === false) {
+                if($this->test_pattern($pattern1, $izraz) === false) {
+                    preusmjeri(\route\Route::get('d3')->generate(array(
+                        "controller" => "ekspertnaOsobaCtl",
+                        "action" => "displayDodavanjeJavnogEksperimenta"
+                    )) . "?msg=4");
+                }
+            } else {
+                for($i = strpos($izraz, ";"); $i !== false; $i = strpos($izraz, ";")) {
+                    $ispravno = $this->test_pattern($pattern1, substr($izraz, 0, $i));
+                    $izraz = substr($izraz, $i + 1);
+                    if($ispravno === false) {
+                        break;
+                    }
+                }
+                $ispravno = $this->test_pattern($pattern1, $izraz);
+            }
+            
+            if($ispravno === false) {
+                preusmjeri(\route\Route::get('d3')->generate(array(
+                        "controller" => "ekspertnaOsobaCtl",
+                        "action" => "displayDodavanjeJavnogEksperimenta"
+                    )) . "?msg=4");
+            }
+
+            // provjera rezultata
+            $pattern2 = '/^[A-Za-z0-9čćžđšČĆŽĐŠ]{1,}-[0-9]{1,}\.{0,1}[0-9]*-[A-Za-z]{1,10}$/u';
+            $ispravno = true;
+            $izraz2 = post("rezultati");
+            if(strpos($izraz2, ";") === false) {
+                if($this->test_pattern($pattern2, $izraz2) === false) {
+                    preusmjeri(\route\Route::get('d3')->generate(array(
+                        "controller" => "ekspertnaOsobaCtl",
+                        "action" => "displayDodavanjeJavnogEksperimenta"
+                    )) . "?msg=5");
+                }
+            } else {
+                for($i = strpos($izraz2, ";"); $i !== false; $i = strpos($izraz2, ";")) {
+                    $ispravno = $this->test_pattern($pattern2, substr($izraz2, 0, $i));
+                    $izraz2 = substr($izraz2, $i + 1);
+                    if($ispravno === false) {
+                        break;
+                    }
+                }
+                $ispravno = $this->test_pattern($pattern2, $izraz2);
+                
+            }
+            
+            if($ispravno === false) {
+                preusmjeri(\route\Route::get('d3')->generate(array(
+                        "controller" => "ekspertnaOsobaCtl",
+                        "action" => "displayDodavanjeJavnogEksperimenta"
+                    )) . "?msg=5");
+            }
+            
+            // sve provjereno sad dodajem u bazu
+            $korisnik = new \model\DBKorisnik();
+            try {
+                $korisnik->load($_SESSION['auth']);
+            } catch (opp\model\NotFoundException $e) {
+                preusmjeri(\route\Route::get('d2')->generate(array(
+                    "controller" => "ekspertnaOsobaCtl"
+                )) . "?msg=8");
+            }
+            
+            $autor = new \model\DBAutor();
+            $idAutora = $autor->dodajAutora($korisnik->ime, $korisnik->prezime);
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje autora " . $idAutora);
+            
+            $eksperiment = new \model\DBZnanstveniEksperiment();
+            $eksperiment->naziv = post("naziv");
+            $eksperiment->vrijemePocetka = date("Y-m-d H:i:s", strtotime(post("vrijemePocetka")));
+            $eksperiment->vrijemeZavrsetka = date("Y-m-d H:i:s", strtotime(post("vrijemeZavrsetka")));
+            $eksperiment->vidljivost = "J";
+            $eksperiment->save();
+            
+            $idEksperimenta = $eksperiment->getPrimaryKey();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje eksperimenta " . $idEksperimenta);
+            
+            // sad zabiljezi autora
+            $veza = new \model\DBAutorEksperimenta();
+            $veza->idAutora = $idAutora;
+            $veza->idEksperimenta = $idEksperimenta;
+            $veza->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu autoreksperimenta " . $veza->id);
+            
+            // zabiljezi platformu
+            if(post("platforma") !== false) {
+                $koristi = new \model\DBKoristi();
+                $koristi->idPlatforme = post("platforma");
+                $koristi->idEksperimenta = $idEksperimenta;
+                $koristi->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu koristi " . $koristi->id);
+            }
+            
+            //zabiljezi parametre
+            $parametar = new \model\DBParametar();
+            $pripadaju = new \model\DBPripadaju();
+            $izraz = post("parametri");
+            for($i = strpos($izraz, ";"); $i !== false; $i = strpos($izraz, ";")) {
+                $j = strpos($izraz, "-");
+                $idParametra = $parametar->dodajParametar(substr($izraz, 0, $j), substr($izraz, $j + 1, $i - $j - 1));
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje parametra " . $idParametra);
+                $pripadaju->id = null;
+                $pripadaju->idParametra = $idParametra;
+                $pripadaju->idEksperimenta = $idEksperimenta;
+                $pripadaju->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu pripadaju " . $pripadaju->id);
+                $izraz = substr($izraz, $i + 1);
+            }
+            $j = strpos($izraz, "-");
+            $idParametra = $parametar->dodajParametar(substr($izraz, 0, $j), substr($izraz, $j + 1));
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje parametra " . $idParametra);
+            $pripadaju->id = null;
+            $pripadaju->idParametra = $idParametra;
+            $pripadaju->idEksperimenta = $idEksperimenta;
+            $pripadaju->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu pripadaju " . $pripadaju->id);
+            
+            // zabilježi rezultate
+            $rezultat = new \model\DBRezultat();
+            $ostvario = new \model\DBOstvario();
+            
+            $izraz = post("rezultati");
+            for($i = strpos($izraz, ";"); $i !== false; $i = strpos($izraz, ";")) {
+                $j = strpos($izraz, "-");
+                $k = strpos($izraz, "-", $j + 1);
+                $idRezultata = $rezultat->dodajRezultat(substr($izraz, 0, $j), substr($izraz, $j + 1, $k - $j - 1), substr($izraz, $k + 1, $i - $k - 1));
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje rezultata " . $idRezultata);
+                $ostvario->id = null;
+                $ostvario->idRezultata = $idRezultata;
+                $ostvario->idEksperimenta = $idEksperimenta;
+                $ostvario->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu ostvario " . $ostvario->id);
+                $izraz = substr($izraz, $i + 1);
+            }
+            $j = strpos($izraz, "-");
+            $k = strpos($izraz, "-", $j + 1);
+            $idRezultata = $rezultat->dodajRezultat(substr($izraz, 0, $j), substr($izraz, $j + 1, $k - $j - 1), substr($izraz, $k + 1));
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje rezultata " . $idRezultata);
+            $ostvario->id = null;
+            $ostvario->idRezultata = $idRezultata;
+            $ostvario->idEksperimenta = $idEksperimenta;
+            $ostvario->save();  
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu ostvario " . $ostvario->id);
+            
+            // josh ga dodam u portfelj
+            $portfelj = new \model\DBPortfelj();
+            $portfelj->idKorisnika = $_SESSION['auth'];
+            $portfelj->idEksperimenta = $idEksperimenta;
+            $portfelj->save();
+            $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje eksperimenta u portfelj " . $portfelj->idZapisa);
+        }
+        
+        preusmjeri(\route\Route::get('d2')->generate(array(
+            "controller" => "ekspertnaOsobaCtl"
+        )) . "?msg=14");
+    }
      
 
      
