@@ -33,7 +33,14 @@ class RezultatiPretrazivanjaEksperimenata extends AbstractView {
 		{                    
 			echo '<tr>';
 			echo "<td>{$this->var['imeautor'][$i]}</td>";			
-			echo "<td>{$this->var['naziv'][$i]}</td>";
+			if (isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K' || $_SESSION['vrsta'] == 'E')) {
+                            echo "<td><a href=\"" . \route\Route::get('d3')->generate(array(
+                                "controller" => "korisnik",
+                                "action" => "displayPDFEksperimenta"
+                            )) ."?id={$this->var['id'][$i]}\">{$this->var['naziv'][$i]}</a></td>";
+                        } else {
+                            echo "<td>{$this->var['naziv'][$i]}</td>";
+                        }
 			echo "<td>{$this->var['pocetak'][$i]}</td>";
 			echo "<td>{$this->var['zavrsetak'][$i]}</td>";               
                         echo "<td>{$this->var['ocjena'][$i]}</td>";  
@@ -70,6 +77,10 @@ class RezultatiPretrazivanjaEksperimenata extends AbstractView {
                         echo '</tr>';
 		}
 		echo '</table>';
+                
+                if (isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K' || $_SESSION['vrsta'] == 'E')) {
+                    echo '<p><b>Napomena: </b>Da biste skinuli pdf verziju eksperimenta kliknite na njegov naziv!</p>';
+                }
                 
                 ?> <a href="<?php echo \route\Route::get('d1')->generate();?>">
 		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />

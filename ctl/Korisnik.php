@@ -1270,4 +1270,159 @@ class Korisnik implements Controller {
             }
         }
     }
+    
+    public function displayPDFEksperimenta() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || ($_SESSION['vrsta'] != 'K' && $_SESSION['vrsta'] != 'E')) {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        if(get("id") === false) {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $pdf = new \model\PDFModel();
+        $eksperiment = new \model\DBZnanstveniEksperiment();
+        $ae = new \model\DBAutorEksperimenta();
+        $autor = new \model\DBAutor();
+        $ostvaren = new \model\DBOstvaren();
+        $alat = new \model\DBAlat();
+        $koristi = new \model\DBKoristi();
+        $platforma = new \model\DBPlatforma();
+        $ide = new \model\DBIde();
+        $uraden = new \model\DBUraden();
+        $pripadaju = new \model\DBPripadaju();
+        $param = new \model\DBParametar();
+        $ostvario = new \model\DBOstvario();
+        $rez = new \model\DBRezultat();
+        
+        try {
+            $eksperiment->load(get("id"));
+            $pdf->setNaziv($eksperiment->naziv);
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+            $pdf->SetFont('Times','',12);
+            $pdf->Cell(0,10,'Name: '. $eksperiment->naziv,0,1);
+            
+            $poljeae = $ae->select()->where(array(
+                "idEksperimenta" => $eksperiment->getPrimaryKey()
+            ))->fetchAll();
+            
+            if(count($poljeae)) {
+                foreach($poljeae as $v) {
+                    $autor->idAutora = null;
+                    $autor->load($v->idAutora);
+                    $pdf->Cell(0,10,'Author: '. $autor->ime . " " . $autor->prezime,0,1);
+                }
+            }
+            
+            $pdf->Cell(0,10,'Start: '. $eksperiment->vrijemePocetka,0,1);
+            $pdf->Cell(0,10,'End: '. $eksperiment->vrijemeZavrsetka,0,1);
+            
+            // dohvat alata platformi i idea
+            $polje = $ostvaren->select()->where(array(
+                "idEksperimenta" => $eksperiment->getPrimaryKey()
+            ))->fetchAll();
+            
+            if(count($polje)) {
+                foreach ($polje as $v) {
+                    $alat->idAlata = null;
+                    $alat->load($v->idAlata);
+                    $pdf->Cell(0,10,'Tool: '. $alat->skraceniNaziv,0,1);
+                }
+            }
+            
+            $polje = $koristi->select()->where(array(
+                "idEksperimenta" => $eksperiment->getPrimaryKey()
+            ))->fetchAll();
+            
+            if(count($polje)) {
+                foreach ($polje as $v) {
+                    $platforma->idPlatforme = null;
+                    $platforma->load($v->idPlatforme);
+                    $pdf->Cell(0,10,'Platform: '. $platforma->skraceniNaziv,0,1);
+                }
+            }
+            
+            $polje = $uraden->select()->where(array(
+                "idEksperimenta" => $eksperiment->getPrimaryKey()
+            ))->fetchAll();
+            
+            if(count($polje)) {
+                foreach ($polje as $v) {
+                    $ide->idIDE = null;
+                    $ide->load($v->idIDE);
+                    $pdf->Cell(0,10,'IDE: '. $ide->skraceniNaziv,0,1);
+                }
+            }
+            
+            // sad parametri
+            $polje = $pripadaju->select()->where(array(
+                "idEksperimenta" => $eksperiment->getPrimaryKey()
+            ))->fetchAll();
+            
+            if(count($polje)) {
+                foreach($polje as $v) {
+                    $param->idParametra = null;
+                    $param->load($v->idParametra);
+                    $pdf->Cell(0,10,'Parameter: '. $param->naziv . ' ' . $param->ispitniPrimjer,0,1);
+                }
+            }
+            
+            // josh rezultati
+            $polje = $ostvario->select()->where(array(
+                "idEksperimenta" => $eksperiment->getPrimaryKey()
+            ))->fetchAll();
+            
+            if(count($polje)) {
+                foreach($polje as $v) {
+                    $rez->idRezultata = null;
+                    $rez->load($v->idRezultata);
+                    $pdf->Cell(0,10,'Result: '. $rez->naziv . ' ' . $rez->iznos . ' ' . $rez->mjernaJedinica,0,1);
+                }
+            }
+            
+            // sad samo pozovi pogled:
+            echo new \view\PrikazPdfa(array(
+                "pdf" => $pdf
+            )); 
+            
+            
+        } catch (opp\model\NotFoundException $e) {
+            preusmjeri(\route\Route::get('d2')->generate());
+        }
+    }
+    
+    public function displayPDFRada() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || ($_SESSION['vrsta'] != 'K' && $_SESSION['vrsta'] != 'E')) {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        // preko get zahtjeva mi vvrati id rada
+        if(get("id") === false) {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $rad = new \model\DBZnanstveniRad();
+        try {
+            $rad->load(get("id"));
+            
+            $lok = $rad->lokacija;
+           
+            if(false === strpos($lok, "./pdf/")) {
+                // utipkan je link
+                preusmjeri($rad->lokacija);
+            } else {
+                // rad je na serveru
+                echo new \view\PrikazPdf(array(
+                    "html" => $rad->lokacija
+                ));
+            }
+            
+        } catch (opp\model\NotFoundException $e) {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+    }
+    
 }

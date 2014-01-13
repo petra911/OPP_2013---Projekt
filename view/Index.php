@@ -15,7 +15,11 @@ class Index extends AbstractView {
     protected function outputHTML() {
 //        session_destroy();
 ?>
-
+<?php if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K')){
+ preusmjeri(\route\Route::get('d2')->generate(array(
+     "controller" => "korisnik"
+ )));
+}?>
 <div id="myCarousel" class="slide">
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>

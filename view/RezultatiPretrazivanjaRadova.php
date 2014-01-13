@@ -36,8 +36,15 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
 		for ($i = 0; $i < count($this->var['id']); $i++)
 		{
 			echo '<tr>';
-			echo "<td>{$this->var['imeautor'][$i]}</td>";			
-			echo "<td>{$this->var['naslov'][$i]}</td>";
+			echo "<td>{$this->var['imeautor'][$i]}</td>";
+                        if(isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K' || $_SESSION['vrsta'] == 'E' )) {
+                            echo "<td><a href=\"" . \route\Route::get('d3')->generate(array(
+                                "controller" => "korisnik",
+                                "action" => "displayPDFRada"
+                            )) ."?id={$this->var['id'][$i]}\">{$this->var['naslov'][$i]}</a></td>";
+                        } else {
+                            echo "<td>{$this->var['naslov'][$i]}</td>";
+                        }
 			echo "<td>{$this->var['sazetak'][$i]}</td>";
 			echo "<td>{$this->var['kljucnerijeci'][$i]}</td>";
 			echo "<td>{$this->var['casopis'][$i]}</td>"; /* podaci o skupu ili časopisu */
@@ -64,6 +71,10 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
                         echo '</tr>';
 		}
 		echo '</table>';                 
+                
+                if (isset($_SESSION['vrsta']) && ($_SESSION['vrsta'] == 'K' || $_SESSION['vrsta'] == 'E')) {
+                    echo '<p><b>Napomena: </b>Da biste skinuli pročitali znanstveni rad kliknite na njegov naziv!</p>';
+                }
                 
                 ?> <a href="<?php echo \route\Route::get('d1')->generate();?>">
 		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
