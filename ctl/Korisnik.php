@@ -855,7 +855,7 @@ class Korisnik implements Controller {
         $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Predlaze rad - idPrijedloga je " . $prijedlog->getPrimaryKey());
         
          if(files("tmp_name", "datoteka") !== false) {
-             $destination = "./pdf/" . $prijedlog->getPrimaryKey() . ".pdf";
+             $destination = "./pdf/prijedlog" . $prijedlog->getPrimaryKey() . ".pdf";
              if(false === move_uploaded_file(files("tmp_name", "datoteka"), $destination)) {
                  preusmjeri(\route\Route::get('d2')->generate(array(
                     "controller" => "korisnik"
