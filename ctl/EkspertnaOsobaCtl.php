@@ -2020,4 +2020,119 @@ public function  dodajJavniEksperiment() {
             preusmjeri(\route\Route::get('d1')->generate());
         }
     }
+    
+    public function generirajIzvjesce() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || ($_SESSION['vrsta'] != 'E')) {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $pdf = new \model\PDFModel();
+        $autor = new \model\DBAutor();
+        $ae = new \model\DBAutorEksperimenta();
+        $casopis = new \model\DBZnanstveniCasopis();
+        $objavljen = new \model\DBObjavljen();
+        $pripada = new \model\DBPripada();
+        $eksperiment = new \model\DBZnanstveniEksperiment();
+        
+        
+        $pdf->setNaziv("Report");
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+        $pdf->SetFont('Times','',12);
+        if(post("checked") == true) {
+            // znaci izvjesce po podrijetlu
+            $autori = $autor->select()->fetchAll();
+            $pdf->Cell(0,10,'Broj upisanih eksperimenata prema autorima',0,1);
+            if(count($autori)) {
+                foreach($autori as $v) {
+                    $p = $ae->select()->where(array(
+                        "idAutora" => $v->idAutora
+                    ))->fetchAll();
+                    if(count($p)) {
+                        $pdf->Cell(0,10,$v->ime . ' ' . $v->prezime . ' je objavio ' . count($p) .' eksperimenata',0,1);
+                    } else {
+                        $pdf->Cell(0,10,$v->ime . ' ' . $v->prezime . ' je objavio 0 eksperimenata',0,1);
+                    }
+                }
+            } else {
+                $pdf->Cell(0,10,'Ne postoji niti jedan autor!',0,1);
+            }
+            
+            $pdf->Cell(0,10,' ',0,1);
+            $pdf->Cell(0,10,'Broj upisanih eksperimenata prema publikaciji:',0,1);
+            
+            $casopisi = $casopis->select()->fetchAll();
+            if(count($casopisi)) {
+                foreach($casopisi as $v) {
+                    $idRadova = $objavljen->select()->where(array(
+                        "idCasopisa" => $v->getPrimaryKey()
+                    ))->fetchAll();
+                    
+                    if(count($idRadova)) {
+                        $suma = 0;
+                        foreach ($idRadova as $k) {
+                            $s = $pripada->select()->where(array(
+                                "idRada" => $k->idRada
+                            ))->fetchAll();
+                            $suma = $suma + $s;
+                        }
+                        $pdf->Cell(0,10,'U publikaciji ' . $v->naziv . ' objavljeno je ' . $suma . ' eksperimenata',0,1);
+                    } else {
+                        $pdf->Cell(0,10,'U publikaciji ' . $v->naziv . ' objavljeno je 0 eksperimenata',0,1);
+                    }
+                }
+            } else {
+                $pdf->Cell(0,10,'Ne postoji niti jedna publikacija!',0,1);
+            }
+            
+            
+        } else {
+            $pdf->Cell(0,10,'Broj upisanih eksperimenata prema srednjim ocjenama:',0,1);
+            // po prosjecnim ocjenama
+            $polje = array();
+            $e = $eksperiment->select()->where(array(
+                "vidljivost" => 'J'
+            ))->fetchAll();
+            
+            if(count($e)) {
+                foreach ($e as $v) {
+                    $prosjek = $v->prosjecnaOcjena();
+                    if(isset($polje[$prosjek])) {
+                        $polje[$prosjek] = $polje[$prosjek] + 1;
+                    } else {
+                        $polje[$prosjek] = 1;
+                    }
+                }
+                
+                foreach($polje as $k=>$v) {
+                    if ($k == "Eksperiment nije ocijenjen!") {
+                        $pdf->Cell(0,10,'Broj neocijenjenih eksperimenata je ' . $v,0,1);
+                    } else {
+                        $pdf->Cell(0,10,'Broj eksperimenata sa srednjom ocjenom ' . $k . ' je ' . $v,0,1);
+                    }
+                }
+            } else {
+                $pdf->Cell(0,10,'Ne postoji niti jedan javni eksperiment!',0,1);
+            }
+   
+        }
+        
+        // sad samo pozovi pogled:
+        echo new \view\PrikazPdfa(array(
+            "pdf" => $pdf
+        ));
+    }
+    
+    public function displayGeneriranjeIzvjesca() {
+        // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || ($_SESSION['vrsta'] != 'K' && $_SESSION['vrsta'] != 'E')) {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        echo new \view\Main(array(
+            "body" => new \view\GeneriranjeIzvjesca(),
+            "title" => "Generiranje Izvješća"
+        )); 
+    }
 }

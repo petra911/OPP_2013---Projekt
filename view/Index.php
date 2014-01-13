@@ -96,6 +96,11 @@ class Index extends AbstractView {
                 "controller" => "ekspertnaOsobaCtl",
                 "action" => "displayPrijedloziRadova"
             )) . "\">Prijedlozi radova</a></li>";
+                             
+                             echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
+                "controller" => "ekspertnaOsobaCtl",
+                "action" => "displayGeneriranjeIzvjesca"
+            )) . "\">Izvješće</a></li>";
                             
                 
                 echo "<li><a href=\"" . \route\Route::get('d3')->generate(array(
