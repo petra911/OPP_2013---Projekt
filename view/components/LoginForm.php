@@ -24,7 +24,14 @@ class LoginForm extends AbstractView {
 		<input type="submit" class="btn btn-primary" value="Prijavi me!" />
 		<br><br><br>
     </form>
-    
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
     
 <?php
     } 
