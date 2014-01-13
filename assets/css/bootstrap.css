@@ -1684,6 +1684,7 @@ th {
   line-height: 1.428571429;
   vertical-align: top;
   border-top: 1px solid #dddddd;
+  
 }
 
 .table > thead > tr > th {
@@ -4515,7 +4516,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .navbar-fixed-top,
 .navbar-fixed-bottom {
-    background-color: #646464;
+  background-color: #646464;
   position: fixed;
   right: 0;
   left: 0;
@@ -4546,7 +4547,14 @@ textarea.input-group-sm > .input-group-btn > .btn {
   font-size: 18px;
   line-height: 20px;
 }
-
+.navbar-brand1 {
+  color:#FFFFFF;
+  float: left;
+  padding-left: 45%;
+  padding-top: 15px;
+  font-size: 18px;
+  line-height: 20px;
+}
 .navbar-brand:hover,
 .navbar-brand:focus {
   text-decoration: none;
@@ -6387,7 +6395,7 @@ button.close {
 }
 
 .carousel-inner {
-  padding: 0 0 50px 100px;
+  padding: 0 0 7% 20%;
   position: relative;
   width: 100%;
   overflow: hidden;
@@ -6448,8 +6456,8 @@ button.close {
 
 .carousel-control {
   position: absolute;
-  top: 50px;
-  bottom: 250px;
+  top: 7%;
+  bottom: 41%;
   left: 0;
   width: 15%;
   font-size: 20px;
@@ -6524,7 +6532,7 @@ button.close {
 
 .carousel-indicators {
   position: absolute;
-  bottom: 10px;
+  top: 52.5%;
   left: 50%;
   z-index: 15;
   width: 60%;
@@ -6543,7 +6551,7 @@ button.close {
   cursor: pointer;
   background-color: #000 \9;
   background-color: rgba(0, 0, 0, 0);
-  border: 1px solid #ffffff;
+  border: 1px solid #333333;
   border-radius: 10px;
 }
 

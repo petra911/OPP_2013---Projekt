@@ -9,7 +9,7 @@ class Portfelj extends AbstractView {
     
     protected function outputHTML() {
 ?>
-<div style="padding-left:30px;">
+<div style="padding-left:6%;">
 	<img src="./assets/img/portfolio.jpg" alt="Pokus" class = "img-responsive"></div>
 </div>
 

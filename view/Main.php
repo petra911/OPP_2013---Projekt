@@ -117,7 +117,7 @@ class Main extends AbstractView {
 			<br>
 		
 			<div class="navbar navbar-inverse navbar-fixed-bottom " role="navigation">
-			  <span class="navbar-brand">&copy; The7Noobz</span>
+			  <span class="navbar-brand1">&copy; The7Noobz</span>
       		</div>
 			</body>
 		</html>
