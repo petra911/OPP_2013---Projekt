@@ -35,6 +35,10 @@ class DBZnanstveniEksperiment extends AbstractDBModel {
         }
     }
     
+    public function dohvatiZnanstveneEksperimente(){
+        return $this->select()->fetchAll();
+    }
+    
     /**
      * 
      * @return boolean|string       prosjecna ocjena ili ispis Eksperiment nije ocijenjen | false ako prilikom poziva metode u modelu nije inicijaliziran idEksperimenta

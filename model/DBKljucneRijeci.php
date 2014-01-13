@@ -30,4 +30,18 @@ class DBKljucneRijeci extends AbstractDBModel {
         ))->fetchAll();
     }
     
+      public function dodajKljucnuRijec($tag) {
+        $this->idTaga = null;
+        $pov = $this->select()->fetchAll();
+
+        if(count($pov)) {
+            return $pov[0]->iTaga;
+        } else {
+            $this->idTaga = null;
+            $this->tag=$tag;
+            $this->save();
+            return $this->getPrimaryKey();
+        }
+    }
+    
 }

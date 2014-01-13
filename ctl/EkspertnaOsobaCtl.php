@@ -34,6 +34,8 @@ class EkspertnaOsobaCtl implements Controller {
             case 8:
                 $this->errorMessage= "Dogodila se pogreška, pokušajte ponovno!";
                 break;
+            case 9:
+                $this->errorMessage= "Uspješno dodan novi javni rad!";
             default:
                 break;
         }
@@ -1181,7 +1183,7 @@ class EkspertnaOsobaCtl implements Controller {
         $error=null;
         switch(get("msg")) {
             case 1:
-                $error = "Niste unijeli znanstveni skup ili časopis!";
+                $error = "Morate odabrati časopis/skup ili opisati rad!";
                 break;
             case 2:
                 $error = "Morate odabrati pdf file ili postaviti link na znanstveni rad!";
@@ -1190,8 +1192,7 @@ class EkspertnaOsobaCtl implements Controller {
                 $error = "Dopušteno slanje samo pdf datoteka!";
                 break;
             case 4:
-                $error = "Dopušteno slanje samo pdf datoteka!";
-                break;
+                $error = "Niste ispunili obavezna polja!";
             default:
                 break;
         }
@@ -1277,7 +1278,114 @@ class EkspertnaOsobaCtl implements Controller {
             "controller" => "ekspertnaOsobaCtl"
         )) . "?msg=6");
     }
-     
+     public function dodajJavniRad() {
+      // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        if (post("naslov")===false || post("autori")===false || post("sazetak")===false){
+
+             preusmjeri(\route\Route::get('d3')->generate(array(
+                    "controller" => "ekspertnaOsobaCtl",
+                     "action" => "displayDodavanjeJavnogRada"
+                )) . "?msg=4");
+        }
+        
+        if( post("skup")=== false && post("casopis")===false){
+           preusmjeri(\route\Route::get('d3')->generate(array(
+                    "controller" => "ekspertnaOsobaCtl",
+                     "action" => "displayDodavanjeJavnogRada"
+                )) . "?msg=1");
+        }
+        
+        if(post("url") === false && files('tmp_name', "datoteka") === false) {
+            preusmjeri(\route\Route::get('d3')->generate(array(
+                    "controller" => "ekspertnaOsobaCtl",
+                     "action" => "displayDodavanjeJavnogRada"
+                )) . "?msg=2");
+        }
+         $akcijeSustava = new \model\DBAkcijaSustava();
+        $rad = new \model\DBZnanstveniRad();
+        $idRada = $rad->getPrimaryKey();
+        
+        //provjeri je li pdf
+        if(files("tmp_name", "datoteka") !== false) {
+            if(function_exists('finfo_file')) {
+                $finfo = \finfo_open(FILEINFO_MIME_TYPE);
+                $mime = finfo_file($finfo, files("tmp_name", "datoteka"));
+            } else {
+                $mime = \mime_content_type(files("tmp_name", "datoteka"));
+            }
+            if($mime != 'application/pdf') {
+               preusmjeri(\route\Route::get('d3')->generate(array(
+                    "controller" => "ekspertnaOsobaCtl",
+                     "action" => "displayDodavanjeJavnogRada"
+                )) . "?msg=3");
+            }
+
+        } else {
+            $rad->lokacija = post("url", null);
+        }
+
+     $autor = new \model\DBAutor();
+     $jeautor=new \model\DBJeAutor();
+     $izraz=post("autori");
+     for($i = strpos($izraz, ";"); $i !== false; $i = strpos($izraz, ";")) {
+         
+   //  var_dump($izraz);die();
+                $j = strpos($izraz, " ");
+                $idAutora = $autor->dodajAutora(substr($izraz, 0, $j), substr($izraz, $j + 1, $i - $j - 1));
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje autora " . $idAutora);
+                $jeautor->idRada = $idRada;
+                $jeautor->idAutora = $idAutora;
+                $jeautor->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu jeautor " . $jeautor->id);
+                $izraz = substr($izraz, $i + 1);
+            }
+      $tag=new \model\DBKljucneRijeci();
+      $ob=new \model\DBObiljezen();
+      $kr=post("tag");
+     for($i = strpos($kr, ";"); $i !== false; $i = strpos($kr, ";")) {
+                
+                $idTaga = $tag->dodajKljucnuRijec(substr($kr, 0, $i));
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje taga " . $idTaga);
+                $tag->id = null;
+                $tag->idRada = $idRada;
+                $tag->idTaga = $idTaga;
+                $tag->save();
+                $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Dodavanje zapisa u tablicu obiljezen " . $tag->id);
+                $kr = substr($kr, $i + 1);
+            }
+        
+
+        // spremi prijedlog
+        $rad->naslov = post("naslov", null);
+        $rad->sazetak = post("sazetak", null);
+        $rad->idSkupa = post("skup", null);
+        $rad->idCasopisa = post("casopis", null);
+        
+             
+        
+        $rad->save();
+        $akcijeSustava = new \model\DBAkcijaSustava();
+        $akcijeSustava->zabiljeziNovuAkciju($_SESSION['auth'], date("Y-m-d H:i:s"), "Unosi javni rad - idRada je " . $rad->getPrimaryKey());
+        
+         if(files("tmp_name", "datoteka") !== false) {
+             $destination = "./pdf/" . $rad->getPrimaryKey() . ".pdf";
+             if(false === move_uploaded_file(files("tmp_name", "datoteka"), $destination)) {
+                 
+             }
+             $rad->lokacija = $destination;
+             $rad->save();
+         }
+        
+        preusmjeri(\route\Route::get('d2')->generate(array(
+            "controller" => "ekspertnaOsobaCtl",
+                     "action" => "displayDodavanjeJavnogRada"
+                )) . "?msg=9");
+    }
+	 
     public function displayDodavanjeJavnogEksperimenta() {
         // ako nisi logiran bjezi odavde
         if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
@@ -2135,4 +2243,169 @@ public function  dodajJavniEksperiment() {
             "title" => "Generiranje Izvješća"
         )); 
     }
+	
+	  
+    public function displayPregledZnanstvenihEksperimenata(){
+         // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $eksperiment = new \model\DBZnanstveniEksperiment();
+        $eksperimenti = $eksperiment->dohvatiZnanstveneEksperimente();
+        
+        $error = null;
+        switch(get("msg")) {
+            case 1:
+                $error = "Nepostojeća platforma!";
+                break;
+            case 2:
+                $error = "Uspješno ažurirani podaci!";
+                break;
+            case 3:
+                $error = "Uspješno obrisana platforma!";
+                break;
+            case 4:
+                $error = "Naziv i skraćeni naziv su obavezni!";
+                break;
+            default:
+                break;
+        }
+        
+        echo new \view\Main(array(
+            "body" => new \view\PregledZnanstvenihEksperimenata(array(
+                "eksperimenti" => $eksperimenti,
+                "errorMessage" => $error
+            )),
+            "title" => "Pregled Znanstvenih Eksperimenata"
+        ));
+    }
+    
+    public function displayPregledZnanstvenihRadova(){
+         // ako nisi logiran bjezi odavde
+        if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $rad = new \model\DBZnanstveniRad();
+        $radovi = $rad->dohvatiZnanstveneRadove();
+        
+        $error = null;
+        switch(get("msg")) {
+            case 1:
+                $error = "Nepostojeća platforma!";
+                break;
+            case 2:
+                $error = "Uspješno ažurirani podaci!";
+                break;
+            case 3:
+                $error = "Uspješno obrisana platforma!";
+                break;
+            case 4:
+                $error = "Naziv i skraćeni naziv su obavezni!";
+                break;
+            default:
+                break;
+        }
+        
+        echo new \view\Main(array(
+            "body" => new \view\PregledZnanstvenihRadova(array(
+                "radovi" => $radovi,
+                "errorMessage" => $error
+            )),
+            "title" => "Pregled Znanstvenih Radova"
+        ));
+    }
+    
+    public function displayMijenjanjeBrisanjeZnanstvenogEksperimenta(){
+            if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $error = null;
+        switch (get("msg")) {
+            case 1:
+                $error = "Naziv je obavezan!";
+                break;
+            case 2:
+                $error = "Pogrešno ispunjen obrazac!";
+                break;
+            case 3:
+                $error = "Nepostojeći znanstveni eksperiment!";
+                break;
+            default:
+                break;
+        }
+        
+        if(get("id") !== false) {
+            $eksperiment = new \model\DBZnanstveniCasopis();
+            try {
+                $eksperiment->load(get("id"));
+                echo new \view\Main(array(
+                    "body" => new \view\MijenjanjeBrisanjeZnanstvenogEksperimenta(array(
+                        "eksperiment" => $eksperiment,
+                        "errorMessage" => $error
+                    )),
+                    "title" => "Ažuriranje podataka o znanstvenome časopisu"
+                ));
+            } catch (\opp\model\NotFoundException $e) {
+                preusmjeri(\route\Route::get('d3')->generate(array(
+                    "controller" => "ekspertnaOsobaCtl",
+                    "action" => "displayPregledZnanstvenihEksperimenata"
+                )) . "?msg=1");
+            }            
+        } else {
+            preusmjeri(\route\Route::get('d3')->generate(array(
+                "controller" => "ekspertnaOsobaCtl",
+                "action" => "displayPregledZnanstvenihEksperimenata"
+            )) . "?msg=1");
+        }
+    }
+    
+     public function displayMijenjanjeBrisanjeZnanstvenogRada(){
+            if (!\model\DBKorisnik::isLoggedIn() || $_SESSION['vrsta'] != 'E') {
+            preusmjeri(\route\Route::get('d1')->generate());
+        }
+        
+        $error = null;
+        switch (get("msg")) {
+            case 1:
+                $error = "Naziv je obavezan!";
+                break;
+            case 2:
+                $error = "Pogrešno ispunjen obrazac!";
+                break;
+            case 3:
+                $error = "Nepostojeći znanstveni rad!";
+                break;
+            default:
+                break;
+        }
+        
+        if(get("id") !== false) {
+            $rad = new \model\DBZnanstveniRad();
+            try {
+                $rad->load(get("id"));
+                echo new \view\Main(array(
+                    "body" => new \view\MijenjanjeBrisanjeZnanstvenogRada(array(
+                        "rad" => $rad,
+                        "errorMessage" => $error
+                    )),
+                    "title" => "Ažuriranje podataka o znanstvenome radu"
+                ));
+            } catch (\opp\model\NotFoundException $e) {
+                preusmjeri(\route\Route::get('d3')->generate(array(
+                    "controller" => "ekspertnaOsobaCtl",
+                    "action" => "displayPregledZnanstvenihRadova"
+                )) . "?msg=1");
+            }            
+        } else {
+            preusmjeri(\route\Route::get('d3')->generate(array(
+                "controller" => "ekspertnaOsobaCtl",
+                "action" => "displayPregledZnanstvenihRadova"
+            )) . "?msg=1");
+        }
+    }
+    
+	
 }

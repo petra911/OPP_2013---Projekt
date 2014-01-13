@@ -15,4 +15,8 @@ class DBZnanstveniRad extends AbstractDBModel {
     public function getColumns() {
         return array('naslov', 'sazetak', 'lokacija', 'idCasopisa', 'idSkupa');
     }
+    
+    public function dohvatiZnanstveneRadove(){
+        return $this->select()->fetchAll();
+    }
 }
