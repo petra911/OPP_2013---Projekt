@@ -65,7 +65,11 @@ class DBZnanstveniEksperiment extends AbstractDBModel {
                     }
                     $sum = $sum + $ocjene->ocjena;
                 }
-                return ($sum / (float) $count);
+                if ($count > 0) {
+                    return ($sum / (float) $count);
+                } else {
+                    return 'Eksperiment nije ocijenjen!';
+                }
             } else {
                 return 'Eksperiment nije ocijenjen!';
             }
