@@ -123,7 +123,6 @@ class DBKorisnik extends AbstractDBModel {
         $pov = $this->select()->where(array(
             'uplata' => NULL
         ))->fetchAll();
-
         
         if(count($pov)) {
         foreach($pov as $p) {
@@ -166,6 +165,62 @@ class DBKorisnik extends AbstractDBModel {
     public function brisiKorisnika($primaryKey) {
         try {
             $this->load($primaryKey);
+            $ocjenjuje = new DBOcjenjuje();
+            $pov = $ocjenjuje->select()->where(array(
+                "idKorisnika" => $primaryKey
+            ))->fetchAll();
+            
+            if(count($pov)) {
+                // brisi ocjene:
+                $ocjena = new DBOcjena();
+                foreach ($pov as $v) {
+                    $ocjena->idOcjene = null;
+                    $ocjena->load($v->idOcjene);
+                    $v->delete();
+                    $ocjena->delete();
+                }
+                
+            }
+            
+            $prijedlozi = new DBPrijedlozi();
+            $pov = $prijedlozi->select()->where(array(
+                "idKorisnika" => $primaryKey))->fetchAll();
+            
+            if(count($pov)) {
+                foreach ($pov as $v) {
+                    $v->delete();
+                }
+            }
+            
+            $poruke = new DBPoruke();
+            $pov = $poruke->select()->where(array("idPrimatelja" => $primaryKey))->fetchAll();
+            if(count($pov)) {
+                foreach ($pov as $v) {
+                    $v->delete();
+                }
+            }
+            $pov = $poruke->select()->where(array("idPosiljatelja" => $primaryKey))->fetchAll();
+            if(count($pov)) {
+                foreach ($pov as $v) {
+                    $v->delete();
+                }
+            }
+            
+            $portfelj = new DBPortfelj();
+            $pov = $portfelj->select()->where(array("idKorisnika" => $primaryKey))->fetchAll();
+            if(count($pov)) {
+                foreach($pov as $v) {
+                    $eksperiment = new DBZnanstveniEksperiment();
+                    if($v->idEksperimenta != NULL) {
+                        $eksperiment->idEksperimenta = null;
+                        $eksperiment->load($v->idEksperimenta);
+                        if ($eksperiment->vidljivost == 'I') {
+                            $eksperiment->delete();
+                        }
+                    }
+                    $v->delete();
+                }
+            }
         }  catch (\opp\model\NotFoundException $e) {
             return false;
         }
