@@ -46,7 +46,7 @@ class DodavanjeJavnogAlataIde extends AbstractView {
             Želim dodati alat
             <input type="checkbox" name="checked" value="true" />
 			<br>
-            <br>
+            
             <input type="submit" class="btn btn-default"  value="Dodaj" />
         </form>        
 		

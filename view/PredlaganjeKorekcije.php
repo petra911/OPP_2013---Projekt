@@ -16,7 +16,7 @@ class PredlaganjeKorekcije extends AbstractView {
         "errorMessage" => $this->errorMessage
     ));?>
 </p>
-        <p>
+        
             
         <form action="<?php echo \route\Route::get('d3')->generate(array(
             "controller" => "korisnik",
@@ -34,7 +34,7 @@ class PredlaganjeKorekcije extends AbstractView {
             <input type="submit" class="btn btn-primary" value="Pošalji" />
             </p>
         </form>
-        </p>
+       
         
         <br><br>
 		<a href="<?php echo \route\Route::get('d2')->generate(array(

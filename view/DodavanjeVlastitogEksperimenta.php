@@ -84,7 +84,6 @@ class DodavanjeVlastitogEksperimenta extends AbstractView {
        
         <br />
 		<br />
-        <br />
         
         <a href="<?php echo \route\Route::get('d2')->generate(array(
                 "controller" => "korisnik"

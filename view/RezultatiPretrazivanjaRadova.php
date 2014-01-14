@@ -76,9 +76,13 @@ class RezultatiPretrazivanjaRadova extends AbstractView {
                     echo '<p><b>Napomena: </b>Da biste skinuli pročitali znanstveni rad kliknite na njegov naziv!</p>';
                 }
                 
-                ?> <a href="<?php echo \route\Route::get('d1')->generate();?>">
+                ?>
+     <br /><br />
+    <a href="<?php echo \route\Route::get('d1')->generate();?>">
 		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
-	</a> <?php
+	</a> 
+
+<?php
                 
                 
     }

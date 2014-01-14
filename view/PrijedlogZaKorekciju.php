@@ -35,7 +35,9 @@ class PrijedlogZaKorekciju extends AbstractView {
 <a href="<?php echo \route\Route::get("d3")->generate(array(
     "controller" => "ekspertnaOsobaCtl",
     "action" => "displayPrijedlozi"
-));?>">Vrati se na popis prijedloga!</a>
+));?>">
+    <input type="submit" class="btn btn-primary" name="submit" value="Vrati se na popis prijedloga!" />
+</a>
 
 <?php
     }

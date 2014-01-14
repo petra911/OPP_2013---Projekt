@@ -82,7 +82,9 @@ class RezultatiPretrazivanjaEksperimenata extends AbstractView {
                     echo '<p><b>Napomena: </b>Da biste skinuli pdf verziju eksperimenta kliknite na njegov naziv!</p>';
                 }
                 
-                ?> <a href="<?php echo \route\Route::get('d1')->generate();?>">
+                ?> 
+    <br /><br />
+    <a href="<?php echo \route\Route::get('d1')->generate();?>">
 		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
 	</a> <?php
                 

@@ -21,7 +21,7 @@ class Validation extends AbstractView {
             echo "Nema novih zahtjeva za registracijom!";
         }
         ?>
-    <br><br><br>
+    <br><br>
     <a href="<?php echo \route\Route::get('d1')->generate();?>">
 		<img src="../assets/img/home-icon.jpg" alt="Vrati se na naslovnicu" height="50" />
 	</a>

@@ -55,10 +55,12 @@ class PrijedlogRada extends AbstractView {
     <b>Slanjem poruke prijedlog se automatski brise!</b>
 </p>
 
-<p><a href="<?php echo \route\Route::get("d3")->generate(array(
+<a href="<?php echo \route\Route::get("d3")->generate(array(
     "controller" => "ekspertnaOsobaCtl",
     "action" => "displayPrijedloziRadova"
-));?>">Vrati se na popis prijedloga!</a></p>
+));?>">
+	<input type="submit" class="btn btn-primary" name="submit" value="Vrati se na popis prijedloga!" />
+</a>
 <?php
     }
     
